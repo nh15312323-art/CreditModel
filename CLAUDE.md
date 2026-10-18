@@ -24,5 +24,6 @@ python3 -B tools/run_notebooks.py --solve
 python3 -B tools/build_theory.py && python3 -B tools/check_theory_code.py
 ```
 
-## 다음 작업 (Phase 2)
-단계 4~5: `creditlab.features`(변수 진단, 비닝, WOE/IV) + 노트북 04~05 + 테스트.
+## 다음 작업 (Phase 3)
+단계 6~7: `creditlab.models`(로지스틱 회귀 해석·분리/수렴 경고, 규제형 로지스틱), `creditlab.scorecard`(점수 변환·등급화·검산) + 노트북 06~07 + 테스트.
+(Phase 2 완료: `creditlab.features` 의 진단·비닝·WOE/IV, 노트북 04~05)

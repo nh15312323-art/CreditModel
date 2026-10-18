@@ -2,7 +2,7 @@
 
 > 변수를 *하나씩* 보고, 다음엔 *함께* 보고, 마지막에 "이 변수를 모형에 넣어도 되는가"를 여러 근거로 결정한다. p-value 하나로 결정하지 않는다.
 
-**연결 실습**: Phase 2 노트북(예정) · 지금은 이 페이지의 코드를 Colab 에서 직접 실행해 보자.
+**연결 실습**: 노트북 `04_variable_diagnostics` · 코드 `creditlab.features.vif_table`, `compare_groups`, `leakage_suspects`, `VariableLog`
 
 ## 학습 목표
 

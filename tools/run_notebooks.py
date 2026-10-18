@@ -40,21 +40,24 @@ def run_cell(source: str, ns: dict) -> str:
     return buf.getvalue()
 
 
-def solution_code(cells: list[dict]) -> str | None:
+def solution_codes(cells: list[dict]) -> list[str]:
+    """접힌 정답(<details>) 안의 python 블록들을 순서대로 모은다."""
+    out = []
     for cell in cells:
         if cell["cell_type"] == "markdown":
             text = "".join(cell["source"])
             if "<details>" in text:
                 m = re.search(r"```python\n(.*?)```", text, re.S)
                 if m:
-                    return m.group(1)
-    return None
+                    out.append(m.group(1))
+    return out
 
 
 def run_notebook(path: Path, solve: bool, verbose: bool) -> bool:
     nb = json.loads(path.read_text(encoding="utf-8"))
     ns: dict = {"__name__": "__main__"}
-    sol = solution_code(nb["cells"]) if solve else None
+    sols = solution_codes(nb["cells"]) if solve else []
+    n_ex = 0
     ok = True
     n_code = 0
     cwd = os.getcwd()
@@ -67,8 +70,10 @@ def run_notebook(path: Path, solve: bool, verbose: bool) -> bool:
             src = "".join(cell["source"])
             try:
                 out = run_cell(src, ns)
-                if solve and sol and "cleaned = None" in src:
-                    run_cell(sol, ns)
+                if solve and ("cleaned = None" in src or "# [exercise]" in src):
+                    if n_ex < len(sols):          # i 번째 실습 셀에는 i 번째 정답 블록을 넣는다
+                        run_cell(sols[n_ex], ns)
+                    n_ex += 1
                 if solve and "answers = {" in src and "QUIZ" in ns:
                     ns["answers"] = {q.qid: q.answer for q in ns["QUIZ"]}
                 if verbose and out.strip():

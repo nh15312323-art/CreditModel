@@ -2,7 +2,7 @@
 
 > 연속형 변수를 구간으로 나누고, 구간마다 "얼마나 위험한가"를 로그 비율(WOE)로 바꾼 뒤, 변수 전체의 정보량(IV)을 요약한다. 스코어카드의 재료가 되는 과정이다.
 
-**연결 실습**: Phase 3 노트북(예정) · 코드 `creditlab.features.woe_iv`(예정) · 이 페이지의 코드를 먼저 실행해 보자.
+**연결 실습**: 노트북 `05_binning_woe_iv` · 코드 `creditlab.features.WoeBinner`, `woe_iv_from_counts`, `iv_summary` · 이 페이지의 손계산을 먼저 해 보자.
 
 ## 학습 목표
 
@@ -105,6 +105,10 @@ with np.errstate(divide="ignore"):
 smooth = np.log(((B + 0.5) / (B + 0.5).sum()) / ((G + 0.5) / (G + 0.5).sum()))
 print(raw, np.round(smooth, 3))
 assert np.isneginf(raw[0]) and np.all(np.isfinite(smooth))
+
+# 이 프로그램의 구현(creditlab.features.woe_iv_from_counts)과 같은 정의인지 확인
+from creditlab.features import woe_iv_from_counts
+assert np.allclose(woe_iv_from_counts(B, G, smoothing=0.5)["woe"], smooth)
 ```
 
 스무딩 상수(0.5 등)는 *선택*이며, 어떤 값을 썼는지 문서화한다. 더 나은 방법은 **최소 구간 크기와 최소 이벤트 수**를 두어 0 빈도가 생기지 않도록 구간을 합치는 것이다.

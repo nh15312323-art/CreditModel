@@ -92,7 +92,7 @@ details summary{cursor:pointer;font-weight:600}
 <blockquote>
 <p>연속형 변수를 구간으로 나누고, 구간마다 "얼마나 위험한가"를 로그 비율(WOE)로 바꾼 뒤, 변수 전체의 정보량(IV)을 요약한다. 스코어카드의 재료가 되는 과정이다.</p>
 </blockquote>
-<p><strong>연결 실습</strong>: Phase 3 노트북(예정) · 코드 <code>creditlab.features.woe_iv</code>(예정) · 이 페이지의 코드를 먼저 실행해 보자.</p>
+<p><strong>연결 실습</strong>: 노트북 <code>05_binning_woe_iv</code> · 코드 <code>creditlab.features.WoeBinner</code>, <code>woe_iv_from_counts</code>, <code>iv_summary</code> · 이 페이지의 손계산을 먼저 해 보자.</p>
 <h2 id="학습-목표">학습 목표</h2>
 <ul>
 <li>비닝이 필요한 이유와 <strong>정보 손실의 대가</strong>를 설명한다.</li>
@@ -251,6 +251,10 @@ with np.errstate(divide=&quot;ignore&quot;):
 smooth = np.log(((B + 0.5) / (B + 0.5).sum()) / ((G + 0.5) / (G + 0.5).sum()))
 print(raw, np.round(smooth, 3))
 assert np.isneginf(raw[0]) and np.all(np.isfinite(smooth))
+
+# 이 프로그램의 구현(creditlab.features.woe_iv_from_counts)과 같은 정의인지 확인
+from creditlab.features import woe_iv_from_counts
+assert np.allclose(woe_iv_from_counts(B, G, smoothing=0.5)[&quot;woe&quot;], smooth)
 </code></pre>
 <p>스무딩 상수(0.5 등)는 <em>선택</em>이며, 어떤 값을 썼는지 문서화한다. 더 나은 방법은 <strong>최소 구간 크기와 최소 이벤트 수</strong>를 두어 0 빈도가 생기지 않도록 구간을 합치는 것이다.</p>
 <h3 id="4-6-단조성최소-bin안정성">4-6. 단조성·최소 bin·안정성</h3>

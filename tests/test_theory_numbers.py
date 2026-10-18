@@ -45,3 +45,10 @@ def test_score_scaling():
 
 def test_stage15_ecl():
     assert close(0.05 * 0.45 * 1000, 22.5)
+
+
+def test_stage5_hand_example_matches_library():
+    from creditlab.features import woe_iv_from_counts
+
+    t = woe_iv_from_counts([8, 2], [2, 8], smoothing=0)
+    assert close(t["woe"][0], math.log(4)) and close(t["iv"].sum(), 1.2 * math.log(4))
