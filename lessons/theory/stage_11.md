@@ -2,7 +2,7 @@
 
 > 트리는 "조건 분기"로 데이터를 쪼개고, 부스팅은 그런 작은 트리를 *앞선 모형의 실수를 고치는 방향*으로 계속 더한다. 성능은 올라가지만 설명 가능성과 안정성의 비용을 치른다.
 
-**연결 실습**: Phase 5 노트북(예정). 이 페이지는 sklearn 만으로 실행된다. XGBoost/CatBoost 는 같은 아이디어의 구현체다.
+**연결 실습**: 노트북 `10_ml_challengers.ipynb` · 코드 `creditlab.challengers`(`fit_gbm`, `fit_gbm_early_stop`, `permutation_importance`, `partial_dependence`). 이 페이지는 sklearn 만으로 실행된다. XGBoost/CatBoost 는 같은 아이디어의 구현체다.
 
 ## 학습 목표
 

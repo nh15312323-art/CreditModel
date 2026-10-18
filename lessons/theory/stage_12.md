@@ -2,7 +2,7 @@
 
 > 튜닝은 "검증 데이터에 맞춰 설정을 고르는 일"이므로, 그 데이터는 이미 *오염*되었다. 최종 성능은 **한 번도 쓰지 않은** 데이터로만 말한다. 그리고 순위가 좋은 모형도 확률이 틀리면 PD 가 아니다.
 
-**연결 실습**: Phase 5 노트북(예정).
+**연결 실습**: 노트북 `11_tuning_calibration.ipynb` · 코드 `creditlab.calibration`(`PlattCalibrator`, `IsotonicCalibrator`, `StackedModel`, `profit_by_cutoff`), `creditlab.challengers.tune_gbm_timecv`.
 
 ## 학습 목표
 

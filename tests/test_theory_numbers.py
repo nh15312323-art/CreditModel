@@ -64,3 +64,11 @@ def test_stage9_10_hand_examples_match_library():
     e = np.array([0.10, 0.20, 0.40, 0.20, 0.10])
     a = np.array([0.08, 0.17, 0.38, 0.24, 0.13])
     assert abs(psi_terms(e, a).sum() - 0.0255) < 5e-5
+
+
+def test_stage11_12_hand_examples_match_library():
+    from creditlab.calibration import theoretical_cutoff
+    from creditlab.challengers import gini_impurity, split_gain
+
+    assert close(gini_impurity(4, 6), 0.48) and close(split_gain((1, 4), (3, 2)), 0.08)
+    assert close(theoretical_cutoff(1.0, 8.0), 1 / 9)

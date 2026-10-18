@@ -26,3 +26,4 @@ from .stability import (  # noqa: F401
     psi_numeric,
     psi_terms,
 )
+from .compare import compare_models, paired_bootstrap_diff  # noqa: F401
