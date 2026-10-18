@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item current" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-15-고급-주제와-운영-거절-추론충당금설명공정성모형위험관리">단계 15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</h1>
+<blockquote>
+<p>모형은 개발이 끝나면 시작이다. 운영 환경에서는 "누구의 데이터로 배웠는가(선택 편향)", "확률이 돈이 되는 방식(충당금)", "고객에게 어떻게 설명하는가", "누가 불리해지는가", "누가 책임지는가"가 문제가 된다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 6 노트북(예정). 이 페이지는 각 주제의 <em>핵심 계산</em>을 작게 재현한다.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>거절 추론이 필요한 이유(선택 편향)를 재현해 설명한다.</li>
+<li>PD·LGD·EAD 로 기대신용손실(ECL)을 계산한다.</li>
+<li>로지스틱 모형에서 개별 고객의 <em>불이익 사유</em> 후보를 기여도로 산출한다.</li>
+<li>공정성 지표(승인율 비율)를 계산하고, 그 한계와 프록시 변수 문제를 설명한다.</li>
+<li>모형위험관리(MRM)의 구성요소와 모형 카드에 담을 내용을 말한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<ul>
+<li><strong>선택 편향</strong>: 과거에 승인된 사람의 결과만 관찰된다. 거절된 사람이 부도 났을지는 <em>모른다</em>.</li>
+<li><strong>회계·자본 규제</strong>: 부도 확률은 충당금(IFRS 9/CECL)과 자본(바젤)에 쓰여 <em>보정된 확률</em>이 필요하다.</li>
+<li><strong>소비자 보호</strong>: 거절 시 사유 설명 요구, 차별 금지 요구가 있다.</li>
+<li><strong>모형 사고</strong>: 잘못된 모형이 대규모 손실을 낸 사례들 후에 모형위험관리 원칙이 정립되었다(예: 미국 SR 11-7, 2011).</li>
+</ul>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>승인 모집단에서만 학습한 모형을 <em>전체 신청자</em>에 쓰면 성능과 확률이 틀어진다.</li>
+<li>충당금·가격·한도는 확률 값에 직접 의존한다.</li>
+<li>법·규제·평판 위험이 모형 품질만큼 중요하다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>주제</th>
+<th>질문</th>
+<th>도구</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>거절 추론</td>
+<td>거절자의 결과를 어떻게 다루나</td>
+<td>확대(augmentation), 파셀링, 일부 무작위 승인, 외부 데이터</td>
+</tr>
+<tr>
+<td>충당금</td>
+<td>확률을 금액으로</td>
+<td>ECL = PD × LGD × EAD</td>
+</tr>
+<tr>
+<td>설명</td>
+<td>이 고객은 왜 거절되었나</td>
+<td>기여도 기반 사유 코드</td>
+</tr>
+<tr>
+<td>공정성</td>
+<td>집단 간 격차가 있나</td>
+<td>승인율/오류율 비교, 프록시 점검</td>
+</tr>
+<tr>
+<td>MRM</td>
+<td>누가 어떻게 검증·승인하나</td>
+<td>모형 인벤토리, 독립 검증, 모니터링</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-선택-편향-재현">4-1. 선택 편향 재현</h3>
+<p>과거에 위험 점수가 낮고 심사역 인상이 좋은 60%만 승인했다고 하자. 승인자만으로 학습·평가하면 <em>위험 범위가 잘려</em> 변별력이 낮아 보이고, 부도율과 예측 PD 가 전체 신청자보다 크게 낮다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from creditlab.data import make_synthetic_credit_data
+
+df = make_synthetic_credit_data(n=20000, seed=71).dropna().reset_index(drop=True)
+feats = [&quot;age&quot;, &quot;income_10k&quot;, &quot;loan_amount_10k&quot;, &quot;employment_years&quot;, &quot;card_utilization&quot;, &quot;num_delinq_12m&quot;, &quot;inquiries_6m&quot;]
+rule = df[&quot;num_delinq_12m&quot;] * 1.5 + df[&quot;card_utilization&quot;] * 3 + df[&quot;inquiries_6m&quot;] * 0.3   # 과거 심사 규칙(가정)
+rng = np.random.default_rng(0)
+officer = df[&quot;default&quot;] * 1.0 + rng.normal(0, 1, len(df))     # 심사역의 비정형 인상: 결과와 상관, 하지만 데이터 변수에는 없음
+z = lambda s: (s - s.mean()) / s.std()
+policy = z(rule) + 1.5 * z(officer)
+accepted = policy &lt;= policy.quantile(0.60)
+
+train_idx = np.arange(len(df)) &lt; 14000
+dev, hold = df[train_idx], df[~train_idx]
+acc_dev = dev[accepted[train_idx]]
+acc_hold = hold[accepted[~train_idx]]
+
+make = lambda: make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000))
+m_acc = make().fit(acc_dev[feats], acc_dev[&quot;default&quot;])        # 승인자만으로 학습
+m_all = make().fit(dev[feats], dev[&quot;default&quot;])                # (참고) 전체로 학습: 현실에선 거절자 결과를 모름
+
+print(&quot;부도율 승인자&quot;, round(acc_dev[&quot;default&quot;].mean(), 3), &quot;전체&quot;, round(dev[&quot;default&quot;].mean(), 3))
+auc_on_acc = roc_auc_score(acc_hold[&quot;default&quot;], m_acc.predict_proba(acc_hold[feats])[:, 1])
+auc_on_all = roc_auc_score(hold[&quot;default&quot;], m_acc.predict_proba(hold[feats])[:, 1])
+print(&quot;승인자 학습 모형 AUROC  승인자 구간:&quot;, round(auc_on_acc, 3), &quot; 전체 신청자:&quot;, round(auc_on_all, 3))
+pd_pred = m_acc.predict_proba(hold[feats])[:, 1].mean()
+print(&quot;전체 신청자 예측 평균 PD&quot;, round(pd_pred, 3), &quot;실제&quot;, round(hold[&quot;default&quot;].mean(), 3))
+assert acc_dev[&quot;default&quot;].mean() &lt; dev[&quot;default&quot;].mean()       # 승인자의 부도율이 더 낮다
+assert auc_on_acc &lt; auc_on_all                                 # 범위 제한(range restriction)으로 승인자 안에서는 변별력이 낮아 보인다
+assert pd_pred &lt; hold[&quot;default&quot;].mean()                        # 승인자만 본 모형은 전체 모집단의 위험을 과소추정
+</code></pre>
+<p><strong>왜 이렇게 크게 틀어지는가</strong>: 과거 승인이 <em>데이터에 있는 변수</em>(연체·사용률)만으로 결정되었다면, 올바르게 설정된 모형은 승인자만으로 학습해도 전체를 꽤 잘 예측한다(관측 변수에 의한 선택). 편향이 커지는 것은 승인이 <strong>데이터에 없는 정보</strong>(심사역의 인상, 서류, 영업 판단)에 의존해 <em>결과와 상관</em>될 때다. 위 코드는 그 상황을 <code>officer</code> 로 주입했다. 실제 데이터에서는 <code>officer</code> 가 얼마나 큰지 알 수 없다는 것이 문제다.</p>
+<p>거절 추론 기법은 <em>가정에 의존</em>한다. 어떤 가정도 거절자의 진짜 결과를 대체하지 못한다. 가장 신뢰할 만한 방법은 <strong>소액·통제된 무작위 승인(실험)</strong> 이나 외부 신용정보로 <em>거절자의 이후 성과</em>를 관찰하는 것이다. 이 프로그램은 거절 추론 기법을 <em>결과를 개선하는 마법</em>이 아니라 <em>편향의 크기를 가늠하는 도구</em>로 소개한다.</p>
+<h3 id="4-2-기대신용손실ecl">4-2. 기대신용손실(ECL)</h3>
+<p>\[\mathrm{ECL}=\mathrm{PD}\times\mathrm{LGD}\times\mathrm{EAD}\]</p>
+<ul>
+<li>PD: 부도확률(12개월 또는 전체 만기), LGD: 부도 시 손실률, EAD: 부도 시 노출액.</li>
+<li>IFRS 9 은 신용위험이 <em>유의하게 증가했는지</em>에 따라 12개월 ECL(1단계) 또는 전체 만기 ECL(2·3단계)을 쓴다. 보정된 PD 가 핵심이다.</li>
+</ul>
+<pre><code class="language-python">pd_, lgd, ead = 0.05, 0.45, 1000.0
+ecl = pd_ * lgd * ead
+print(ecl)
+assert abs(ecl - 22.5) &lt; 1e-12
+
+# 포트폴리오: 등급별 합산
+grades = [  # (고객 수, PD, LGD, EAD)
+    (1000, 0.01, 0.45, 1000.0),
+    (500, 0.05, 0.45, 1000.0),
+    (100, 0.20, 0.45, 1000.0),
+]
+total = sum(n * p * l * e for n, p, l, e in grades)
+print(total)
+assert abs(total - (1000 * 0.01 * 450 + 500 * 0.05 * 450 + 100 * 0.20 * 450)) &lt; 1e-9   # 4500+11250+9000
+assert abs(total - 24750.0) &lt; 1e-9
+</code></pre>
+<p>보정이 틀려 PD 가 절반으로 과소추정되면 충당금도 절반으로 과소계상된다. 단계 12 의 보정이 <em>회계 숫자</em>로 이어진다.</p>
+<h3 id="4-3-설명-불이익-사유-후보">4-3. 설명: 불이익 사유 후보</h3>
+<p>로지스틱 모형에서 변수 \(j\) 의 기여도(평균 고객 대비)는 \(c_j=\beta_j(x_j-\bar x_j)\) 이며, \(\text{logit}(x)-\text{logit}(\bar x)=\sum_j c_j\) 이다. 기여도가 큰 양수(위험 증가) 변수가 거절 사유 후보다. 사용자에게 보이는 문구, 사유 개수, 변수-문구 매핑은 법무·소비자 보호 부서의 기준을 따른다.</p>
+<pre><code class="language-python">import numpy as np
+
+lr = m_all.named_steps[&quot;logisticregression&quot;]
+sc = m_all.named_steps[&quot;standardscaler&quot;]
+Xh = hold[feats].to_numpy()
+i = 0
+z = sc.transform(Xh[[i]])[0]                     # 표준화 점수(= (x-평균)/표준편차)
+contrib = lr.coef_[0] * z                       # 평균 고객 대비 로그오즈 기여도
+logit_i = lr.intercept_[0] + (lr.coef_[0] * z).sum()
+logit_mean = lr.intercept_[0]                   # 표준화 평균 고객의 로그오즈
+assert abs((logit_i - logit_mean) - contrib.sum()) &lt; 1e-12        # 기여도의 합 = 평균 고객과의 로그오즈 차이
+top = [feats[j] for j in np.argsort(-contrib)[:3]]
+print(&quot;위험을 가장 많이 올린 변수 후보:&quot;, top, np.round(np.sort(contrib)[::-1][:3], 3))
+</code></pre>
+<p><em>상관된 변수</em>가 있으면 기여도가 나뉘어 사유가 불안정해진다. 사유 산출 방법은 고정하고 검증한다.</p>
+<h3 id="4-4-공정성-계산은-쉽고-해석은-어렵다">4-4. 공정성: 계산은 쉽고 해석은 어렵다</h3>
+<p>가장 단순한 지표는 집단별 승인율의 비율이다.</p>
+<p>\[\text{승인율 비율}=\frac{\text{승인율}_{\text{집단 A}}}{\text{승인율}_{\text{집단 B}}}\]</p>
+<p>(미국 일부 지침의 "4/5 규칙"은 0.8 을 경고 신호로 쓰지만 <em>법적 판단 기준이 아니고 국가·분야마다 다르다</em>.) 지표는 여러 가지(승인율, 오류율, 보정)이며 <strong>동시에 모두 만족시킬 수 없는 경우가 있다</strong>(Kleinberg et al., 2016; Chouldechova, 2017).</p>
+<pre><code class="language-python">import numpy as np
+
+def approval_ratio(approved, group):
+    approved, group = np.asarray(approved), np.asarray(group)
+    rates = {g: approved[group == g].mean() for g in np.unique(group)}
+    lo, hi = min(rates.values()), max(rates.values())
+    return rates, lo / hi
+
+rates, ratio = approval_ratio([1] * 6 + [0] * 4 + [1] * 8 + [0] * 2, [&quot;A&quot;] * 10 + [&quot;B&quot;] * 10)
+print(rates, round(ratio, 3))
+assert abs(ratio - 0.75) &lt; 1e-12
+
+# 우리 합성 데이터의 '지역'별 승인율 (지역이 보호 속성의 프록시일 수 있음에 유의)
+cut = np.quantile(m_all.predict_proba(dev[feats])[:, 1], 0.7)
+approved = (m_all.predict_proba(hold[feats])[:, 1] &lt; cut).astype(int)
+rates_r, ratio_r = approval_ratio(approved, hold[&quot;region&quot;].to_numpy())
+print({k: round(float(v), 3) for k, v in rates_r.items()}, round(float(ratio_r), 3))
+assert 0 &lt; ratio_r &lt;= 1
+</code></pre>
+<p><strong>프록시 변수</strong>: 보호 속성(성별, 인종 등)을 쓰지 않아도, 지역·직업·소비 패턴 같은 변수가 그 대리 역할을 할 수 있다. 변수 후보를 심사할 때 <em>비즈니스 타당성</em>과 <em>차별적 영향</em>을 함께 본다. 어떤 속성을 사용·수집할 수 있는지는 법·규제가 정하며 이 문서는 법률 자문이 아니다.</p>
+<h3 id="4-5-모형위험관리와-모형-카드">4-5. 모형위험관리와 모형 카드</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>구성요소</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모형 인벤토리</td>
+<td>사용 중 모형 목록, 목적, 책임자, 위험 등급</td>
+</tr>
+<tr>
+<td>개발 문서</td>
+<td>데이터, 정의, 방법, 한계, 대안 비교</td>
+</tr>
+<tr>
+<td><strong>독립 검증</strong></td>
+<td>개발자와 분리된 팀이 재현·도전(챌린저)·결과 확인</td>
+</tr>
+<tr>
+<td>승인·변경관리</td>
+<td>버전·시드·데이터 해시·변경 이력</td>
+</tr>
+<tr>
+<td>모니터링</td>
+<td>단계 10 의 PSI, 성능, 보정, 경보·조치</td>
+</tr>
+<tr>
+<td>사용 한도</td>
+<td>모형이 쓰이면 안 되는 상황(적용 범위 밖) 명시</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>모형 카드</strong>(Mitchell et al., 2019)에는 의도된 용도, 학습 데이터, 평가 지표(집단별 포함), 한계, 윤리적 고려를 쓴다. 이 프로그램의 <code>docs/model_card_template.md</code> 를 사용한다.</p>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>거절 추론은 <em>대체 가정</em>(거절자의 위험이 승인자와 비슷하게 이어진다 등)에 의존한다. 가정을 문서화한다.</li>
+<li>ECL 은 PD·LGD·EAD 각각의 정확성에 의존한다. 이 프로그램은 PD 중심이다.</li>
+<li>사유 설명·공정성은 <em>해당 관할의 규정</em>을 따른다. 이 문서의 수치 기준은 예시다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>승인자 데이터만으로 학습하고 <em>전체 신청자 성능</em>이라고 보고한다.</li>
+<li>거절 추론으로 <em>성능이 올랐다</em>고 보고한다(검증할 진짜 결과가 없다).</li>
+<li>보정 없는 점수를 PD 로 충당금에 쓴다.</li>
+<li>SHAP/기여도 사유를 <em>인과적 조언</em>으로 고객에게 전달한다.</li>
+<li>4/5 규칙을 법적 safe harbor 로 오해한다.</li>
+<li>보호 속성을 제거했으니 공정하다고 결론짓는다(프록시).</li>
+<li>개발자가 자기 모형을 검증한다(독립성 부재).</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>문제</th>
+<th>접근</th>
+<th>장점</th>
+<th>약점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>선택 편향</td>
+<td>무작위 승인 실험</td>
+<td>가장 신뢰</td>
+<td>비용·위험</td>
+</tr>
+<tr>
+<td></td>
+<td>파셀링/확대</td>
+<td>저비용</td>
+<td>가정 의존</td>
+</tr>
+<tr>
+<td></td>
+<td>외부 성과 데이터</td>
+<td>실제 결과</td>
+<td>접근·동일 정의 문제</td>
+</tr>
+<tr>
+<td>설명</td>
+<td>선형 기여도</td>
+<td>단순·일관</td>
+<td>선형 모형 한정</td>
+</tr>
+<tr>
+<td></td>
+<td>SHAP</td>
+<td>일반적</td>
+<td>상관·배경 의존</td>
+</tr>
+<tr>
+<td>공정성</td>
+<td>승인율 비교</td>
+<td>단순</td>
+<td>오류율/보정과 상충 가능</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li>모형 문서에 <strong>승인/거절 정책과 학습 모집단</strong>을 쓰고, 적용 모집단과의 차이(선택 편향)를 명시한다.</li>
+<li>충당금 용도라면 <em>보정 검증 결과</em>와 <em>PD 기간(12개월/전체 만기)</em>을 명시한다.</li>
+<li>불이익 사유 산출 로직은 고정·테스트하고 변경 시 승인 절차를 둔다.</li>
+<li>개발자와 독립된 검증 담당자가 <em>재현</em>(같은 데이터·시드로 같은 결과)부터 확인한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 승인자 데이터로만 학습한 모형의 평균 PD 가 전체 신청자에서 낮게 나오는 이유는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>과거 정책이 위험한 신청자를 거절해 관찰 표본이 <em>낮은 위험 구간으로 잘렸기</em> 때문이다(선택 편향). 특히 승인이 데이터에 없는 정보에 좌우되었다면 변수만으로는 보정되지 않는다.</p>
+</details>
+<p><strong>Q2.</strong> PD 2%, LGD 40%, EAD 5,000 의 ECL 은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>\(0.02\times0.4\times5000=40\).</p>
+</details>
+<p><strong>Q3.</strong> 보호 속성을 모형에서 제외하면 공정성이 보장되는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>아니다. 다른 변수가 프록시 역할을 해 집단 간 격차가 생길 수 있다. 결과(승인율·오류율)를 집단별로 점검한다.</p>
+</details>
+<p><strong>Q4.</strong> 모형 개발자와 검증자를 분리하는 이유는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>개발자는 자기 가정을 의심하기 어렵다. 독립 검증이 오류·편향·과적합을 <em>도전적</em>으로 확인하고 책임을 분리한다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터에서 과거 정책 승인자만으로 모형을 만들고 전체 신청자에서 성능·평균 PD 를 비교하라. 그 뒤 모형 카드 템플릿에 <em>의도된 용도, 학습 모집단, 한계(선택 편향), 모니터링 계획</em>을 작성하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Federal Reserve / OCC. SR 11-7: <em>Guidance on Model Risk Management</em> (2011).</li>
+<li>Basel Committee. <em>Principles for the sound management of credit risk</em> (2000, 개정 2023 관련 문서).</li>
+<li>IASB. IFRS 9 <em>Financial Instruments</em> — 손상(ECL) 모형 관련 조항.</li>
+<li>Crook, J. &amp; Banasik, J. (2004). Does reject inference really improve the performance of application scoring models? <em>Journal of Banking &amp; Finance</em>, 28(4).</li>
+<li>Kleinberg, J., Mullainathan, S., Raghavan, M. (2016). Inherent trade-offs in the fair determination of risk scores.</li>
+<li>Chouldechova, A. (2017). Fair prediction with disparate impact. <em>Big Data</em>, 5(2).</li>
+<li>Mitchell, M. et al. (2019). Model cards for model reporting. <em>FAT*</em>.</li>
+<li>금융위원회·금융감독원 등 국내 모형 검증·AI 가이드라인은 <em>최신 원문</em>을 확인할 것.</li>
+<li>확인일 2026-10-18 (규제 문서는 개정될 수 있으므로 학습 시점에 원문 재확인)</li>
+</ul>
+<div class="pager"><span><a href="stage_14.html">← 14. 가설검정·p-value·DeLong·다중검정</a></span><span><a href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

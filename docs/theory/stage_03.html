@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 3. 통계와 확률 기초 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item current" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-3-통계와-확률-기초">단계 3. 통계와 확률 기초</h1>
+<blockquote>
+<p>부도율, 신뢰구간, p-value 같은 말을 <em>정확한 뜻</em>으로 쓰기 위한 최소한의 확률·통계 도구.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: 노트북 <code>01~02</code> 의 부도율·신뢰구간 · 코드 <code>creditlab.data.target.default_rate_ci</code></p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>확률·조건부확률·베이즈 정리를 작은 숫자로 계산한다.</li>
+<li>모집단과 표본, 표준오차, 신뢰구간을 구분한다.</li>
+<li>베르누이·이항·정규분포가 신용 데이터에서 어디에 쓰이는지 안다.</li>
+<li>귀무가설·p-value·유의수준·검정력·효과크기를 올바르게 해석한다.</li>
+<li>t-test, 카이제곱 검정, 비모수 검정의 목적과 가정을 말한다.</li>
+<li><em>다중검정</em> 과 <em>다중공선성</em> 이 다른 문제임을 구분한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>우리는 늘 <strong>일부(표본)로 전체(모집단)</strong> 를 말해야 한다. 어떤 표본에서 부도율이 4.0% 였다면, 모집단의 진짜 부도율은 얼마일까? 표본이 다시 뽑히면 값도 달라진다. 통계는 이 <em>불확실성을 숫자로 표현</em>하기 위해 발전했다. 추론 통계는 "관측된 차이가 우연으로도 흔히 생길 만한가?"에 답하는 방법을 제공한다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>등급별 부도율이 정말 다른지, 우연인지 판단한다(단계 7).</li>
+<li>변수의 효과가 0인지 아닌지 가늠한다(단계 6의 계수 검정).</li>
+<li>모형 성능 차이가 의미 있는지 판단한다(단계 14).</li>
+<li>모니터링에서 실제 부도율이 예측과 다른지 검정한다(단계 15).</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정의</th>
+<th>신용모형에서의 쓰임</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>확률</td>
+<td>사건이 일어날 가능성(0~1)</td>
+<td>PD(부도확률)</td>
+</tr>
+<tr>
+<td>조건부확률</td>
+<td>어떤 정보를 알 때의 확률</td>
+<td>\(P(\text{부도}\mid\text{연체이력})\)</td>
+</tr>
+<tr>
+<td>표준오차</td>
+<td>추정치가 표본마다 흔들리는 정도</td>
+<td>부도율 불확실성</td>
+</tr>
+<tr>
+<td>신뢰구간</td>
+<td>추정의 범위</td>
+<td>등급별 부도율 구간</td>
+</tr>
+<tr>
+<td>p-value</td>
+<td>귀무가설 하에서 관측 이상 극단값이 나올 확률</td>
+<td>변수·모형 비교</td>
+</tr>
+<tr>
+<td>효과크기</td>
+<td>차이의 <em>크기</em></td>
+<td>통계적 유의성과 구분</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-확률과-베이즈-정리">4-1. 확률과 베이즈 정리</h3>
+<p>조건부확률은 \(P(A\mid B)=P(A\cap B)/P(B)\) 이다. 베이즈 정리는 <em>결과에서 원인으로</em> 확률을 뒤집는다.</p>
+<p>\[P(D\mid F)=\frac{P(F\mid D)\,P(D)}{P(F\mid D)\,P(D)+P(F\mid \bar D)\,P(\bar D)}\]</p>
+<p><strong>숫자 예제.</strong> 전체 부도율 \(P(D)=5\%\). 연체이력이 있는 비율은 부도 고객 60%, 정상 고객 20%. 연체이력이 있는 고객이 부도일 확률은?</p>
+<p>\[P(D\mid F)=\frac{0.6\times0.05}{0.6\times0.05+0.2\times0.95}=\frac{0.03}{0.22}\approx 13.6\%\]</p>
+<p>부도 고객의 60%가 연체이력이 있어도, 그 신호가 있는 사람 대부분은 정상이다(기저율 5% 가 낮기 때문). <strong>기저율(base rate)</strong> 을 잊으면 신호를 과대평가한다.</p>
+<h3 id="4-2-모집단표본표준오차신뢰구간">4-2. 모집단·표본·표준오차·신뢰구간</h3>
+<p>표본의 부도율 \(\hat p=x/n\) 의 표준오차는 \(\sqrt{\hat p(1-\hat p)/n}\) 이다. 표본이 4배가 되면 표준오차는 절반이 된다. 부도가 드물거나 표본이 작을 때는 정규근사 구간이 0 아래로 내려가는 등 불안정하므로 <strong>Wilson 구간</strong>을 쓴다.</p>
+<p>\[\text{center}=\frac{\hat p+\tfrac{z^2}{2n}}{1+\tfrac{z^2}{n}},\qquad \text{half}=\frac{z\sqrt{\tfrac{\hat p(1-\hat p)}{n}+\tfrac{z^2}{4n^2}}}{1+\tfrac{z^2}{n}}\]</p>
+<p>예: \(n=100\), \(x=50\), \(z=1.96\) 이면 구간은 약 (40.4%, 59.6%) 이다.</p>
+<div class="admonition note">
+<p class="admonition-title">신뢰구간의 올바른 해석</p>
+<p>"이 구간 안에 진짜 부도율이 있을 확률이 95%" 가 <em>아니다</em>. 같은 방법으로 표본을 반복해 구간을 만들면 <strong>그 구간들의 약 95%가 진짜 값을 포함</strong>한다는 뜻이다. 한 번 계산한 구간은 포함하거나 안 하거나 둘 중 하나다.</p>
+</div>
+<h3 id="4-3-기본-분포">4-3. 기본 분포</h3>
+<ul>
+<li><strong>베르누이(\(p\))</strong>: 한 건이 부도(1)/정상(0). 평균 \(p\), 분산 \(p(1-p)\).</li>
+<li><strong>이항(\(n,p\))</strong>: $n$건 중 부도 건수. 평균 \(np\), 분산 \(np(1-p)\). 모니터링에서 "부도 건수가 예상과 다른가"를 검정할 때 쓴다(단계 15).</li>
+<li><strong>정규</strong>: 표본 평균의 분포가 표본이 클수록 정규에 가까워진다(중심극한정리). 신뢰구간·z 검정의 근거다.</li>
+</ul>
+<h3 id="4-4-공분산상관">4-4. 공분산·상관</h3>
+<p>\[\mathrm{Cov}(X,Y)=E[(X-\mu_X)(Y-\mu_Y)],\qquad \rho=\frac{\mathrm{Cov}(X,Y)}{\sigma_X\sigma_Y}\]</p>
+<p>상관은 <em>선형</em> 관계의 세기(-1~1)만 본다. 비선형 관계는 단계 4에서 다룬다.</p>
+<h3 id="4-5-가설검정과-p-value">4-5. 가설검정과 p-value</h3>
+<ol>
+<li><strong>귀무가설 \(H_0\)</strong>: "차이 없음/효과 없음". <strong>대립가설 \(H_1\)</strong>: "차이 있음".</li>
+<li>검정통계량을 계산한다.</li>
+<li><strong>p-value</strong> = \(H_0\) 가 참이고 검정의 가정이 맞을 때, 관측된 값 <em>이상으로 극단적인</em> 결과가 나올 확률.</li>
+<li>p-value ≤ 유의수준 \(\alpha\)(관행적으로 0.05)이면 \(H_0\) 를 기각한다.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">p-value가 아닌 것</p>
+<ul>
+<li>\(H_0\) 가 참일 확률이 <strong>아니다</strong>.</li>
+<li>효과의 <strong>크기</strong>나 <strong>중요성</strong>이 아니다.</li>
+<li>0.05 라는 경계는 관행이지 자연의 법칙이 아니다(ASA 성명, 2016).</li>
+</ul>
+</div>
+<p><strong>제1종 오류</strong>(\(\alpha\)): 효과가 없는데 있다고 말함. <strong>제2종 오류</strong>(\(\beta\)): 효과가 있는데 놓침. <strong>검정력</strong> \(=1-\beta\).</p>
+<h3 id="4-6-유의성-중요성-효과크기">4-6. 유의성 ≠ 중요성: 효과크기</h3>
+<p>부도 집단의 평균 52, 정상 집단의 평균 50, 표준편차 모두 10 이라 하자. 효과크기(Cohen's \(d\))는 \((52-50)/10=0.2\) 로 <strong>작다</strong>. 그런데 표본 크기에 따라 p-value 는 크게 달라진다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>집단당 표본 수</th>
+<th>Welch t</th>
+<th>p-value (양측)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>1.414</td>
+<td>0.159</td>
+</tr>
+<tr>
+<td>10,000</td>
+<td>14.14</td>
+<td>약 \(3\times10^{-45}\)</td>
+</tr>
+</tbody>
+</table></div>
+<p>같은 <em>작은</em> 차이가 표본이 크면 극도로 "유의"해진다. 그래서 <strong>효과크기와 신뢰구간, 사업적 의미를 함께</strong> 본다.</p>
+<h3 id="4-7-대표-검정">4-7. 대표 검정</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>검정</th>
+<th>질문</th>
+<th>주요 가정</th>
+<th>대안</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Welch t-test</td>
+<td>두 집단 <em>평균</em>이 다른가</td>
+<td>독립, 대략 정규(표본 크면 완화)</td>
+<td>Mann–Whitney U (순위 기반)</td>
+</tr>
+<tr>
+<td>카이제곱 독립성</td>
+<td>두 <em>범주형</em> 변수가 관련 있나</td>
+<td>독립 관측, 기대빈도 충분(보통 5 이상)</td>
+<td>Fisher 정확검정</td>
+</tr>
+<tr>
+<td>비율 검정/이항검정</td>
+<td>부도율이 기준값과 다른가</td>
+<td>독립</td>
+<td>정확 이항검정</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>카이제곱 예제.</strong> 임차 고객 1,000명 중 부도 120명(12%), 자가 고객 1,000명 중 부도 80명(8%).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>부도</th>
+<th>정상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>임차</td>
+<td>120</td>
+<td>880</td>
+</tr>
+<tr>
+<td>자가</td>
+<td>80</td>
+<td>920</td>
+</tr>
+</tbody>
+</table></div>
+<p>기대빈도는 부도 \(100\), 정상 \(900\) (각 행). \(\chi^2=\sum \frac{(O-E)^2}{E}=\frac{20^2}{100}+\frac{20^2}{900}+\frac{20^2}{100}+\frac{20^2}{900}\approx 8.89\), 자유도 1, \(p\approx0.0029\).</p>
+<pre><code class="language-python">import numpy as np
+from scipy import stats
+
+# 베이즈
+p_d, p_f_d, p_f_g = 0.05, 0.6, 0.2
+post = p_f_d * p_d / (p_f_d * p_d + p_f_g * (1 - p_d))
+print(round(post, 4))
+assert abs(post - 0.136364) &lt; 1e-5
+
+# Welch t (요약통계로)
+t100, p100 = stats.ttest_ind_from_stats(52, 10, 100, 50, 10, 100, equal_var=False)
+t10k, p10k = stats.ttest_ind_from_stats(52, 10, 10000, 50, 10, 10000, equal_var=False)
+print(round(t100, 3), round(p100, 3), round(t10k, 2), p10k)
+assert abs(t100 - 1.414) &lt; 1e-3 and abs(p100 - 0.159) &lt; 1e-3
+assert abs(t10k - 14.14) &lt; 1e-2 and p10k &lt; 1e-40
+
+# 카이제곱 (연속성 보정 없이)
+chi2, p, dof, expected = stats.chi2_contingency(np.array([[120, 880], [80, 920]]), correction=False)
+print(round(chi2, 2), round(p, 4), dof)
+assert abs(chi2 - 8.8889) &lt; 1e-3 and abs(p - 0.0029) &lt; 1e-4 and dof == 1
+</code></pre>
+<h3 id="4-8-다중검정과-다중공선성은-다른-문제">4-8. 다중검정과 다중공선성은 다른 문제</h3>
+<ul>
+<li><strong>다중검정</strong>: 검정을 <em>여러 번</em> 하면 우연한 "유의"가 늘어난다(단계 14).</li>
+<li><strong>다중공선성</strong>: 설명변수끼리 <em>상관이 높아</em> 회귀 계수가 불안정해진다(단계 4).
+이름이 비슷해도 원인도 해법도 다르다.</li>
+</ul>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li><strong>독립성</strong>: 관측이 서로 독립이어야 대부분의 공식이 맞다. 같은 고객의 여러 행, 같은 시점의 군집은 독립이 아니다.</li>
+<li>표본이 모집단에서 <strong>무작위</strong>로 뽑혔다(또는 편향이 문서화되어 있다).</li>
+<li>각 검정의 분포 가정(정규성, 기대빈도 등).</li>
+<li>신뢰구간·p-value 는 <em>표본 추출의 불확실성</em>만 반영한다. 데이터 오류·선택 편향·정의 오류는 반영하지 못한다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>대규모 데이터에서 p &lt; 0.05 만 보고 "중요한 변수"라고 결론낸다.</li>
+<li>p &gt; 0.05 를 "효과가 없다"의 증거로 해석한다. (검정력 부족일 수 있다.)</li>
+<li>변수 수십 개를 하나씩 검정하고 유의한 것만 보고한다. (다중검정)</li>
+<li>상관을 인과로 말한다.</li>
+<li>독립이 아닌 데이터(같은 고객 여러 행)에 독립 검정을 쓴다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>필요</th>
+<th>전통 검정</th>
+<th>대안</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>불확실성 표현</td>
+<td>p-value</td>
+<td>신뢰구간, 부트스트랩 구간</td>
+</tr>
+<tr>
+<td>분포 가정이 불안</td>
+<td>t-test</td>
+<td>순열검정, Mann–Whitney</td>
+</tr>
+<tr>
+<td>소표본 비율</td>
+<td>정규근사</td>
+<td>Wilson/Clopper–Pearson 구간</td>
+</tr>
+<tr>
+<td>모형 비교</td>
+<td>가설검정</td>
+<td>교차검증·시점 외 검증에서의 성능 분포 비교</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li>등급별 부도율에는 <strong>건수·부도 건수·신뢰구간</strong>을 항상 같이 적는다.</li>
+<li>변수 후보 검토에서 p-value 는 <em>여러 근거 중 하나</em>다. 업무 논리·안정성·단조성이 함께 판단된다(단계 4).</li>
+<li>로지스틱 CSS 의 계수 p-value 는 <em>해석 도구</em>이고, AI 모형 선택은 <em>표본 외 성능</em>으로 한다. 서로 다른 질문에 답한다.</li>
+<li>보고서에는 검정의 <strong>가정·효과크기·다중검정 여부</strong>를 명시한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 연체이력이 있는 사람은 부도 고객의 60%, 정상 고객의 20% 다. 그러면 연체이력이 있는 사람의 60%가 부도라고 말할 수 있는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>아니다. \(P(F\mid D)=0.6\) 과 \(P(D\mid F)\) 는 다르다. 기저율 5% 를 반영하면 \(P(D\mid F)\approx13.6\%\).</p>
+</details>
+<p><strong>Q2.</strong> p-value 가 0.03 이다. "귀무가설이 참일 확률이 3%"인가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>아니다. 귀무가설이 참이라고 <em>가정했을 때</em> 이만큼 극단적인 결과가 나올 확률이 3% 라는 뜻이다. 귀무가설의 참일 확률이 아니다.</p>
+</details>
+<p><strong>Q3.</strong> 표본 10만 건에서 변수 A 의 부도/정상 평균 차이가 p &lt; 0.0001 이다. 모형에 반드시 넣어야 하나?</p>
+<details>
+<summary>정답 보기</summary>
+<p>아니다. 큰 표본에서는 사소한 차이도 유의해진다. 효과크기, 단조성, 안정성, 업무 논리, 다른 변수와의 중복을 함께 본다.</p>
+</details>
+<p><strong>Q4.</strong> 표본 크기가 같을 때 부도율 5% 와 50% 중 신뢰구간이 더 좁은 쪽은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>5% 쪽. 분산 \(p(1-p)\) 가 0.0475 대 0.25 로 작다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터에서 <code>housing_type</code> 이 <code>rent</code> 인 그룹과 아닌 그룹의 부도율 차이를 카이제곱 검정으로 확인하고, 효과크기(오즈비 또는 부도율 차이)와 95% 구간을 함께 보고하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Wasserstein, R. &amp; Lazar, N. (2016). The ASA statement on p-values: context, process, and purpose. <em>The American Statistician</em>, 70(2).</li>
+<li>Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. <em>JASA</em>, 22(158).</li>
+<li>Cohen, J. <em>Statistical Power Analysis for the Behavioral Sciences</em> (효과크기).</li>
+<li>SciPy 통계 문서: <a href="https://docs.scipy.org/doc/scipy/reference/stats.html">https://docs.scipy.org/doc/scipy/reference/stats.html</a></li>
+<li>확인일 2026-10-18</li>
+</ul>
+<div class="pager"><span><a href="stage_02.html">← 2. 데이터 품질과 탐색적 분석</a></span><span><a href="stage_04.html">4. 단변량·다변량 분석과 변수 진단 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 16. 종합 프로젝트: 처음부터 끝까지 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item current" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-16-종합-프로젝트-처음부터-끝까지">단계 16. 종합 프로젝트: 처음부터 끝까지</h1>
+<blockquote>
+<p>앞 단계의 모든 선택(목표 정의, 정제, 분할, 비닝, 모형, 평가, 보정, 모니터링, 문서화)을 <em>하나의 재현 가능한 흐름</em>으로 묶는다. 합격 기준은 높은 AUROC 가 아니라 <strong>각 결정을 근거와 함께 설명할 수 있는가</strong>이다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 6 캡스톤 노트북(예정). 이 페이지는 <em>전체 흐름의 축소판</em>과 <em>제출 기준</em>을 제공한다.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>신용평가모형 개발의 전 과정을 순서대로 수행하고 각 단계의 산출물을 남긴다.</li>
+<li>로지스틱 CSS 를 WOE → 로지스틱 → 점수 변환 → 등급화까지 직접 구현한다.</li>
+<li>챌린저(부스팅)와 같은 조건에서 비교하고 유의성을 판단한다.</li>
+<li>모형 문서(모형 카드)와 모니터링 계획을 작성한다.</li>
+<li>결과의 한계를 <em>숨기지 않고</em> 보고한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>개별 기법을 아는 것과 <em>전 과정을 일관되게 수행</em>하는 것은 다르다. 실무 사고의 대부분은 기법이 아니라 연결 지점에서 난다(정의와 데이터의 불일치, 분할 전 전처리, 평가 데이터 재사용, 문서와 코드의 불일치). 캡스톤은 그 연결을 직접 해 보는 단계다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>모든 산출물이 서로 <em>추적 가능</em>해야 검증·감사가 가능하다.</li>
+<li>같은 데이터·시드로 <em>다시 만들 수 있어야</em> 한다(재현성).</li>
+<li>실무에서는 코드보다 문서와 의사결정 근거가 오래 남는다.</li>
+</ul>
+<h2 id="3-무엇을-하는가-산출물-지도">3. 무엇을 하는가: 산출물 지도</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>순서</th>
+<th>단계</th>
+<th>산출물</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>목표 정의</td>
+<td>대상·관찰기간·부도 정의서, 데이터 사전</td>
+</tr>
+<tr>
+<td>2</td>
+<td>데이터 품질</td>
+<td>품질 보고서, cleaning_log</td>
+</tr>
+<tr>
+<td>3</td>
+<td>분할</td>
+<td>시간 기준 분할 근거(개발/검증/OOT)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>변수 처리</td>
+<td>비닝표(WOE/IV), 변수 선택 근거</td>
+</tr>
+<tr>
+<td>5</td>
+<td>모형</td>
+<td>계수·부호 검토, 점수표</td>
+</tr>
+<tr>
+<td>6</td>
+<td>평가</td>
+<td>AUROC/Gini/KS/Brier/보정, 신뢰구간</td>
+</tr>
+<tr>
+<td>7</td>
+<td>챌린저</td>
+<td>부스팅 비교, DeLong 결과</td>
+</tr>
+<tr>
+<td>8</td>
+<td>등급·보정</td>
+<td>등급별 PD·부도율</td>
+</tr>
+<tr>
+<td>9</td>
+<td>운영</td>
+<td>PSI 기준, 경보·조치 계획</td>
+</tr>
+<tr>
+<td>10</td>
+<td>문서</td>
+<td>모형 카드, 한계 목록</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-축소판-전체-흐름-재현-가능">4-1. 축소판 전체 흐름 (재현 가능)</h3>
+<p>아래는 <em>교육용 최소 구현</em>이다. 실제 프로젝트에서는 각 단계를 별도 모듈·테스트로 분리한다. 모든 적합(비닝 경계, 대체값, 모형)은 <strong>개발 구간에서만</strong> 수행한다.</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score, brier_score_loss
+from creditlab.data import make_synthetic_credit_data
+from creditlab import set_seed
+
+set_seed(42)
+df = make_synthetic_credit_data(n=15000, seed=81).sort_values(&quot;application_date&quot;).reset_index(drop=True)
+TARGET = &quot;default&quot;
+num_cols = [&quot;age&quot;, &quot;income_10k&quot;, &quot;loan_amount_10k&quot;, &quot;employment_years&quot;, &quot;card_utilization&quot;, &quot;num_delinq_12m&quot;, &quot;inquiries_6m&quot;]
+
+# 1) 시간 기준 분할: 개발 60% / 검증 20% / OOT 20%
+n = len(df)
+dev, val, oot = df.iloc[: int(n * .6)], df.iloc[int(n * .6): int(n * .8)], df.iloc[int(n * .8):]
+assert dev[&quot;application_date&quot;].max() &lt;= val[&quot;application_date&quot;].min() &lt;= oot[&quot;application_date&quot;].min()
+
+# 2) 비닝 경계와 WOE 는 개발 구간에서만 학습 (WOE = ln(%bad/%good), 높을수록 위험)
+def fit_bins(s, y, q=5):
+    edges = np.unique(np.quantile(s.dropna(), np.linspace(0, 1, q + 1)))
+    edges[0], edges[-1] = -np.inf, np.inf
+    b = pd.cut(s, edges)
+    g = pd.DataFrame({&quot;bin&quot;: b.astype(object).where(b.notna(), &quot;MISSING&quot;), &quot;y&quot;: y})
+    t = g.groupby(&quot;bin&quot;, observed=True)[&quot;y&quot;].agg(bad=&quot;sum&quot;, n=&quot;count&quot;)
+    t[&quot;good&quot;] = t[&quot;n&quot;] - t[&quot;bad&quot;]
+    adj = 0.5                                                  # 0 빈도 보호(스무딩)
+    t[&quot;woe&quot;] = np.log(((t[&quot;bad&quot;] + adj) / (t[&quot;bad&quot;].sum() + adj * len(t))) / ((t[&quot;good&quot;] + adj) / (t[&quot;good&quot;].sum() + adj * len(t))))
+    return edges, t[&quot;woe&quot;].to_dict()
+
+def apply_bins(s, edges, woe):
+    b = pd.cut(s, edges)
+    lab = b.astype(object).where(b.notna(), &quot;MISSING&quot;)
+    return lab.map(woe).fillna(0.0).astype(float)       # 개발에 없던 구간은 중립(0)
+
+bins = {c: fit_bins(dev[c], dev[TARGET]) for c in num_cols}
+W = lambda d: pd.DataFrame({c: apply_bins(d[c], *bins[c]) for c in num_cols})
+Wd, Wv, Wo = W(dev), W(val), W(oot)
+
+# IV 로 변수 정렬 (개발 구간)
+def iv(c):
+    edges, woe = bins[c]
+    b = pd.cut(dev[c], edges); lab = b.astype(object).where(b.notna(), &quot;MISSING&quot;)
+    tab = pd.crosstab(lab, dev[TARGET]); pb, pg = tab[1] / tab[1].sum(), tab[0] / tab[0].sum()
+    return float(((pb - pg) * np.log((pb + 1e-9) / (pg + 1e-9))).sum())
+ivs = pd.Series({c: iv(c) for c in num_cols}).sort_values(ascending=False)
+print(ivs.round(3).to_dict())
+
+# 3) 로지스틱: WOE 입력, 계수 부호 검토 (WOE 정의상 +, 높을수록 위험)
+lr = LogisticRegression(C=np.inf, max_iter=2000).fit(Wd, dev[TARGET])
+coefs = dict(zip(num_cols, np.round(lr.coef_[0], 3)))
+print(&quot;계수&quot;, coefs)
+assert (lr.coef_[0] &gt; -0.2).all()           # 거의 모두 양(+) 이어야 정상 (심한 음수는 다중공선성 의심)
+
+# 4) 점수 변환: Score = Offset + Factor * ln(odds_good), 600점@50:1, PDO 20
+PDO, BASE, ODDS = 20, 600, 50
+factor = PDO / np.log(2)
+offset = BASE - factor * np.log(ODDS)
+assert abs(factor - 28.8539) &lt; 1e-4 and abs(offset - 487.123) &lt; 1e-3
+logit_pd = lambda W_: lr.intercept_[0] + W_.to_numpy() @ lr.coef_[0]
+score = lambda W_: offset + factor * (-logit_pd(W_))               # ln(odds_good) = -logit(PD)
+s_val, s_oot = score(Wv), score(Wo)
+assert abs(np.corrcoef(s_val, -logit_pd(Wv))[0, 1] - 1) &lt; 1e-12     # 점수와 로그오즈는 정확히 선형
+
+# 5) 평가: 검증 / OOT, PD 보정 확인
+for name, Wx, d in [(&quot;검증&quot;, Wv, val), (&quot;OOT&quot;, Wo, oot)]:
+    p = 1 / (1 + np.exp(-logit_pd(Wx)))
+    a = roc_auc_score(d[TARGET], p)
+    print(name, &quot;AUROC&quot;, round(a, 3), &quot;Gini&quot;, round(2 * a - 1, 3), &quot;Brier&quot;, round(brier_score_loss(d[TARGET], p), 4),
+          &quot;평균PD&quot;, round(p.mean(), 3), &quot;실제&quot;, round(d[TARGET].mean(), 3))
+auc_oot = roc_auc_score(oot[TARGET], 1 / (1 + np.exp(-logit_pd(Wo))))
+assert auc_oot &gt; 0.65
+assert abs((1 / (1 + np.exp(-logit_pd(Wo)))).mean() - oot[TARGET].mean()) &lt; 0.03
+</code></pre>
+<h3 id="4-2-등급화와-단조성-확인">4-2. 등급화와 단조성 확인</h3>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+
+p_dev = 1 / (1 + np.exp(-logit_pd(Wd)))
+cuts = np.quantile(p_dev, [0.2, 0.4, 0.6, 0.8])          # 개발 구간에서 5등급 경계 고정
+def grade(p):
+    return pd.cut(p, [-np.inf, *cuts, np.inf], labels=list(&quot;ABCDE&quot;))     # A 가 가장 안전
+tab = []
+for name, Wx, d in [(&quot;개발&quot;, Wd, dev), (&quot;검증&quot;, Wv, val), (&quot;OOT&quot;, Wo, oot)]:
+    g = grade(1 / (1 + np.exp(-logit_pd(Wx))))
+    r = d.groupby(g.to_numpy(), observed=True)[TARGET].mean().reindex(list(&quot;ABCDE&quot;))
+    tab.append(r.rename(name))
+tab = pd.concat(tab, axis=1)
+print(tab.round(3))
+assert tab[&quot;개발&quot;].is_monotonic_increasing                     # 개발 구간에서 단조 증가
+assert tab[&quot;OOT&quot;].iloc[0] &lt; tab[&quot;OOT&quot;].iloc[-1]                # OOT 에서도 A &lt; E
+</code></pre>
+<h3 id="4-3-psi-와-챌린저">4-3. PSI 와 챌린저</h3>
+<pre><code class="language-python">import numpy as np
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import roc_auc_score
+
+def psi(e, a, bins=10, eps=1e-4):
+    edges = np.unique(np.quantile(e, np.linspace(0, 1, bins + 1))); edges[0], edges[-1] = -np.inf, np.inf
+    pe = np.clip(np.histogram(e, edges)[0] / len(e), eps, None)
+    pa = np.clip(np.histogram(a, edges)[0] / len(a), eps, None)
+    return float(((pa - pe) * np.log(pa / pe)).sum())
+
+s_dev = score(Wd)
+print(&quot;점수 PSI 검증&quot;, round(psi(s_dev, s_val), 4), &quot;OOT&quot;, round(psi(s_dev, s_oot), 4))
+assert psi(s_dev, s_val) &lt; 0.1
+
+gb = HistGradientBoostingClassifier(max_depth=3, learning_rate=0.05, max_iter=150, min_samples_leaf=50, random_state=0)
+gb.fit(dev[num_cols].fillna(-1), dev[TARGET])
+a_gb = roc_auc_score(oot[TARGET], gb.predict_proba(oot[num_cols].fillna(-1))[:, 1])
+print(&quot;OOT AUROC  CSS&quot;, round(auc_oot, 4), &quot; 챌린저&quot;, round(a_gb, 4))
+assert 0.5 &lt; a_gb &lt; 1
+</code></pre>
+<p>여기서 챌린저가 크게 앞서지 않으면 <em>설명 가능한 로지스틱 CSS 를 채택하는 것이 합리적</em>일 수 있다. 앞선다면 단계 14 의 DeLong 검정과 신뢰구간, 단계 11 의 설명·단조성, 단계 15 의 운영 비용을 함께 따져 결정한다.</p>
+<h2 id="5-제출-기준루브릭">5. 제출 기준(루브릭)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>영역</th>
+<th>확인 항목</th>
+<th>배점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정의·데이터</td>
+<td>목표·관찰기간 명시, 품질 보고서, cleaning_log</td>
+<td>15</td>
+</tr>
+<tr>
+<td>누수 방지</td>
+<td>시간 분할, 개발 구간에서만 적합, 사후 정보 변수 점검</td>
+<td>20</td>
+</tr>
+<tr>
+<td>모형</td>
+<td>WOE/IV 근거, 계수 부호 검토, 점수 변환 수식 검산</td>
+<td>20</td>
+</tr>
+<tr>
+<td>평가</td>
+<td>지표 정의(AR 포함), 신뢰구간, 보정, 등급별 부도율</td>
+<td>20</td>
+</tr>
+<tr>
+<td>운영·문서</td>
+<td>PSI 계획, 모형 카드, 한계·가정 명시</td>
+<td>15</td>
+</tr>
+<tr>
+<td>재현성</td>
+<td>시드·버전·데이터 해시, 처음부터 다시 실행 가능</td>
+<td>10</td>
+</tr>
+</tbody>
+</table></div>
+<p>감점 사유: OOT/테스트를 보고 설정을 바꿈, 학습 성능만 보고, 한계 미기재, 합성데이터 결과를 실제 성능으로 주장.</p>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">캡스톤에서 자주 나오는 문제</p>
+<ul>
+<li>비닝·결측 대체를 전체 데이터로 한 뒤 분할한다.</li>
+<li>OOT 결과가 나쁘다고 설정을 바꾸고 같은 OOT 로 다시 보고한다.</li>
+<li>교육용 합성데이터의 AUROC 를 <em>현실 성능</em>처럼 말한다.</li>
+<li>점수 변환 수식의 방향(높을수록 안전)을 문서와 코드가 다르게 쓴다.</li>
+<li>계수 부호가 이상한데 이유를 확인하지 않는다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>선택지</th>
+<th>언제</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>규제 로지스틱 CSS</td>
+<td>설명·승인·감사가 중요할 때 (기본값)</td>
+</tr>
+<tr>
+<td>단조 제약 부스팅</td>
+<td>변별력 개선이 유의하고 설명 체계가 있을 때</td>
+</tr>
+<tr>
+<td>두 모형 병행(챌린저)</td>
+<td>의사결정 보조·모니터링 비교</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용-모형-카드-체크리스트">8. 실무 적용: 모형 카드 체크리스트</h2>
+<ul>
+<li>목적, 적용 범위(상품·모집단), <em>적용하면 안 되는 범위</em></li>
+<li>데이터: 출처, 기간, 부도 정의, 품질 이슈와 처리</li>
+<li>방법: 분할, 비닝, 변수 선택, 모형, 점수 변환 수식</li>
+<li>성능: 개발/검증/OOT, 신뢰구간, 보정, 등급별 부도율</li>
+<li>모니터링: PSI·성능 지표·경보 기준·조치 담당</li>
+<li>한계와 가정, 알려진 편향(선택 편향 등)</li>
+<li>재현 정보: 코드 버전, 시드, 데이터 해시, 라이브러리 버전</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 비닝 경계를 전체 데이터로 만든 뒤 시간 분할했다. 무엇이 문제인가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>검증/OOT 구간의 분포가 개발 단계에 새어 들어간 누수다. 경계·WOE·대체값은 <em>개발 구간</em>에서만 학습한다.</p>
+</details>
+<p><strong>Q2.</strong> 점수 600 에서 PDO 20 이면 점수 620 의 odds(good:bad)는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>PDO 는 odds 가 <em>2배</em>가 되는 점수 증가량이다. 600점이 50:1 이면 620점은 100:1.</p>
+</details>
+<p><strong>Q3.</strong> OOT AUROC 가 개발 구간보다 크게 낮다. 가능한 원인 세 가지는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>과적합, 모집단·분포 변화(PSI 확인), 거시환경 변화(관계 변화), 레이블 성숙도 부족, 누수 때문에 개발 성능이 낙관적이었을 가능성 등.</p>
+</details>
+<p><strong>Q4.</strong> 챌린저가 OOT AUROC 를 0.004 높였다. 교체하는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>DeLong 신뢰구간과 같은 승인율에서의 손실 변화, 설명·운영 비용을 본 뒤 결정한다. 차이가 구간 안이면 교체 근거가 약하다.</p>
+</details>
+<p><strong>최종 과제</strong>: UCI 신용카드 데이터(가능하면) 또는 합성데이터로 위 10개 산출물을 모두 만들어 제출한다. 결과가 좋지 않아도 한계와 원인 분석을 정직하게 쓰면 높은 점수를 받을 수 있다.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Siddiqi, N. <em>Credit Risk Scorecards</em> (Wiley, 2006).</li>
+<li>Thomas, L. <em>Consumer Credit Models</em> (Oxford, 2009).</li>
+<li>Baesens, B. et al. (2003). Benchmarking state-of-the-art classification algorithms for credit scoring. <em>JORS</em>, 54.</li>
+<li>Lessmann, S. et al. (2015). Benchmarking state-of-the-art classification algorithms for credit scoring: an update. <em>EJOR</em>, 247.</li>
+<li>Yeh, I.-C. &amp; Lien, C.-H. (2009). The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients. <em>Expert Systems with Applications</em>, 36(2).</li>
+<li>UCI 데이터셋 페이지(라이선스 CC BY 4.0, 확인일 2026-10-18).</li>
+<li>확인일 2026-10-18</li>
+</ul>
+<div class="pager"><span><a href="stage_15.html">← 15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a></span><span></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

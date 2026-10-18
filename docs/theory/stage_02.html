@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 2. 데이터 품질과 탐색적 분석 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item current" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-2-데이터-품질과-탐색적-분석">단계 2. 데이터 품질과 탐색적 분석</h1>
+<blockquote>
+<p>모형은 데이터가 말하는 만큼만 안다. 결측·중복·이상치·타깃 누수를 먼저 찾고, 분포와 부도율을 눈으로 확인한 뒤에야 변수를 만진다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: 노트북 <code>03_missing_and_quality</code> · 코드 <code>creditlab.data.validation</code>, <code>creditlab.reporting.quality_report</code></p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>데이터 사전을 만들고 단위·값 범위·자료형을 점검한다.</li>
+<li>결측의 세 가지 메커니즘(MCAR/MAR/MNAR)을 직관적으로 구분한다.</li>
+<li>이상치를 <em>입력 오류</em>와 <em>실제 극단값</em>으로 나누어 다룬다.</li>
+<li><strong>타깃 누수</strong> 유형을 열거하고 의심 변수를 찾는 질문을 만든다.</li>
+<li>단변량 분석과 타깃별 비교를 수행하고, 하위집단의 데이터 충분성을 확인한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>초기 모형 실패의 상당수는 알고리즘이 아니라 <strong>데이터 문제</strong>에서 나왔다. 예컨대 연체 후 회수 단계에서 생기는 필드를 변수로 쓰거나, 소득이 비어 있는 신청자가 사라진 표본으로 학습한 모형은 개발 때는 훌륭했으나 운영에서 무너졌다. 그래서 모형 개발 표준 절차에 <em>탐색적 분석(EDA)과 데이터 품질 점검</em>이 독립 단계로 자리 잡았다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>결측·오류는 <em>통계량을 왜곡</em>한다(평균, 상관, 부도율).</li>
+<li>누수는 <em>성능을 부풀려</em> 잘못된 확신을 준다.</li>
+<li>하위집단별 표본 부족은 <em>일부 고객에게만 틀리는 모형</em>을 만든다.</li>
+<li>검증자와 감독당국은 데이터 품질 점검 결과를 요구한다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>점검</th>
+<th>도구(이 프로그램)</th>
+<th>산출물</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>구조·자료형</td>
+<td><code>data_dictionary</code></td>
+<td>데이터 사전</td>
+</tr>
+<tr>
+<td>결측</td>
+<td><code>missing_report</code></td>
+<td>열별 결측률, 결측 패턴 해석</td>
+</tr>
+<tr>
+<td>중복</td>
+<td><code>duplicate_report</code></td>
+<td>완전 중복/ID 충돌 건수</td>
+</tr>
+<tr>
+<td>범위</td>
+<td><code>range_violations</code></td>
+<td>업무 규칙 위반 건수</td>
+</tr>
+<tr>
+<td>자료형 오류</td>
+<td><code>find_numeric_like_text</code></td>
+<td>문자형 숫자 후보</td>
+</tr>
+<tr>
+<td>누수</td>
+<td>사람의 점검표(아래 4-4)</td>
+<td>누수 후보 목록</td>
+</tr>
+<tr>
+<td>분포</td>
+<td>단변량 요약·그래프</td>
+<td>이상치·치우침 파악</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-데이터-사전">4-1. 데이터 사전</h3>
+<p>열마다 <em>이름·자료형·단위·허용 범위·결측 의미·생성 시점·설명</em>을 적는다. "소득"이 만원 단위인지 원 단위인지, 세전인지 세후인지 모르는 채로 분석하면 결과를 해석할 수 없다. 설명서와 <strong>실제 값을 비교</strong>해 불일치도 기록한다.</p>
+<h3 id="4-2-결측-세-가지-직관-rubin-1976">4-2. 결측: 세 가지 직관 (Rubin, 1976)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>의미</th>
+<th>예</th>
+<th>삭제의 영향</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCAR</td>
+<td>비는 것이 완전 무작위</td>
+<td>전산 장애로 임의 행의 일부 값 소실</td>
+<td>편향은 적고 정보만 줄어듦</td>
+</tr>
+<tr>
+<td>MAR</td>
+<td>비는 확률이 <em>관측된 다른 변수</em>와 관련</td>
+<td>근속연수가 짧은 사람이 소득을 안 적음</td>
+<td>특정 집단이 사라져 편향 가능</td>
+</tr>
+<tr>
+<td>MNAR</td>
+<td>비는 확률이 <em>비어 있는 값 자체</em>와 관련</td>
+<td>소득이 낮은 사람이 소득을 숨김</td>
+<td>데이터만으로 확인 불가, 위험</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>데이터만으로 MCAR/MAR/MNAR 를 확정할 수 없다.</strong> 그룹별 결측률 비교는 "무작위가 아니다"를 <em>시사</em>할 수 있을 뿐이다. 처리 원칙은 다음과 같다.</p>
+<ol>
+<li>먼저 <strong>왜 비었는지</strong>(시스템·입력 절차·업무)를 확인한다.</li>
+<li>결측을 <em>별도 범주/지표</em>로 둘지, 대체할지, 제외할지 정하고 <strong>이유를 기록</strong>한다.</li>
+<li>대체값(평균·중앙값 등)은 <strong>학습 데이터에서만 계산</strong>하고 검증·테스트에는 적용만 한다(누수 방지, 단계 8).</li>
+<li>운영에서도 같은 이유로 비는지 모니터링한다.</li>
+</ol>
+<h3 id="4-3-이상치-오류인가-실제인가">4-3. 이상치: 오류인가, 실제인가</h3>
+<p>나이 150 세는 입력 오류일 가능성이 크지만, 소득 10억 원은 <em>실제 극단값</em>일 수 있다. 통계 규칙은 <strong>의심 후보</strong>를 찾을 뿐이다. 대표적인 IQR 규칙은 다음과 같다.</p>
+<p>\[\text{하한}=Q_1-1.5\,\mathrm{IQR},\qquad \text{상한}=Q_3+1.5\,\mathrm{IQR},\qquad \mathrm{IQR}=Q_3-Q_1\]</p>
+<pre><code class="language-python">import numpy as np
+
+x = np.array([20, 22, 25, 27, 30, 31, 35, 38, 40, 41, 300], dtype=float)
+q1, q3 = np.percentile(x, [25, 75])          # numpy 기본: 선형 보간
+iqr = q3 - q1
+low, high = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+print(q1, q3, iqr, low, high, x[(x &lt; low) | (x &gt; high)])
+assert (q1, q3, iqr) == (26.0, 39.0, 13.0)
+assert (low, high) == (6.5, 58.5)
+assert x[(x &lt; low) | (x &gt; high)].tolist() == [300.0]
+</code></pre>
+<p>처리 방식(삭제, 결측 처리, <strong>윈저라이징</strong>(상·하한으로 값을 자름), 로그 변환, 비닝)은 업무 판단이다. 비닝(단계 5)은 극단값의 영향을 자연스럽게 줄여 주는 장점이 있다.</p>
+<h3 id="4-4-타깃-누수-점검표">4-4. 타깃 누수 점검표</h3>
+<p><strong>누수(leakage)</strong> 는 모형이 <em>운영 시점에는 알 수 없는 정보</em>로 학습하는 것이다(Kaufman et al., 2012).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>예</th>
+<th>질문</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>미래 정보</td>
+<td>신청 후 3개월 연체 횟수</td>
+<td>기준시점 이후에 생기는 값인가?</td>
+</tr>
+<tr>
+<td>결과 이후 상태</td>
+<td>회수 상태, 채권 매각 여부, 법적 조치 플래그</td>
+<td>부도의 <em>결과</em>로 생기는 값인가?</td>
+</tr>
+<tr>
+<td>승인 이후 변수</td>
+<td>최종 승인 금리·한도</td>
+<td>심사 결과가 반영된 값인가? (정책이 이미 위험을 반영)</td>
+</tr>
+<tr>
+<td>타깃 파생</td>
+<td>타깃을 가공해 만든 열</td>
+<td>계산식에 타깃이 들어가는가?</td>
+</tr>
+<tr>
+<td>식별자·순서</td>
+<td>ID/일련번호가 시간 순서를 담음</td>
+<td>키 값이 결과와 관련되는가?</td>
+</tr>
+<tr>
+<td>전처리 누수</td>
+<td>전체 데이터 평균으로 결측 대체, 전체로 변수 선택</td>
+<td>검증·테스트 정보가 학습에 쓰였는가? (단계 8)</td>
+</tr>
+</tbody>
+</table></div>
+<p>경험적 신호: <em>단일 변수로 비정상적으로 높은 IV·AUROC</em> 가 나오면 누수를 먼저 의심한다. 규칙 기반 경고는 도움이 되지만 <strong>최종 판정은 사람</strong>이 한다.</p>
+<pre><code class="language-python">import re
+
+def leak_candidates(columns, patterns=(&quot;after&quot;, &quot;post&quot;, &quot;collect&quot;, &quot;recover&quot;, &quot;writeoff&quot;, &quot;status&quot;, &quot;result&quot;)):
+    &quot;&quot;&quot;열 이름만으로 만든 '의심 후보' 목록. 이름이 안전해 보여도 누수일 수 있으므로 점검표를 별도로 사용한다.&quot;&quot;&quot;
+    return [c for c in columns if any(re.search(p, c, re.I) for p in patterns)]
+
+cols = [&quot;age&quot;, &quot;income&quot;, &quot;collection_status&quot;, &quot;months_after_open&quot;, &quot;utilization&quot;]
+print(leak_candidates(cols))
+assert leak_candidates(cols) == [&quot;collection_status&quot;, &quot;months_after_open&quot;]
+</code></pre>
+<h3 id="4-5-단변량-분석과-타깃별-비교">4-5. 단변량 분석과 타깃별 비교</h3>
+<ul>
+<li>수치형: 평균·<strong>중앙값</strong>·분위수·왜도·결측률. 평균과 중앙값이 크게 다르면 치우친 분포다.</li>
+<li>범주형: 빈도, 희소 범주(건수가 매우 적은 범주), 범주별 부도율.</li>
+<li><strong>타깃별 비교</strong>: 부도/정상 집단의 분포 차이, 변수 구간별 부도율.</li>
+<li>항상 <em>건수와 이벤트 수</em>를 함께 본다. 건수가 작은 구간의 부도율은 흔들린다(단계 1, 3의 신뢰구간).</li>
+</ul>
+<h3 id="4-6-대표성과-하위집단">4-6. 대표성과 하위집단</h3>
+<p>전체 표본이 충분해도 <em>지역·연령대·상품별</em> 부도 건수는 부족할 수 있다. 하위집단별 건수와 이벤트 수를 표로 만들고, 부족한 집단은 모형이 불안정할 수 있음을 기록한다. 개발 표본이 운영 모집단을 대표하는지(분포 비교)도 확인한다.</p>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>데이터 사전의 의미·단위가 <em>실제로</em> 맞다는 가정(반드시 확인해야 함).</li>
+<li>오류 판단은 업무 규칙(허용 범위)에 근거한다. 규칙 자체가 틀릴 수 있다.</li>
+<li>결측 대체는 대체 방법이 타당할 때만 의미가 있다. 대체는 데이터를 <em>만드는</em> 행위다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>결측 행을 말없이 삭제한다 → 특정 고객군이 표본에서 사라진다.</li>
+<li>평균 대체를 <em>전체 데이터</em>로 계산한다 → 누수.</li>
+<li>이상치를 통계 규칙만으로 삭제한다 → 실제로 중요한 고위험·고소득 고객을 지운다.</li>
+<li>"결측 자체가 정보"라는 이유로 결측 지표를 쓰되, 운영에서 결측 원인이 바뀌어도 방치한다.</li>
+<li>자동 EDA 보고서를 읽지 않고 첨부만 한다 → 보고서는 <em>질문을 돕는 도구</em>일 뿐이다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>상황</th>
+<th>선택지</th>
+<th>장단점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>결측</td>
+<td>삭제 / 단순 대체 / 결측 범주 / 모형 기반 대체</td>
+<td>삭제는 편향, 단순 대체는 분산 축소, 결측 범주는 해석이 쉬우나 운영 변화에 민감</td>
+</tr>
+<tr>
+<td>이상치</td>
+<td>유지 / 윈저라이징 / 변환 / 비닝</td>
+<td>비닝은 스코어카드에 자연스럽고, 트리 모형은 극단값에 상대적으로 둔감</td>
+</tr>
+<tr>
+<td>범주</td>
+<td>희소 범주 병합 / 기타</td>
+<td>병합 기준을 학습 데이터에서 정한다</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li><strong>규제 로지스틱 CSS</strong>: 결측·이상치 처리 규칙이 점수카드의 <em>비닝 규칙</em>(결측 bin, 극단값 구간)으로 명시된다. 규칙이 문서에 있어야 운영 시스템이 같은 결과를 낸다.</li>
+<li><strong>AI 모형</strong>: 트리 부스팅은 결측을 모형이 처리하기도 하지만(알고리즘별 방식이 다름), 그래도 <em>누수와 정의 불일치</em>는 모형이 해결해 주지 않는다.</li>
+<li>두 모형 모두 <em>동일한 정제 규칙</em>을 학습 데이터에서 정하고 검증·테스트·운영에 적용한다.</li>
+<li>품질 점검 결과는 <code>build_quality_report</code> 처럼 <strong>자동 생성 + 사람의 판단 기록</strong>으로 남긴다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 소득 결측률이 근속 1년 미만에서 28%, 1년 이상에서 3% 이다. 결측 행을 삭제하면?</p>
+<details>
+<summary>정답 보기</summary>
+<p>근속이 짧은 고객이 표본에서 크게 줄어 <strong>모집단이 왜곡</strong>된다(MAR 성격). 삭제 전에 원인을 확인하고, 결측 범주/대체 중 무엇이 적절한지 검토한다.</p>
+</details>
+<p><strong>Q2.</strong> 단일 변수의 AUROC 가 0.97 이다. 첫 반응은?</p>
+<details>
+<summary>정답 보기</summary>
+<p><em>좋은 변수</em>라고 기뻐하기 전에 <strong>누수를 의심</strong>한다. 생성 시점, 결과 이후 값 여부, 타깃과의 계산 관계를 확인한다.</p>
+</details>
+<p><strong>Q3.</strong> 평균 대체를 전체 데이터로 하면 왜 문제인가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>검증·테스트 데이터의 정보가 평균에 섞여 학습 단계로 새어 들어간다. 운영에서는 미래 데이터의 평균을 알 수 없으므로, <strong>학습 데이터에서만 통계를 계산</strong>하고 나머지에는 적용만 한다.</p>
+</details>
+<p><strong>Q4.</strong> (코드 읽기) <code>df[df["income"] != 0]</code> 은 소득이 결측인 행을 포함하는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>pandas 에서 <code>NaN != 0</code> 은 <code>True</code> 이므로 <strong>포함</strong>된다. 반대로 <code>df["income"] == 0</code> 은 결측을 제외한다. 결측이 있는 열로 필터링할 때는 건수를 확인한다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터(오류 주입판)와 UCI 데이터에 점검 도구를 모두 적용하고, UCI 에서 "결측은 없지만 설명서와 다른 값"을 3개 이상 찾아 적어라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Rubin, D. B. (1976). Inference and missing data. <em>Biometrika</em>, 63(3).</li>
+<li>Little, R. J. A. &amp; Rubin, D. B. <em>Statistical Analysis with Missing Data</em> (Wiley).</li>
+<li>Kaufman, S., Rosset, S., Perlich, C., Stitelman, O. (2012). Leakage in data mining. <em>ACM TKDD</em>, 6(4).</li>
+<li>pandas 결측 데이터 가이드: <a href="https://pandas.pydata.org/docs/user_guide/missing_data.html">https://pandas.pydata.org/docs/user_guide/missing_data.html</a></li>
+<li>확인일 2026-10-18</li>
+</ul>
+<div class="pager"><span><a href="stage_01.html">← 1. 신용평가 문제 정의와 모집단 선정</a></span><span><a href="stage_03.html">3. 통계와 확률 기초 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

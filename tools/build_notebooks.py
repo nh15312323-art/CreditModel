@@ -1,0 +1,24 @@
+"""Phase 1 레슨 노트북(.ipynb)을 생성한다.  사용법: python tools/build_notebooks.py"""
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+
+import lesson_01  # noqa: E402
+import lesson_02  # noqa: E402
+import lesson_03  # noqa: E402
+from nbkit import write_notebook  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[1]
+LESSONS = {
+    "01_what_is_credit_model.ipynb": lesson_01,
+    "02_rows_columns_target.ipynb": lesson_02,
+    "03_missing_and_quality.ipynb": lesson_03,
+}
+
+if __name__ == "__main__":
+    for filename, module in LESSONS.items():
+        out = ROOT / "notebooks" / filename
+        write_notebook(out, module.cells(), module.TITLE)
+        print("wrote", out.relative_to(ROOT))

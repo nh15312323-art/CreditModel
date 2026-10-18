@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 6. 로지스틱 회귀의 수학과 해석 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item current" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-6-로지스틱-회귀의-수학과-해석">단계 6. 로지스틱 회귀의 수학과 해석</h1>
+<blockquote>
+<p>확률을 직접 직선으로 맞추지 않고 <em>로그오즈</em>를 직선으로 맞춘다. 계수 하나가 "오즈를 몇 배로 바꾸는가"로 읽힌다는 점이 신용모형의 해석력의 근간이다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 3 노트북(예정) · 이 페이지의 코드(NumPy IRLS ↔ scikit-learn 비교)를 직접 실행해 보자.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>확률·오즈·로그오즈(logit)를 서로 변환한다.</li>
+<li>로지스틱 함수, 최대우도추정, 손실함수, 경사하강법/뉴턴 방법의 직관을 설명한다.</li>
+<li>계수·오즈비·절편·기준범주·스케일링·부호를 해석한다.</li>
+<li>L1/L2 규제, 완전분리, 희소 이벤트 문제를 설명한다.</li>
+<li>계수의 신뢰구간·p-value 해석과 한계를 말한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>타깃이 0/1 일 때 선형회귀 \(p=\beta_0+\beta_1x\) 를 쓰면 예측이 <strong>0 미만이나 1 초과</strong>가 되고, 오차의 분산이 \(p(1-p)\) 로 달라져 가정이 깨진다. 확률은 0~1 로 묶여 있지만 <em>로그오즈</em>는 \(-\infty\sim+\infty\) 의 값을 가진다. 그래서 <em>로그오즈를 선형으로</em> 모형화하는 로지스틱 회귀가 널리 쓰이게 되었다. 계수가 <em>오즈의 곱셈 효과</em>로 해석되고, 최대우도로 안정적으로 추정되며, 모형이 투명해 규제 환경에 잘 맞는다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li><strong>규제 로지스틱 CSS</strong> 의 중심 모형이다. 점수카드는 이 모형의 계수를 점수로 바꾼 것이다(단계 7).</li>
+<li>계수의 부호와 크기가 <em>업무 논리 검토</em>의 대상이다.</li>
+<li>AI 모형과의 비교에서 <strong>기준선(baseline)</strong> 역할을 한다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<p>입력 \(x_1,\dots,x_k\) → 부도확률 \(p\).</p>
+<p>\[\ln\frac{p}{1-p}=\beta_0+\beta_1x_1+\cdots+\beta_kx_k\quad\Longleftrightarrow\quad p=\frac{1}{1+e^{-(\beta_0+\sum\beta_jx_j)}}\]</p>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-확률-오즈-로그오즈">4-1. 확률 ↔ 오즈 ↔ 로그오즈</h3>
+<p>오즈 \(=p/(1-p)\), 로그오즈 \(=\ln(\text{오즈})\).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>\(p\)</th>
+<th>오즈</th>
+<th>로그오즈</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.01</td>
+<td>0.0101</td>
+<td>-4.5951</td>
+</tr>
+<tr>
+<td>0.05</td>
+<td>0.0526</td>
+<td>-2.9444</td>
+</tr>
+<tr>
+<td>0.10</td>
+<td>0.1111</td>
+<td>-2.1972</td>
+</tr>
+<tr>
+<td>0.20</td>
+<td>0.25</td>
+<td>-1.3863</td>
+</tr>
+<tr>
+<td>0.50</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0.90</td>
+<td>9</td>
+<td>2.1972</td>
+</tr>
+</tbody>
+</table></div>
+<p>\(p=0.5\) 에서 로그오즈는 0 이고, \(p\) 와 \(1-p\) 는 로그오즈의 부호만 바꾼다(대칭).</p>
+<h3 id="4-2-계수의-해석-오즈비">4-2. 계수의 해석: 오즈비</h3>
+<p>\(x_j\) 가 1 단위 늘 때 로그오즈가 \(\beta_j\) 만큼 변하므로 <strong>오즈는 \(e^{\beta_j}\) 배</strong>가 된다(다른 변수는 고정).</p>
+<p>\(\beta=0.7\) → \(e^{0.7}=2.0138\). 즉 오즈가 약 2배. 그러나 <strong>확률이 2배가 되는 것은 아니다.</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>시작 확률</th>
+<th>시작 오즈</th>
+<th>2.0138배 후 오즈</th>
+<th>새 확률</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5%</td>
+<td>0.0526</td>
+<td>0.1060</td>
+<td>9.6%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>1.0</td>
+<td>2.0138</td>
+<td>66.8%</td>
+</tr>
+</tbody>
+</table></div>
+<p>같은 계수라도 시작 확률이 다르면 확률의 변화량이 다르다. 그래서 <em>계수는 오즈비로</em>, 확률 변화는 <em>구체적 시점에서</em> 설명한다.</p>
+<pre><code class="language-python">import numpy as np
+
+p = np.array([0.01, 0.05, 0.10, 0.20, 0.50, 0.90])
+odds = p / (1 - p)
+logit = np.log(odds)
+assert np.allclose(np.round(logit, 4), [-4.5951, -2.9444, -2.1972, -1.3863, 0.0, 2.1972])
+
+orr = np.exp(0.7)
+def after(p0, ratio):
+    o = p0 / (1 - p0) * ratio
+    return o / (1 + o)
+print(round(orr, 4), round(after(0.05, orr), 4), round(after(0.5, orr), 4))
+assert abs(orr - 2.0138) &lt; 1e-4
+assert abs(after(0.05, orr) - 0.0958) &lt; 1e-4 and abs(after(0.5, orr) - 0.6682) &lt; 1e-4
+</code></pre>
+<h3 id="4-3-절편기준범주스케일링부호">4-3. 절편·기준범주·스케일링·부호</h3>
+<ul>
+<li><strong>절편</strong> \(\beta_0\): 모든 변수가 0 일 때의 로그오즈. 변수를 <em>평균으로 중심화</em>하면 "평균 고객"의 로그오즈가 된다.</li>
+<li><strong>범주형 변수</strong>는 더미(0/1)로 바꾸고 <strong>기준범주</strong>를 하나 정한다. 계수는 <em>기준범주 대비</em> 효과다. 기준을 바꾸면 계수가 바뀐다(해석이 달라질 뿐 모형은 같다).</li>
+<li><strong>스케일링</strong>: 나이(수십 단위)와 소득(수만 단위)은 계수 크기를 직접 비교할 수 없다. 표준화하거나 <em>단위를 명시</em>한다.</li>
+<li><strong>부호</strong>: 업무 논리와 반대면 공선성·표본·정의를 의심한다. WOE 입력(본 프로그램 규칙: 위험할수록 +)이면 계수가 <strong>양수·1 근처</strong>여야 자연스럽다.</li>
+</ul>
+<h3 id="4-4-최대우도추정mle과-손실함수">4-4. 최대우도추정(MLE)과 손실함수</h3>
+<p>각 고객이 부도 \(y_i\in\{0,1\}\), 모형 확률이 \(p_i\) 일 때 우도는 \(\prod p_i^{y_i}(1-p_i)^{1-y_i}\). 로그를 취한 <strong>로그우도</strong>를 최대화한다.</p>
+<p>\[\ell(\beta)=\sum_{i}\big[y_i\ln p_i+(1-y_i)\ln(1-p_i)\big],\qquad \frac{\partial\ell}{\partial\beta}=X^\top(y-p)\]</p>
+<p>음의 평균 로그우도가 곧 <strong>로그 손실(log loss)</strong> 이다. 기울기는 <em>(실제−예측)</em> 를 변수에 곱해 더한 형태라 직관적이다. 예측이 틀릴수록 큰 수정이 일어난다.</p>
+<ul>
+<li><strong>경사하강법</strong>: 기울기 방향으로 조금씩 이동.</li>
+<li><strong>뉴턴/IRLS</strong>(반복 재가중 최소제곱): 2차 정보(헤시안 \(X^\top WX\), \(W=\mathrm{diag}\,p_i(1-p_i)\))를 써 빠르게 수렴. statsmodels 가 이 방식이다.</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+from sklearn.linear_model import LogisticRegression
+from creditlab.data import make_synthetic_credit_data
+
+df = make_synthetic_credit_data(n=4000, seed=42)
+X = df[[&quot;age&quot;, &quot;card_utilization&quot;, &quot;num_delinq_12m&quot;]].to_numpy(float)
+y = df[&quot;default&quot;].to_numpy()
+Xs = (X - X.mean(0)) / X.std(0)                       # 표준화: 계수 크기 비교 가능
+
+def fit_irls(X, y, n_iter=25):
+    Xb = np.c_[np.ones(len(X)), X]
+    beta = np.zeros(Xb.shape[1])
+    for _ in range(n_iter):
+        p = 1 / (1 + np.exp(-Xb @ beta))
+        grad = Xb.T @ (y - p)
+        hess = Xb.T @ (Xb * (p * (1 - p))[:, None])
+        step = np.linalg.solve(hess, grad)
+        beta += step
+        if np.abs(step).max() &lt; 1e-10:
+            break
+    return beta
+
+beta = fit_irls(Xs, y)
+# scikit-learn 은 기본이 L2 규제(C=1.0)이므로, 규제 없는 추정과 비교하려면 C=np.inf (1.8 이상; 이전 버전은 penalty=None)
+sk = LogisticRegression(C=np.inf, max_iter=2000).fit(Xs, y)
+print(np.round(beta, 3), np.round(np.r_[sk.intercept_, sk.coef_[0]], 3))
+assert np.abs(beta - np.r_[sk.intercept_, sk.coef_[0]]).max() &lt; 5e-3
+assert beta[1] &lt; 0 &lt; beta[2]                           # 나이↑ → 위험↓, 사용률↑ → 위험↑ (생성식과 일치)
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">라이브러리 API 는 바뀐다</p>
+<p>scikit-learn 1.8 에서 <code>penalty</code> 인자가 deprecated 되어 <code>C</code>, <code>l1_ratio</code> 로 규제를 지정한다(<code>C=np.inf</code> = 규제 없음, 1.9.1 문서 확인). <strong>설치된 버전의 공식 문서</strong>를 확인하고, 보고서에 버전을 적는다.</p>
+</div>
+<h3 id="4-5-규제-l2-l1">4-5. 규제: L2, L1</h3>
+<p>과적합과 불안정을 줄이려 계수 크기에 벌점을 준다.</p>
+<p>\[\min_\beta\;-\ell(\beta)+\lambda\Big(\alpha\|\beta\|_1+\tfrac{1-\alpha}{2}\|\beta\|_2^2\Big)\]</p>
+<ul>
+<li><strong>L2(릿지)</strong>: 계수를 0 쪽으로 <em>부드럽게</em> 줄임. 공선성에 안정적. 계수는 0 이 되지 않음.</li>
+<li><strong>L1(라쏘)</strong>: 일부 계수를 <em>정확히 0</em> 으로 만들어 변수 선택 효과. 상관 변수 중 하나만 고르는 경향.</li>
+<li>scikit-learn 의 <code>C</code> 는 규제 세기의 <strong>역수</strong>(작을수록 강함)다. 규제를 쓰면 계수는 <em>편향</em>되고, <strong>p-value 해석이 달라진다</strong>.</li>
+</ul>
+<h3 id="4-6-완전분리와-희소-이벤트">4-6. 완전분리와 희소 이벤트</h3>
+<p>어떤 변수 값을 경계로 부도/정상이 <em>완벽히</em> 갈리면(<strong>완전분리</strong>) 우도는 계수를 키울수록 계속 커져 최대값이 없다. 계수가 매우 크게 나오거나 수렴 경고가 뜬다. 구간 내 부도 0건인 WOE 구간, 소표본 더미에서 흔하다. 대응: 구간 병합, 규제, 변수 제외, Firth 보정 같은 편향 감소 방법.</p>
+<h3 id="4-7-신뢰구간과-p-value">4-7. 신뢰구간과 p-value</h3>
+<p>Wald 검정: \(z=\hat\beta/\mathrm{SE}(\hat\beta)\). 95% 구간은 \(\hat\beta\pm1.96\,\mathrm{SE}\) 이고, 오즈비 구간은 양끝에 \(\exp\) 를 씌운다. 표준오차는 헤시안의 역행렬에서 얻는다. p-value 는 <em>계수가 0 인지</em>에 대한 증거일 뿐 변수의 중요도나 예측력이 아니다(단계 3, 4).</p>
+<p>statsmodels 로 추론용 결과를, scikit-learn 으로 예측 파이프라인을 만드는 것이 일반적인 역할 분담이다.</p>
+<pre><code class="language-python"># [requires: statsmodels]
+import numpy as np
+import statsmodels.api as sm
+
+res = sm.Logit(y, sm.add_constant(Xs)).fit(disp=0)
+print(res.summary2().tables[1].round(3))
+assert np.allclose(res.params, beta, atol=1e-5)       # 위의 NumPy IRLS 와 같은 해
+</code></pre>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li><strong>선형성</strong>: 로그오즈가 설명변수의 선형 결합이다(비닝·WOE·스플라인으로 완화).</li>
+<li><strong>독립성</strong>: 관측이 독립이다(같은 고객 반복 행이면 위반).</li>
+<li><strong>공선성이 심하지 않다</strong>: 계수 해석을 위해.</li>
+<li><strong>충분한 이벤트 수</strong>와 완전분리가 없음.</li>
+<li>기준시점에 이용 가능한 변수만 사용(단계 1).</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>계수를 "확률이 몇 %p 오른다"로 읽는다. → 오즈의 곱셈 효과다.</li>
+<li>서로 다른 스케일의 변수의 계수 크기를 비교해 "더 중요한 변수"라고 말한다.</li>
+<li>규제 모형의 p-value 를 규제 없는 모형의 p-value 처럼 해석한다.</li>
+<li>기준범주를 바꿨더니 계수가 달라졌다고 모형이 불안정하다고 말한다(해석이 달라질 뿐).</li>
+<li>수렴 경고·거대 계수를 무시한다.</li>
+<li>학습 데이터의 부도율로 <em>진짜 PD 수준</em>이 보장된다고 가정한다(표본추출·기간·정책에 따라 보정 필요, 단계 12·15).</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>모형</th>
+<th>장점</th>
+<th>한계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>로지스틱</td>
+<td>투명·안정·계수 해석</td>
+<td>비선형·상호작용은 사람이 설계</td>
+</tr>
+<tr>
+<td>프로빗</td>
+<td>정규분포 기반</td>
+<td>해석이 오즈보다 덜 직관적, 신용에선 로지스틱이 관행</td>
+</tr>
+<tr>
+<td>선형확률모형</td>
+<td>단순</td>
+<td>확률 범위 위반</td>
+</tr>
+<tr>
+<td>트리 부스팅</td>
+<td>비선형·상호작용 자동</td>
+<td>설명·안정성 근거 추가 필요(단계 11)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li><strong>규제 로지스틱 CSS</strong>: WOE 변수 + 로지스틱 + (필요 시) 규제 → 계수 부호·크기 점검 → 점수 변환. 계수가 음수/비정상이면 <em>변수 제외·구간 병합</em>을 검토한다.</li>
+<li><strong>AI 모형과 공정 비교</strong>: 같은 분할·같은 성능 지표·같은 확률 보정 기준으로 비교한다. 로지스틱은 <em>최소한 이만큼은 해야 한다</em>는 기준선이다.</li>
+<li>결과는 계수표(계수, SE, 오즈비, 신뢰구간), 수렴 여부, 공선성 진단과 함께 문서화한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> \(p=0.2\) 의 오즈와 로그오즈는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>오즈 \(0.2/0.8=0.25\), 로그오즈 \(\ln0.25\approx-1.3863\).</p>
+</details>
+<p><strong>Q2.</strong> \(\beta=0.7\) 이면 변수가 1 증가할 때 부도확률이 2배가 되는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>아니다. <strong>오즈</strong>가 약 2.01배가 된다. 확률 변화는 시작 확률에 따라 다르다(5%→9.6%, 50%→66.8%).</p>
+</details>
+<p><strong>Q3.</strong> 모든 부도가 한 구간에 몰리고 다른 구간은 부도가 0건이다. 계수 추정에서 일어날 일은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>(준)완전분리로 계수가 매우 커지거나 수렴하지 않는다. 구간 병합, 규제, 최소 이벤트 수 기준을 검토한다.</p>
+</details>
+<p><strong>Q4.</strong> scikit-learn 의 기본 <code>LogisticRegression()</code> 결과를 statsmodels <code>Logit</code> 결과와 비교했더니 계수가 약간 다르다. 가장 먼저 의심할 것은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>scikit-learn 의 <strong>기본 L2 규제</strong>(C=1.0). 규제 없는 추정과 비교하려면 <code>C=np.inf</code>(또는 이전 버전의 <code>penalty=None</code>)로 맞춘다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터에서 3~5개 변수로 로지스틱 모형을 적합하고, 각 계수의 오즈비와 직관적 설명을 <em>한 문장씩</em> 작성하라. 변수 하나를 평균으로 중심화했을 때 절편의 해석이 어떻게 달라지는지 쓰라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Hosmer, D., Lemeshow, S., Sturdivant, R. <em>Applied Logistic Regression</em>, 3rd ed. (Wiley, 2013).</li>
+<li>Hastie, T., Tibshirani, R., Friedman, J. <em>The Elements of Statistical Learning</em> (Springer) — 4장 분류, 규제.</li>
+<li>Firth, D. (1993). Bias reduction of maximum likelihood estimates. <em>Biometrika</em>, 80(1).</li>
+<li>scikit-learn <code>LogisticRegression</code>: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html</a></li>
+<li>statsmodels <code>Logit</code>: <a href="https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.Logit.html">https://www.statsmodels.org/stable/generated/statsmodels.discrete.discrete_model.Logit.html</a></li>
+<li>확인일 2026-10-18 (scikit-learn 1.9.1 문서의 <code>C</code>/<code>l1_ratio</code>/<code>penalty</code> 설명 확인)</li>
+</ul>
+<div class="pager"><span><a href="stage_05.html">← 5. 비닝·WOE·IV</a></span><span><a href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

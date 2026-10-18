@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>용어 사전 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item current" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="용어-사전">용어 사전</h1>
+<input id="gl-search" class="search" type="search" placeholder="용어 검색 (예: WOE, PSI, 누수)" autofocus>
+<blockquote>
+<p>검색창에 용어(한글·영어·약어)를 입력하면 표가 걸러진다. 각 용어의 자세한 설명은 오른쪽 단계 링크에서 읽는다.</p>
+</blockquote>
+<h2 id="문제-정의와-데이터">문제 정의와 데이터</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>한 줄 정의</th>
+<th>단계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>부도(default, bad)</td>
+<td>사전에 정한 <em>관찰기간 안에</em> 정의된 연체·채무불이행에 도달한 사건. 이 프로그램에서 target=1</td>
+<td><a href="stage_01.html">1</a></td>
+</tr>
+<tr>
+<td>정상(good)</td>
+<td>관찰기간 동안 부도가 아닌 건. target=0</td>
+<td><a href="stage_01.html">1</a></td>
+</tr>
+<tr>
+<td>관찰시점·성과기간</td>
+<td>변수를 측정하는 시점과, 그 뒤 부도 여부를 지켜보는 기간</td>
+<td><a href="stage_01.html">1</a></td>
+</tr>
+<tr>
+<td>모집단</td>
+<td>모형을 쓸 대상 전체. 학습 표본이 이와 다르면 성능이 틀어진다</td>
+<td><a href="stage_01.html">1</a></td>
+</tr>
+<tr>
+<td>데이터 누수(leakage)</td>
+<td>예측 시점에 알 수 없는 정보가 학습·평가에 들어가 성능이 거짓으로 좋아지는 것</td>
+<td><a href="stage_08.html">8</a></td>
+</tr>
+<tr>
+<td>결측(MCAR/MAR/MNAR)</td>
+<td>값이 없는 이유의 분류. 무작위 / 관측변수에 의존 / 값 자체에 의존</td>
+<td><a href="stage_02.html">2</a></td>
+</tr>
+<tr>
+<td>데이터 사전</td>
+<td>변수명·정의·단위·허용범위·출처를 적은 문서</td>
+<td><a href="stage_02.html">2</a></td>
+</tr>
+<tr>
+<td>cleaning_log</td>
+<td>정제 과정에서 바꾼 값·행을 <em>원본을 보존한 채</em> 기록한 로그</td>
+<td><a href="stage_02.html">2</a></td>
+</tr>
+<tr>
+<td>선택 편향(selection bias)</td>
+<td>과거 승인된 사람만 결과가 관찰되어 표본이 모집단을 대표하지 못하는 문제</td>
+<td><a href="stage_15.html">15</a></td>
+</tr>
+<tr>
+<td>거절 추론(reject inference)</td>
+<td>거절자의 결과를 가정·추가정보로 추정하려는 시도. 가정에 의존한다</td>
+<td><a href="stage_15.html">15</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="통계-기초">통계 기초</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>한 줄 정의</th>
+<th>단계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>신뢰구간(Wilson)</td>
+<td>비율의 불확실성 범위. 표본이 작을수록 넓다</td>
+<td><a href="stage_03.html">3</a></td>
+</tr>
+<tr>
+<td>부트스트랩</td>
+<td>복원추출을 반복해 지표의 변동을 추정</td>
+<td><a href="stage_09.html">9</a></td>
+</tr>
+<tr>
+<td>오즈(odds)</td>
+<td>확률 \(p\) 에 대해 \(p/(1-p)\)</td>
+<td><a href="stage_06.html">6</a></td>
+</tr>
+<tr>
+<td>로그오즈(logit)</td>
+<td>오즈의 자연로그. 로지스틱 회귀가 선형으로 모형화하는 대상</td>
+<td><a href="stage_06.html">6</a></td>
+</tr>
+<tr>
+<td>상관·다중공선성</td>
+<td>변수들이 서로 비슷한 정보를 가져 계수가 불안정해지는 현상</td>
+<td><a href="stage_04.html">4</a></td>
+</tr>
+<tr>
+<td>VIF</td>
+<td>다중공선성 진단 지표. 클수록 심각</td>
+<td><a href="stage_04.html">4</a></td>
+</tr>
+<tr>
+<td>p-value</td>
+<td>귀무가설이 참이라 가정할 때 관측만큼 극단적인 결과가 나올 확률. 가설이 참일 확률이 아니다</td>
+<td><a href="stage_14.html">14</a></td>
+</tr>
+<tr>
+<td>순열검정</td>
+<td>라벨을 섞어 귀무분포를 직접 만드는 검정</td>
+<td><a href="stage_14.html">14</a></td>
+</tr>
+<tr>
+<td>다중검정</td>
+<td>여러 가설을 동시에 검정할 때 우연한 유의 결과가 늘어나는 문제</td>
+<td><a href="stage_14.html">14</a></td>
+</tr>
+<tr>
+<td>FDR / BH</td>
+<td>거짓 발견 비율 통제 / 이를 위한 Benjamini–Hochberg 절차</td>
+<td><a href="stage_14.html">14</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="변수-처리와-스코어카드">변수 처리와 스코어카드</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>한 줄 정의</th>
+<th>단계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>비닝(binning)</td>
+<td>연속형 변수를 구간으로 나누는 일</td>
+<td><a href="stage_05.html">5</a></td>
+</tr>
+<tr>
+<td>WOE</td>
+<td>구간의 \(\ln(\%bad/\%good)\). 이 프로그램에서는 높을수록 위험</td>
+<td><a href="stage_05.html">5</a></td>
+</tr>
+<tr>
+<td>IV</td>
+<td>변수 전체의 정보량 \(\sum(\%bad-\%good)\cdot WOE\). 변수 선택의 참고 지표</td>
+<td><a href="stage_05.html">5</a></td>
+</tr>
+<tr>
+<td>단조성</td>
+<td>변수 값이 커질 때 위험이 한 방향으로만 변하는 성질</td>
+<td><a href="stage_05.html">5</a></td>
+</tr>
+<tr>
+<td>규제(L1/L2)</td>
+<td>계수 크기에 벌점을 주어 과적합을 막는 방법</td>
+<td><a href="stage_07.html">7</a></td>
+</tr>
+<tr>
+<td>스코어카드</td>
+<td>로지스틱 모형을 구간별 점수표로 바꾼 것</td>
+<td><a href="stage_07.html">7</a></td>
+</tr>
+<tr>
+<td>PDO</td>
+<td>오즈가 2배가 되는 점수 증가량(Points to Double the Odds)</td>
+<td><a href="stage_07.html">7</a></td>
+</tr>
+<tr>
+<td>Factor / Offset</td>
+<td>점수 변환의 기울기 \(PDO/\ln 2\) 와 절편</td>
+<td><a href="stage_07.html">7</a></td>
+</tr>
+<tr>
+<td>등급(grade)</td>
+<td>점수·PD 를 몇 개 구간으로 묶은 것. 단조 증가하는 부도율이 기대된다</td>
+<td><a href="stage_07.html">7</a></td>
+</tr>
+<tr>
+<td>최대우도 추정(MLE)</td>
+<td>관측 데이터가 가장 그럴듯하게 나오는 계수를 고르는 방법</td>
+<td><a href="stage_06.html">6</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="검증과-평가">검증과 평가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>한 줄 정의</th>
+<th>단계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>학습/검증/테스트</td>
+<td>적합 / 설정 선택 / 최종 1회 평가</td>
+<td><a href="stage_08.html">8</a></td>
+</tr>
+<tr>
+<td>OOT(Out-of-Time)</td>
+<td>학습 이후 시점의 보류 표본. 시간 안정성 확인용</td>
+<td><a href="stage_08.html">8</a></td>
+</tr>
+<tr>
+<td>교차검증</td>
+<td>데이터를 여러 번 나눠 평가하는 방법. 시계열은 시간 순서를 지킨다</td>
+<td><a href="stage_08.html">8</a></td>
+</tr>
+<tr>
+<td>혼동행렬</td>
+<td>TP·FP·FN·TN 의 표. 임계값에 의존한다</td>
+<td><a href="stage_09.html">9</a></td>
+</tr>
+<tr>
+<td>AUROC</td>
+<td>부도–정상 쌍에서 부도의 점수가 더 높을 확률</td>
+<td><a href="stage_09.html">9</a></td>
+</tr>
+<tr>
+<td>Gini / AR</td>
+<td>\(2\times AUROC-1\) (표준 CAP 정의). 조직별 산식을 명시해야 한다</td>
+<td><a href="stage_09.html">9</a></td>
+</tr>
+<tr>
+<td>KS</td>
+<td>부도와 정상 누적분포의 최대 차이</td>
+<td><a href="stage_09.html">9</a></td>
+</tr>
+<tr>
+<td>PR-AUC</td>
+<td>정밀도–재현율 곡선 아래 면적. 부도율에 따라 값이 달라진다</td>
+<td><a href="stage_09.html">9</a></td>
+</tr>
+<tr>
+<td>Brier / log loss</td>
+<td>확률 예측의 오차 지표. 작을수록 좋다</td>
+<td><a href="stage_09.html">9</a></td>
+</tr>
+<tr>
+<td>보정(calibration)</td>
+<td>예측확률이 실제 부도율과 맞는 정도</td>
+<td><a href="stage_12.html">12</a></td>
+</tr>
+<tr>
+<td>DeLong 검정</td>
+<td>같은 표본으로 평가한 두 AUROC 의 차이를 상관을 반영해 검정</td>
+<td><a href="stage_14.html">14</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="안정성과-운영">안정성과 운영</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>한 줄 정의</th>
+<th>단계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PSI</td>
+<td>기준·현재 분포의 차이 \(\sum(a_i-e_i)\ln(a_i/e_i)\). 경보 기준은 관행</td>
+<td><a href="stage_10.html">10</a></td>
+</tr>
+<tr>
+<td>CSI</td>
+<td>변수별 안정성 지표(변수 단위 PSI)</td>
+<td><a href="stage_10.html">10</a></td>
+</tr>
+<tr>
+<td>공변량 이동</td>
+<td>입력 분포가 변하고 \(P(Y\mid X)\) 는 그대로인 변화</td>
+<td><a href="stage_10.html">10</a></td>
+</tr>
+<tr>
+<td>개념 변화(concept drift)</td>
+<td>입력과 부도의 관계가 변하는 것. PSI 로 안 보일 수 있다</td>
+<td><a href="stage_10.html">10</a></td>
+</tr>
+<tr>
+<td>ECL</td>
+<td>기대신용손실 = PD × LGD × EAD</td>
+<td><a href="stage_15.html">15</a></td>
+</tr>
+<tr>
+<td>모형 카드</td>
+<td>용도·데이터·성능·한계를 적은 모형 문서</td>
+<td><a href="stage_15.html">15</a></td>
+</tr>
+<tr>
+<td>MRM</td>
+<td>모형위험관리. 인벤토리·독립검증·모니터링 체계</td>
+<td><a href="stage_15.html">15</a></td>
+</tr>
+<tr>
+<td>챌린저 모형</td>
+<td>현재 모형(챔피언)과 비교하는 대안 모형</td>
+<td><a href="stage_16.html">16</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="머신러닝">머신러닝</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>한 줄 정의</th>
+<th>단계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>지니 불순도</td>
+<td>노드의 섞인 정도. 분할 이득 계산에 쓰인다</td>
+<td><a href="stage_11.html">11</a></td>
+</tr>
+<tr>
+<td>그래디언트 부스팅</td>
+<td>앞선 모형의 잔차를 작은 트리로 순차 보정해 더하는 앙상블</td>
+<td><a href="stage_11.html">11</a></td>
+</tr>
+<tr>
+<td>조기 종료</td>
+<td>검증 손실이 개선되지 않으면 트리 추가를 멈추는 규칙</td>
+<td><a href="stage_11.html">11</a></td>
+</tr>
+<tr>
+<td>단조 제약</td>
+<td>변수가 커질 때 예측이 한 방향으로만 변하도록 모형에 거는 제약</td>
+<td><a href="stage_11.html">11</a></td>
+</tr>
+<tr>
+<td>SHAP</td>
+<td>개별 예측을 변수 기여도로 가산 분해. 인과가 아니다</td>
+<td><a href="stage_11.html">11</a></td>
+</tr>
+<tr>
+<td>Platt / Isotonic</td>
+<td>점수를 확률로 바꾸는 사후 보정법</td>
+<td><a href="stage_12.html">12</a></td>
+</tr>
+<tr>
+<td>스태킹</td>
+<td>기본 모형 예측으로 메타 모형을 학습하는 앙상블</td>
+<td><a href="stage_12.html">12</a></td>
+</tr>
+<tr>
+<td>합성데이터</td>
+<td>학습된 모형으로 생성한 인공 데이터. 자동 익명화가 아니다</td>
+<td><a href="stage_13.html">13</a></td>
+</tr>
+<tr>
+<td>TSTR</td>
+<td>합성으로 학습하고 실제로 평가하는 유용성 검사</td>
+<td><a href="stage_13.html">13</a></td>
+</tr>
+<tr>
+<td>DCR</td>
+<td>합성 행과 가장 가까운 원본 행의 거리. 복제 탐지용</td>
+<td><a href="stage_13.html">13</a></td>
+</tr>
+</tbody>
+</table></div>
+
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+<script>
+(function(){var box=document.getElementById('gl-search');if(!box)return;
+box.addEventListener('input',function(){var q=box.value.trim().toLowerCase();
+document.querySelectorAll('main table tbody tr').forEach(function(tr){tr.style.display=(!q||tr.textContent.toLowerCase().indexOf(q)>-1)?'':'none';});});})();
+</script>
+</body>
+</html>

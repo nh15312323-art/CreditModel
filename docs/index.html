@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>학습 로드맵 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="theory/stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="theory/stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="theory/stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="theory/stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="theory/stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="theory/stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="theory/stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="theory/stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="theory/stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="theory/stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="theory/stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="theory/stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="theory/stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="theory/stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="theory/stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="theory/stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="theory/stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="theory/glossary.html">용어 사전 (검색)</a>
+<a class="item" href="theory/all.html">전체를 한 페이지로</a></nav>
+<main>
+
+<h1>Credit Model Mastery Lab</h1>
+<blockquote><p>신용평가모형을 <b>처음부터 끝까지 직접 만들어 보는</b> 학습 프로그램의 이론 설명 사이트입니다. 각 단계는
+「왜 생겼는가 → 왜 필요한가 → 무엇을 하는가 → 어떻게 작동하는가 → 가정 → 한계 → 대안 → 실무 적용 → 지식 확인 → 참고자료」 순서로 구성되어 있습니다.</p></blockquote>
+<div class="admonition warning"><p class="admonition-title">교육용 프로그램입니다</p>
+<p>공개 교육 데이터 결과는 실제 은행의 운영 성능·규제 적합성을 의미하지 않습니다. 개인정보·실제 고객 데이터를 사용하지 마세요.</p></div>
+<h2>이렇게 학습하세요</h2>
+<ol><li>이 사이트에서 해당 단계의 <b>이론</b>을 읽는다.</li>
+<li>Colab 에서 같은 단계의 <b>실습 노트북</b>(<code>notebooks/</code>)을 직접 실행한다. (예측 → 실행 → 비교)</li>
+<li>퀴즈로 확인하고, 틀린 개념은 해당 단계로 돌아와 복습한다.</li></ol>
+<p><a href="theory/glossary.html">용어 사전(검색)</a> · <a href="theory/all.html">전체를 한 페이지로 보기</a></p>
+<h2>기초</h2><p>Python·문제 정의·데이터 품질·통계·변수 진단</p><div class="cards"><a class="card" href="theory/stage_00.html"><b>0. Python과 데이터 분석 기초</b><span>신용모형 개발에 필요한 최소한의 Python·pandas 도구를 익히고, 작은 대출 데이터를 읽어 품질 점검까지 할 수 있게 된다.</span></a><a class="card" href="theory/stage_01.html"><b>1. 신용평가 문제 정의와 모집단 선정</b><span>모형 개발의 첫 단계는 알고리즘이 아니라 &quot;무엇을, 누구에 대해, 언제부터 언제까지 예측하는가&quot;를 문서로 고정하는 일이다.</span></a><a class="card" href="theory/stage_02.html"><b>2. 데이터 품질과 탐색적 분석</b><span>모형은 데이터가 말하는 만큼만 안다. 결측·중복·이상치·타깃 누수를 먼저 찾고, 분포와 부도율을 눈으로 확인한 뒤에야 변수를 만진다.</span></a><a class="card" href="theory/stage_03.html"><b>3. 통계와 확률 기초</b><span>부도율, 신뢰구간, p-value 같은 말을 *정확한 뜻*으로 쓰기 위한 최소한의 확률·통계 도구.</span></a><a class="card" href="theory/stage_04.html"><b>4. 단변량·다변량 분석과 변수 진단</b><span>변수를 *하나씩* 보고, 다음엔 *함께* 보고, 마지막에 &quot;이 변수를 모형에 넣어도 되는가&quot;를 여러 근거로 결정한다. p-value 하나로 결정하지 않는다.</span></a></div><h2>로지스틱 CSS</h2><p>비닝/WOE/IV → 로지스틱 회귀 → 스코어카드</p><div class="cards"><a class="card" href="theory/stage_05.html"><b>5. 비닝·WOE·IV</b><span>연속형 변수를 구간으로 나누고, 구간마다 &quot;얼마나 위험한가&quot;를 로그 비율(WOE)로 바꾼 뒤, 변수 전체의 정보량(IV)을 요약한다. 스코어카드의 재료가 되는 과정이다.</span></a><a class="card" href="theory/stage_06.html"><b>6. 로지스틱 회귀의 수학과 해석</b><span>확률을 직접 직선으로 맞추지 않고 *로그오즈*를 직선으로 맞춘다. 계수 하나가 &quot;오즈를 몇 배로 바꾸는가&quot;로 읽힌다는 점이 신용모형의 해석력의 근간이다.</span></a><a class="card" href="theory/stage_07.html"><b>7. 규제형 로지스틱 CSS와 스코어카드</b><span>로지스틱 모형이 만든 로그오즈를 &quot;점수&quot;로 바꾸고, 점수를 &quot;등급&quot;으로 묶고, 등급별 부도율을 검토한다. 모형(예측)과 정책(컷오프)은 분리한다.</span></a></div><h2>검증과 모니터링</h2><p>분할·누수 방지 → 평가지표 → PSI·드리프트</p><div class="cards"><a class="card" href="theory/stage_08.html"><b>8. Train/Validation/Test, 교차검증과 누수 방지</b><span>모형의 성적은 &quot;처음 보는 데이터&quot;에서만 의미가 있다. 데이터를 어떻게 나누고, 전처리를 어디에서 하며, 테스트를 몇 번 보느냐가 결과의 신뢰성을 정한다.</span></a><a class="card" href="theory/stage_09.html"><b>9. 평가 지표와 검증</b><span>모형이 &quot;좋다&quot;는 말은 지표마다 다른 뜻이다. 순위를 잘 맞히는가(변별력), 확률 값이 맞는가(보정), 특정 컷오프에서 어떤 오류가 나는가(분류 성능)를 *따로* 본다.</span></a><a class="card" href="theory/stage_10.html"><b>10. PSI·안정성·드리프트</b><span>모형은 &quot;개발 때 본 세상&quot;에서 만들어졌다. 세상이 변하면 입력 분포도, 변수와 부도의 관계도 변한다. PSI 는 *분포가 얼마나 달라졌는가*를 재는 첫 번째 경보기일 뿐, 모형이 틀렸다는 증명이 아니다.</span></a></div><h2>머신러닝</h2><p>트리 부스팅 → 튜닝·보정 → 합성 데이터(GAN)</p><div class="cards"><a class="card" href="theory/stage_11.html"><b>11. 트리·부스팅·SHAP</b><span>트리는 &quot;조건 분기&quot;로 데이터를 쪼개고, 부스팅은 그런 작은 트리를 *앞선 모형의 실수를 고치는 방향*으로 계속 더한다. 성능은 올라가지만 설명 가능성과 안정성의 비용을 치른다.</span></a><a class="card" href="theory/stage_12.html"><b>12. 튜닝·앙상블·보정</b><span>튜닝은 &quot;검증 데이터에 맞춰 설정을 고르는 일&quot;이므로, 그 데이터는 이미 *오염*되었다. 최종 성능은 **한 번도 쓰지 않은** 데이터로만 말한다. 그리고 순위가 좋은 모형도 확률이 틀리면 PD 가 아니다.</span></a><a class="card" href="theory/stage_13.html"><b>13. GAN과 합성데이터</b><span>합성데이터는 &quot;진짜 데이터의 대용품&quot;이 아니라 &quot;진짜 데이터의 *통계적 그림자*&quot;다. 그림자가 얼마나 닮았는지(충실도), 그림자로 학습해도 현실에서 통하는지(유용성), 원본 개인을 드러내지 않는지(프라이버시)를 *각각* 확인해야 한다.</span></a></div><h2>통계 심화·운영·캡스톤</h2><p>검정의 올바른 사용 → 운영·위험관리 → 종합 프로젝트</p><div class="cards"><a class="card" href="theory/stage_14.html"><b>14. 가설검정·p-value·DeLong·다중검정</b><span>&quot;AUROC 가 0.003 올랐다&quot;는 것만으로는 개선이 아니다. 그 차이가 *표본이 달라져도 반복될 변동*보다 큰지를 따져야 한다. 검정은 그 질문에 답하는 도구이고, p-value 는 흔히 오해된다.</span></a><a class="card" href="theory/stage_15.html"><b>15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</b><span>모형은 개발이 끝나면 시작이다. 운영 환경에서는 &quot;누구의 데이터로 배웠는가(선택 편향)&quot;, &quot;확률이 돈이 되는 방식(충당금)&quot;, &quot;고객에게 어떻게 설명하는가&quot;, &quot;누가 불리해지는가&quot;, &quot;누가 책임지는가&quot;가 문제가 된다.</span></a><a class="card" href="theory/stage_16.html"><b>16. 종합 프로젝트: 처음부터 끝까지</b><span>앞 단계의 모든 선택(목표 정의, 정제, 분할, 비닝, 모형, 평가, 보정, 모니터링, 문서화)을 *하나의 재현 가능한 흐름*으로 묶는다. 합격 기준은 높은 AUROC 가 아니라 **각 결정을 근거와 함께 설명할 수 있는가**이다.</span></a></div>
+
+
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

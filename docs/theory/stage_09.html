@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 9. 평가 지표와 검증 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item current" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-9-평가-지표와-검증">단계 9. 평가 지표와 검증</h1>
+<blockquote>
+<p>모형이 "좋다"는 말은 지표마다 다른 뜻이다. 순위를 잘 맞히는가(변별력), 확률 값이 맞는가(보정), 특정 컷오프에서 어떤 오류가 나는가(분류 성능)를 <em>따로</em> 본다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 4 노트북(예정) · 코드 <code>creditlab.evaluation</code>(예정) · 이 페이지의 8건 예제를 손으로 먼저 풀어 보자.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>혼동행렬과 정확도·정밀도·재현율·특이도·F1 을 계산하고 <strong>임계값에 의존</strong>함을 설명한다.</li>
+<li>ROC·AUROC, <strong>Gini = 2×AUROC − 1</strong>, KS, PR-AUC 의 정의와 해석을 말한다.</li>
+<li>log loss, Brier score, calibration curve 로 <em>확률의 질</em>을 평가한다.</li>
+<li>AR(Accuracy Ratio)의 정의를 <strong>명시적으로 고정</strong>해야 하는 이유를 설명한다.</li>
+<li>순위 변별력과 확률 정확성의 차이를 구분한다.</li>
+<li>부트스트랩 신뢰구간과 기간별 성능 변화를 본다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>초기에는 정확도(맞힌 비율)로 모형을 평가했다. 그러나 부도가 1% 인 데이터에서 "모두 정상"이라고 예측하면 정확도 99% 다. 불균형 데이터에서는 정확도가 쓸모 없고, <strong>임계값과 무관하게</strong> 순위를 평가하는 ROC/AUROC 와 KS, 확률을 직접 평가하는 log loss·Brier·보정이 필요해졌다. 신용 분야에서는 CAP 곡선과 Accuracy Ratio(AR)도 쓰인다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>모형 선택·비교·승인의 근거가 지표다.</li>
+<li>지표마다 <strong>약점</strong>이 있어 하나로 결론내리면 틀린다.</li>
+<li>변별력이 좋아도 확률이 틀리면 PD 로 쓸 수 없고(보정), 확률이 맞아도 순위가 약하면 심사에 도움이 안 된다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>질문</th>
+<th>지표</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>누가 더 위험한지 순위를 잘 매기나?</td>
+<td>AUROC, Gini, AR, KS</td>
+</tr>
+<tr>
+<td>드문 부도 중에서 얼마나 잘 찾나?</td>
+<td>PR-AUC(평균 정밀도), 재현율@k</td>
+</tr>
+<tr>
+<td>예측 확률이 실제 부도율과 맞나?</td>
+<td>calibration curve, Brier, log loss</td>
+</tr>
+<tr>
+<td>특정 컷오프에서 오류는?</td>
+<td>혼동행렬, 정밀도·재현율</td>
+</tr>
+<tr>
+<td>성능이 시간에 안정적인가?</td>
+<td>기간별 AUROC/KS, 신뢰구간</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-8건-손계산-예제">4-1. 8건 손계산 예제</h3>
+<p>부도(1) 3건의 위험점수: 0.9, 0.7, 0.4 / 정상(0) 5건: 0.8, 0.5, 0.3, 0.2, 0.1. 점수가 높을수록 위험하다.</p>
+<h4 id="혼동행렬-임계값-045-이상이면-부도-예측">혼동행렬 (임계값 0.45 이상이면 "부도 예측")</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>예측 부도</th>
+<th>예측 정상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>실제 부도</td>
+<td>TP=2 (0.9, 0.7)</td>
+<td>FN=1 (0.4)</td>
+</tr>
+<tr>
+<td>실제 정상</td>
+<td>FP=2 (0.8, 0.5)</td>
+<td>TN=3 (0.3, 0.2, 0.1)</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>정확도 \(=(2+3)/8=0.625\)</li>
+<li>정밀도 \(=TP/(TP+FP)=2/4=0.5\)</li>
+<li>재현율(민감도) \(=TP/(TP+FN)=2/3=0.667\)</li>
+<li>특이도 \(=TN/(TN+FP)=3/5=0.6\)</li>
+<li>F1 \(=2TP/(2TP+FP+FN)=4/7=0.571\)</li>
+</ul>
+<p><strong>임계값을 바꾸면 모든 숫자가 바뀐다.</strong> 임계값은 <em>사업 정책</em>(단계 12)이므로 혼동행렬 지표는 정책과 함께 해석한다.</p>
+<h4 id="auroc">AUROC</h4>
+<blockquote>
+<p>AUROC = 무작위로 뽑은 (부도, 정상) 한 쌍에서 부도의 점수가 더 높을 확률(동점은 0.5).</p>
+</blockquote>
+<p>부도 3 × 정상 5 = 15 쌍. 부도 0.9 는 5쌍 모두 이김(5), 0.7 은 0.8 에게 지고 나머지 4쌍을 이김(4), 0.4 는 0.3, 0.2, 0.1 을 이김(3) → \(12/15=0.8\).</p>
+<h4 id="gini와-ar">Gini와 AR</h4>
+<p>\[\mathrm{Gini}=2\times\mathrm{AUROC}-1=0.6\]</p>
+<p>완벽한 모형은 1, 무작위는 0 이다. <strong>AR(Accuracy Ratio)</strong> 는 CAP 곡선으로 정의된다.</p>
+<p>\[\mathrm{AR}=\frac{\text{CAP 곡선과 무작위선 사이 면적}}{\text{완벽 모형 CAP 곡선과 무작위선 사이 면적}}\]</p>
+<p>표준 CAP 정의에서는 \(\mathrm{AR}=2\times\mathrm{AUROC}-1\) 이 수학적으로 성립한다(Engelmann, Hayden &amp; Tasche, 2003). 그러나 <strong>조직·문헌별로 AR 계산이 다를 수 있다</strong>(표본 구성, 동점 처리, 점수 대신 <em>등급 단위</em>로 계산하는 경우의 계단형 곡선, 부호 방향 등). 따라서 이 프로그램은 AR 을 자동으로 Gini 로 환산하지 않고, <strong>프로젝트 설정에 산식·방향·분모를 명시</strong>하도록 한다.</p>
+<h4 id="ks-통계량">KS 통계량</h4>
+<p>부도 누적분포와 정상 누적분포의 <strong>최대 차이</strong>: \(\mathrm{KS}=\max_s|F_{bad}(s)-F_{good}(s)|\).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>임계값(이상)</th>
+<th>부도 중 비율(TPR)</th>
+<th>정상 중 비율(FPR)</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.9</td>
+<td>0.333</td>
+<td>0.0</td>
+<td>0.333</td>
+</tr>
+<tr>
+<td>0.8</td>
+<td>0.333</td>
+<td>0.2</td>
+<td>0.133</td>
+</tr>
+<tr>
+<td>0.7</td>
+<td>0.667</td>
+<td>0.2</td>
+<td>0.467</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>0.667</td>
+<td>0.4</td>
+<td>0.267</td>
+</tr>
+<tr>
+<td><strong>0.4</strong></td>
+<td><strong>1.0</strong></td>
+<td><strong>0.4</strong></td>
+<td><strong>0.6</strong></td>
+</tr>
+<tr>
+<td>0.3</td>
+<td>1.0</td>
+<td>0.6</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>1.0</td>
+<td>0.8</td>
+<td>0.2</td>
+</tr>
+</tbody>
+</table></div>
+<p>KS = 0.6 (임계값 0.4 에서). KS 는 <em>한 점</em>의 차이만 보고, 표본 구성·부도율에 영향받을 수 있다.</p>
+<h4 id="brier-score와-log-loss">Brier score와 log loss</h4>
+<p>점수를 확률로 보면, </p>
+<p>\[\mathrm{Brier}=\frac1n\sum(p_i-y_i)^2,\qquad \mathrm{LogLoss}=-\frac1n\sum\big[y_i\ln p_i+(1-y_i)\ln(1-p_i)\big]\]</p>
+<p>예제: Brier \(=1.49/8=0.18625\), log loss \(\approx0.5458\). 둘 다 <em>작을수록 좋다</em>. log loss 는 틀린 확신(예: 정상에 0.99 부여)을 크게 벌한다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.metrics import average_precision_score, brier_score_loss, log_loss, roc_auc_score, roc_curve
+
+s = np.array([0.9, 0.7, 0.4, 0.8, 0.5, 0.3, 0.2, 0.1])
+y = np.array([1, 1, 1, 0, 0, 0, 0, 0])
+
+auc = roc_auc_score(y, s)
+fpr, tpr, _ = roc_curve(y, s)
+ks = (tpr - fpr).max()
+print(round(auc, 3), round(2 * auc - 1, 3), round(ks, 3), round(brier_score_loss(y, s), 5), round(log_loss(y, s), 4))
+assert abs(auc - 0.8) &lt; 1e-12 and abs(2 * auc - 1 - 0.6) &lt; 1e-12 and abs(ks - 0.6) &lt; 1e-12
+assert abs(brier_score_loss(y, s) - 0.18625) &lt; 1e-12 and abs(log_loss(y, s) - 0.5458) &lt; 1e-4
+
+# 쌍 비교로 직접 계산한 AUROC (정의 확인)
+bad, good = s[y == 1], s[y == 0]
+pairs = [(b &gt; g) + 0.5 * (b == g) for b in bad for g in good]
+assert abs(np.mean(pairs) - auc) &lt; 1e-12
+
+# 임계값 0.45 혼동행렬
+pred = (s &gt;= 0.45).astype(int)
+tp, fp = int(((pred == 1) &amp; (y == 1)).sum()), int(((pred == 1) &amp; (y == 0)).sum())
+fn, tn = int(((pred == 0) &amp; (y == 1)).sum()), int(((pred == 0) &amp; (y == 0)).sum())
+assert (tp, fp, fn, tn) == (2, 2, 1, 3)
+assert abs(2 * tp / (2 * tp + fp + fn) - 4 / 7) &lt; 1e-12
+</code></pre>
+<h3 id="4-2-불균형과-정확도-pr-auc">4-2. 불균형과 정확도, PR-AUC</h3>
+<p>부도율 1% 에서 "모두 정상" 예측은 정확도 99%, 재현율 0%. <strong>PR 곡선</strong>은 정밀도–재현율 관계를 보여 주며 <em>무작위 모형의 정밀도가 부도율</em>(기저율)과 같다. 부도가 드물수록 ROC 는 낙관적으로 보일 수 있어, 상위 위험군 선별이 중요한 문제에서는 PR-AUC(평균 정밀도)를 함께 본다(Saito &amp; Rehmsmeier, 2015). 단, PR-AUC 는 부도율에 따라 값 자체가 달라지므로 <em>다른 부도율의 데이터끼리</em> 직접 비교하지 않는다.</p>
+<h3 id="4-3-변별력과-보정은-다르다">4-3. 변별력과 보정은 다르다</h3>
+<ul>
+<li><strong>변별력(discrimination)</strong>: 위험 순서를 맞히는 능력. AUROC/KS/Gini.</li>
+<li><strong>보정(calibration)</strong>: "예측 5%"인 고객들의 실제 부도율이 5% 인가. Brier, log loss, 보정곡선.</li>
+</ul>
+<p>모든 예측확률에 2를 곱해도 순서는 같아 AUROC 는 변하지 않지만 확률은 틀어진다. PD 모형은 <em>둘 다</em> 필요하다.</p>
+<p><strong>보정곡선(reliability diagram)</strong>: 예측확률을 구간으로 나누어 각 구간의 <em>평균 예측</em>과 <em>실제 부도율</em>을 비교한다. 대각선이면 잘 보정된 것이다. 구간 요약 지표로 ECE(기대 보정 오차) 등이 쓰이지만 구간 정의에 민감하다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.calibration import calibration_curve
+from sklearn.linear_model import LogisticRegression
+from creditlab.data import make_synthetic_credit_data
+
+df = make_synthetic_credit_data(n=6000, seed=11).sort_values(&quot;application_date&quot;)
+feats = [&quot;age&quot;, &quot;card_utilization&quot;, &quot;num_delinq_12m&quot;, &quot;employment_years&quot;]
+train, test = df.iloc[:4000], df.iloc[4000:]
+model = LogisticRegression(C=np.inf, max_iter=2000).fit(train[feats], train[&quot;default&quot;])
+p = model.predict_proba(test[feats])[:, 1]
+frac_pos, mean_pred = calibration_curve(test[&quot;default&quot;], p, n_bins=5, strategy=&quot;quantile&quot;)
+print(np.round(mean_pred, 3), np.round(frac_pos, 3))
+assert len(frac_pos) == len(mean_pred) &lt;= 5
+assert abs(p.mean() - test[&quot;default&quot;].mean()) &lt; 0.03   # 전체 평균 수준은 크게 어긋나지 않음
+</code></pre>
+<h3 id="4-4-신뢰구간과-기간별-변화">4-4. 신뢰구간과 기간별 변화</h3>
+<p>지표는 <em>표본에서 계산된 추정치</em>다. 같은 모형도 표본이 달라지면 AUROC 가 달라진다. <strong>부트스트랩</strong>(복원추출 반복)으로 구간을 만들고, <strong>시점별</strong>로 성능이 어떻게 변하는지 함께 본다. 이벤트가 적으면 구간이 넓다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.metrics import roc_auc_score
+
+rng = np.random.default_rng(0)
+y_t, p_t = test[&quot;default&quot;].to_numpy(), p
+auc_hat = roc_auc_score(y_t, p_t)
+boot = []
+for _ in range(300):
+    idx = rng.integers(0, len(y_t), len(y_t))
+    if y_t[idx].min() == y_t[idx].max():        # 한 클래스만 있으면 AUROC 정의 불가 → 건너뜀
+        continue
+    boot.append(roc_auc_score(y_t[idx], p_t[idx]))
+lo, hi = np.percentile(boot, [2.5, 97.5])
+print(round(auc_hat, 3), (round(lo, 3), round(hi, 3)))
+assert lo &lt; auc_hat &lt; hi
+</code></pre>
+<h3 id="4-5-정의되지-않는-경우">4-5. 정의되지 않는 경우</h3>
+<p>테스트 구간에 부도가 0건이거나 정상이 0건이면 AUROC 는 <em>정의되지 않는다</em>. 숫자를 억지로 만들지 말고 "계산 불가(한 클래스만 존재)" 로 표시한다.</p>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>평가 데이터가 <strong>운영 데이터를 대표</strong>한다(단계 8).</li>
+<li>레이블(부도)이 <strong>정의대로 정확히</strong> 붙어 있다.</li>
+<li>AUROC/KS 는 표본의 순위 정보만 쓰므로 <em>보정 오류를 못 본다</em>.</li>
+<li>신뢰구간(부트스트랩)은 관측이 독립이라고 가정한다(고객 군집이면 군집 부트스트랩).</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>정확도·정밀도 등 혼동행렬 지표를 <em>임계값을 말하지 않고</em> 비교한다.</li>
+<li>AUROC 하나로 "좋은 모형"을 선언한다. 보정이 틀리거나 상위 위험군에서 약할 수 있다(Hand, 2009: AUROC 의 비용 가정 문제).</li>
+<li>부도율이 다른 두 표본의 KS·PR-AUC 를 직접 비교한다.</li>
+<li>AR 을 정의 확인 없이 Gini 와 같다고 보고한다.</li>
+<li>개발 표본(학습) 지표를 <em>성능</em>으로 보고한다.</li>
+<li>지표 차이가 0.002 인데 "개선"이라고 한다(신뢰구간과 단계 14 참조).</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>지표</th>
+<th>보는 것</th>
+<th>장점</th>
+<th>약점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AUROC / Gini</td>
+<td>전체 순위</td>
+<td>임계값 불필요, 널리 쓰임</td>
+<td>보정·상위 구간 무시, 불균형에서 낙관적</td>
+</tr>
+<tr>
+<td>KS</td>
+<td>최대 분리</td>
+<td>직관적, 신용 실무 관행</td>
+<td>한 점만 봄, 표본 구성 영향</td>
+</tr>
+<tr>
+<td>PR-AUC</td>
+<td>드문 부도 탐지</td>
+<td>불균형에 민감</td>
+<td>기저율에 따라 값이 달라짐</td>
+</tr>
+<tr>
+<td>Brier</td>
+<td>확률 오차</td>
+<td>변별+보정 통합</td>
+<td>불균형에서 해석 어려움</td>
+</tr>
+<tr>
+<td>log loss</td>
+<td>확률의 질</td>
+<td>확신 오류 벌점</td>
+<td>극단값 민감</td>
+</tr>
+<tr>
+<td>보정곡선</td>
+<td>확률 보정</td>
+<td>시각적</td>
+<td>구간 정의에 민감</td>
+</tr>
+<tr>
+<td>H-measure 등</td>
+<td>비용 가정 보완</td>
+<td>이론적 보완</td>
+<td>실무 채택 적음</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li><strong>규제 로지스틱 CSS 와 AI 모형 비교</strong>: 같은 테스트 데이터에서 AUROC/Gini/KS/PR-AUC, Brier/log loss, 보정곡선, <strong>등급별 부도율</strong>을 모두 표로 비교한다.</li>
+<li><strong>PD 모형</strong>은 변별력과 <em>보정</em>이 모두 필수다. 변별력이 같다면 보정을 사후에 개선할 수 있다(단계 12).</li>
+<li>보고서에 <strong>AR 산식과 부호 방향</strong>, KS 계산 표본, 기간별 값과 신뢰구간을 명시한다.</li>
+<li>개발 시점 성능은 모니터링의 <em>기준선</em>이 된다(단계 10, 15).</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> AUROC 0.8 이면 Gini 는? 무작위 모형의 AUROC 와 Gini 는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>Gini \(=2\times0.8-1=0.6\). 무작위는 AUROC 0.5, Gini 0.</p>
+</details>
+<p><strong>Q2.</strong> 모든 예측확률에 2를 곱했다. AUROC, Brier 는 어떻게 되는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>AUROC 는 <strong>변하지 않고</strong>(순서 동일), Brier 와 log loss 는 일반적으로 <strong>나빠진다</strong>(확률이 틀어짐). 변별력과 보정은 다르다.</p>
+</details>
+<p><strong>Q3.</strong> 부도율 0.5% 인 데이터에서 정확도 99.5% 모형을 얻었다. 의미 있는 성과인가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>"모두 정상" 예측만으로도 99.5% 가 나온다. 정확도는 의미가 없다. 재현율·정밀도·PR-AUC·AUROC 와 보정을 본다.</p>
+</details>
+<p><strong>Q4.</strong> 테스트 기간에 부도가 한 건도 없다. AUROC 를 어떻게 보고하는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>"계산 불가(정의되지 않음: 한 클래스만 존재)"로 보고한다. 기간을 합치거나 더 긴 관찰을 기다린다.</p>
+</details>
+<p><strong>Q5 (계산).</strong> 부도 점수 {0.8, 0.3}, 정상 점수 {0.6, 0.2, 0.1}. AUROC 를 쌍 비교로 계산하라.</p>
+<details>
+<summary>정답 보기</summary>
+<p>6쌍. 0.8 은 3쌍 모두 이김(3), 0.3 은 0.6 에게 지고 0.2, 0.1 을 이김(2) → \(5/6\approx0.833\).</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터에서 시간 기준 분할 후 로지스틱 모형을 적합하고, 테스트 구간 AUROC/Gini/KS/Brier/log loss 와 보정곡선을 구하라. 분기별 AUROC 와 부트스트랩 구간을 표로 쓰고, 5등급의 등급별 부도율을 함께 제시하라. AR 의 정의를 문장으로 명시하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Engelmann, B., Hayden, E., Tasche, D. (2003). Testing rating accuracy. <em>Risk</em>, 16(1).</li>
+<li>Hand, D. (2009). Measuring classifier performance: a coherent alternative to the area under the ROC curve. <em>Machine Learning</em>, 77.</li>
+<li>Saito, T. &amp; Rehmsmeier, M. (2015). The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. <em>PLOS ONE</em>, 10(3).</li>
+<li>Niculescu-Mizil, A. &amp; Caruana, R. (2005). Predicting good probabilities with supervised learning. <em>ICML</em>.</li>
+<li>Basel Committee on Banking Supervision, <em>Studies on the Validation of Internal Rating Systems</em>, Working Paper No. 14 (2005).</li>
+<li>scikit-learn 모델 평가: <a href="https://scikit-learn.org/stable/modules/model_evaluation.html">https://scikit-learn.org/stable/modules/model_evaluation.html</a></li>
+<li>확인일 2026-10-18</li>
+</ul>
+<div class="pager"><span><a href="stage_08.html">← 8. Train/Validation/Test, 교차검증과 누수 방지</a></span><span><a href="stage_10.html">10. PSI·안정성·드리프트 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

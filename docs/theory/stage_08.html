@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 8. Train/Validation/Test, 교차검증과 누수 방지 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item current" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-8-trainvalidationtest-교차검증과-누수-방지">단계 8. Train/Validation/Test, 교차검증과 누수 방지</h1>
+<blockquote>
+<p>모형의 성적은 "처음 보는 데이터"에서만 의미가 있다. 데이터를 어떻게 나누고, 전처리를 어디에서 하며, 테스트를 몇 번 보느냐가 결과의 신뢰성을 정한다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 4 노트북(예정) · 이 페이지의 코드로 <em>누수 있는/없는</em> 파이프라인을 직접 비교해 보자.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>학습/검증/테스트 집합의 역할을 구분한다.</li>
+<li>무작위 분할, <strong>시간 기준 분할</strong>, 그룹 분할, 층화 분할을 상황에 맞게 고른다.</li>
+<li>교차검증과 nested CV 가 해결하는 문제를 설명한다.</li>
+<li>전처리·비닝·변수 선택·스케일링을 <strong>파이프라인 안</strong>에서 <code>fit</code> 해야 하는 이유를 보인다.</li>
+<li>데이터 누수의 전형적 패턴을 열거하고 점검표를 만든다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>모형을 만든 데이터로 성능을 재면 항상 좋아 보인다. 모형은 <em>외운</em> 것일 수도 있기 때문이다(과적합). 그래서 <strong>보지 않은 데이터</strong>로 평가하는 분할이 필요해졌다. 그런데 분할만 하면 끝이 아니다. 전처리·변수 선택·하이퍼파라미터 조정이 <em>평가 데이터의 정보를 몰래 쓰면</em> 분할의 의미가 사라진다. 이것이 누수(leakage)다. 교차검증은 데이터가 적을 때 분할의 불안정성을 줄이려는 방법이다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>운영에서 기대할 성능을 <em>추정</em>하려면 평가가 운영과 닮아야 한다.</li>
+<li>규제·검증 환경에서는 <strong>독립 테스트(표본 외, 시점 외)</strong> 결과를 요구한다.</li>
+<li>하이퍼파라미터를 조정하는 순간, 같은 평가 데이터를 다시 쓰면 <em>조정에 쓰인 데이터</em>가 된다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>집합</th>
+<th>용도</th>
+<th>몇 번 보는가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>학습(train)</td>
+<td>모형 파라미터·전처리·비닝 학습</td>
+<td>계속</td>
+</tr>
+<tr>
+<td>검증(validation)</td>
+<td>모형 선택, 하이퍼파라미터, 조기 종료</td>
+<td>여러 번 (그래서 점점 <em>오염</em>됨)</td>
+</tr>
+<tr>
+<td>테스트(test)</td>
+<td>최종 성능 보고</td>
+<td><strong>원칙적으로 한 번</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-분할-방식">4-1. 분할 방식</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방식</th>
+<th>언제</th>
+<th>주의</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>무작위</td>
+<td>시간 의존이 없고 행이 독립</td>
+<td>신용 데이터는 시간·고객 의존이 있어 <em>낙관적</em></td>
+</tr>
+<tr>
+<td><strong>층화</strong>(stratified)</td>
+<td>부도가 드물 때</td>
+<td>분할마다 부도율이 비슷해짐</td>
+</tr>
+<tr>
+<td><strong>시간 기준</strong>(out-of-time)</td>
+<td>미래에 적용할 모형</td>
+<td>가장 현실적. 경기·정책 변화 포착</td>
+</tr>
+<tr>
+<td><strong>그룹</strong>(고객·계좌·가구)</td>
+<td>같은 고객이 여러 행</td>
+<td>같은 고객이 train 과 test 에 동시에 있으면 누수</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>핵심 원칙</strong>: 미래에 배포할 모형의 성능은 <strong>시간 기준 분할</strong>로 추정한다. 무작위 분할 성능만으로 실제 미래 성능을 보장할 수 없다.</p>
+<p><strong>이벤트 수 점검</strong>: 10,000건, 부도율 3% → 부도 300건. 5-fold CV 에서 검증 fold 당 부도 60건. 부도율 1% 면 총 100건, fold 당 20건이라 지표가 크게 흔들린다. <strong>분할 전에 분할별 이벤트 수를 계산</strong>한다.</p>
+<h3 id="4-2-교차검증cv">4-2. 교차검증(CV)</h3>
+<p>데이터를 \(K\) 조각으로 나눠 <em>돌아가며</em> 한 조각을 검증, 나머지를 학습으로 쓰고 \(K\) 개 성능의 평균과 <em>산포</em>를 본다. 장점: 적은 데이터로도 안정적 추정. 주의: 시간·그룹 구조를 무시하면 누수(→ <code>StratifiedKFold</code>, <code>GroupKFold</code>, <code>TimeSeriesSplit</code>).</p>
+<p><strong>Nested CV</strong>: 하이퍼파라미터 선택(안쪽 CV)과 성능 추정(바깥쪽 CV)을 분리한다. 안쪽 CV 점수를 최종 성능이라고 보고하면, <em>선택에 쓴</em> 데이터로 평가한 낙관적 값이다(Cawley &amp; Talbot, 2010).</p>
+<h3 id="4-3-전처리는-학습-데이터에서만-fit">4-3. 전처리는 학습 데이터에서만 <code>fit</code></h3>
+<p>스케일링·결측 대체·비닝·변수 선택은 모두 <em>데이터에서 무언가를 배우는</em> 단계다. 이 단계들이 검증/테스트 데이터를 보면 안 된다. scikit-learn <code>Pipeline</code> 은 <strong>교차검증의 각 fold 마다 학습 구간에서만 <code>fit</code></strong> 하게 해 준다.</p>
+<p><strong>고전적 실험(ESL §7.10.2).</strong> 타깃과 <em>아무 관계 없는</em> 무작위 변수 1,000개로 만든 데이터 100건이 있다. 전체 데이터로 "타깃과 가장 관련 있어 보이는" 변수 20개를 <em>먼저</em> 고른 뒤 교차검증하면 성능이 좋아 보인다. 그러나 선택을 파이프라인 안에서 하면 성능은 우연 수준으로 돌아온다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.pipeline import make_pipeline
+
+rng = np.random.default_rng(0)
+X = rng.normal(size=(100, 1000))          # 전부 무작위 잡음 변수
+y = rng.integers(0, 2, 100)               # 타깃도 무작위: 진짜 예측력은 0(AUROC≈0.5)
+cv = StratifiedKFold(5, shuffle=True, random_state=0)
+
+X_sel = SelectKBest(f_classif, k=20).fit_transform(X, y)      # ✗ 전체 데이터(타깃 포함)로 변수 선택
+leaky = cross_val_score(LogisticRegression(max_iter=1000), X_sel, y, cv=cv, scoring=&quot;roc_auc&quot;).mean()
+
+pipe = make_pipeline(SelectKBest(f_classif, k=20), LogisticRegression(max_iter=1000))
+correct = cross_val_score(pipe, X, y, cv=cv, scoring=&quot;roc_auc&quot;).mean()   # ✓ 각 fold 의 학습 구간에서만 선택
+print(round(leaky, 3), round(correct, 3))
+assert leaky &gt; 0.8 and correct &lt; 0.7 and leaky - correct &gt; 0.2
+</code></pre>
+<p>의미 없는 데이터에서 AUROC ≈ 0.94 가 나온다. 이것이 누수의 위력이다. 현실의 누수는 더 미묘해서(비닝·IV 선택·결측 대체) 같은 방식으로 <em>과대평가</em>가 슬며시 들어온다.</p>
+<h3 id="4-4-시간-기준-분할-구현">4-4. 시간 기준 분할 구현</h3>
+<pre><code class="language-python">import pandas as pd
+from creditlab.data import make_synthetic_credit_data
+
+df = make_synthetic_credit_data(n=6000, seed=3).sort_values(&quot;application_date&quot;)
+cut_dev, cut_val = df[&quot;application_date&quot;].quantile([0.6, 0.8])
+train = df[df[&quot;application_date&quot;] &lt;= cut_dev]                       # 과거 60%
+valid = df[(df[&quot;application_date&quot;] &gt; cut_dev) &amp; (df[&quot;application_date&quot;] &lt;= cut_val)]   # 다음 20%
+test = df[df[&quot;application_date&quot;] &gt; cut_val]                          # 가장 최근 20% (마지막에 한 번)
+print(len(train), len(valid), len(test))
+assert train[&quot;application_date&quot;].max() &lt;= valid[&quot;application_date&quot;].min()
+assert valid[&quot;application_date&quot;].max() &lt;= test[&quot;application_date&quot;].min()
+assert len(train) + len(valid) + len(test) == len(df)
+assert set(train[&quot;application_id&quot;]).isdisjoint(test[&quot;application_id&quot;])
+</code></pre>
+<h3 id="4-5-누수-점검표">4-5. 누수 점검표</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>패턴</th>
+<th>예</th>
+<th>방지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전체 데이터 통계 사용</td>
+<td>평균 대체·스케일링·IV 선택을 분할 전에</td>
+<td>Pipeline, 분할 <em>후</em> fit</td>
+</tr>
+<tr>
+<td>타깃 기반 변환</td>
+<td>비닝·타깃 인코딩을 전체로</td>
+<td>학습 구간에서만</td>
+</tr>
+<tr>
+<td>중복/그룹</td>
+<td>같은 고객이 양쪽에</td>
+<td>그룹 분할, 중복 제거</td>
+</tr>
+<tr>
+<td>시간</td>
+<td>미래 데이터로 학습해 과거 예측</td>
+<td>시간 기준 분할</td>
+</tr>
+<tr>
+<td>변수 자체</td>
+<td>결과 이후 정보</td>
+<td>단계 2 점검표</td>
+</tr>
+<tr>
+<td>테스트 반복 사용</td>
+<td>테스트 성능을 보고 모형 수정</td>
+<td>검증 데이터로만 조정, 테스트는 1회</td>
+</tr>
+<tr>
+<td>불균형 처리 순서</td>
+<td>오버샘플링을 분할 <em>전에</em> 하면 복제본이 양쪽에</td>
+<td>분할 <em>후</em> 학습 구간에만</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>테스트 데이터가 <strong>운영에서 만날 데이터</strong>를 대표한다.</li>
+<li>분할된 집합들이 서로 <strong>독립</strong>이다(고객·시간 누수 없음).</li>
+<li>검증 성능이 <em>선택 때문에 낙관적</em>일 수 있음을 인정하고, 최종 테스트로 확인한다.</li>
+<li>이벤트 수가 지표 추정에 충분하다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>테스트 성능이 마음에 안 들어 <em>모형을 고치고 다시 테스트</em>한다 → 테스트가 검증이 되어 낙관적.</li>
+<li>무작위 분할 성능을 운영 성능처럼 보고한다.</li>
+<li>CV 점수의 <em>평균만</em> 보고하고 산포(fold 간 차이)를 보지 않는다.</li>
+<li>시계열 구조가 있는데 <code>KFold(shuffle=True)</code> 를 쓴다.</li>
+<li>시간 분할인데 <em>가장 최근 기간</em>이 다른 경기 국면이라 성능이 다르게 나온 것을 모형 문제로만 해석한다(환경 변화일 수 있음).</li>
+<li>이벤트가 적을 때 검증 fold 를 너무 잘게 나눈다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방법</th>
+<th>장점</th>
+<th>한계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>단순 holdout</td>
+<td>간단, 빠름</td>
+<td>데이터가 적으면 불안정</td>
+</tr>
+<tr>
+<td>K-fold CV</td>
+<td>안정적</td>
+<td>계산량, 시간·그룹 구조 주의</td>
+</tr>
+<tr>
+<td>시계열 분할(rolling/expanding)</td>
+<td>시간 변화 평가</td>
+<td>초기 구간 학습 데이터가 적음</td>
+</tr>
+<tr>
+<td>부트스트랩</td>
+<td>신뢰구간</td>
+<td>의존 구조 주의</td>
+</tr>
+<tr>
+<td>외부 검증 데이터</td>
+<td>가장 신뢰</td>
+<td>확보 어려움</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li><strong>규제 로지스틱 CSS</strong>: 비닝·WOE·변수 선택까지 <em>학습 구간에서만</em> 수행하고, 같은 경계를 검증·테스트(<strong>표본 외, 시점 외</strong>)에 적용한다. 개발 문서에 분할 기간과 건수·이벤트 수를 표로 기재한다.</li>
+<li><strong>AI 모형</strong>: 하이퍼파라미터 튜닝은 검증(또는 시간 기준 CV)에서만, 최종 성능은 <em>한 번의</em> 테스트에서 보고한다. 두 모형은 <strong>동일한 분할</strong>을 쓴다.</li>
+<li>분할 규칙·시드·결과를 설정 파일로 저장해 검증팀이 <em>같은 분할을 재현</em>하게 한다.</li>
+<li>모니터링 단계(단계 15)의 "개발 vs 현재" 비교도 같은 정의를 쓴다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 결측을 전체 평균으로 대체한 뒤 train/test 로 나눴다. 문제는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>test 데이터의 값이 평균에 섞여 학습 단계에 새어 들어간다. 분할 <em>후</em> train 평균으로 대체하고 test 에는 적용만 한다.</p>
+</details>
+<p><strong>Q2.</strong> 한 고객이 여러 계좌를 가졌다. 계좌 단위로 무작위 분할하면?</p>
+<details>
+<summary>정답 보기</summary>
+<p>같은 고객의 계좌가 train 과 test 에 모두 들어가 <em>고객 특성을 외운</em> 모형이 높은 성능을 보인다(누수). <strong>고객 단위 그룹 분할</strong>을 쓴다.</p>
+</details>
+<p><strong>Q3.</strong> 5-fold CV 에서 fold 별 AUROC 가 0.62~0.78 로 크게 흔들린다. 무엇을 의심하는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>fold 당 이벤트 수가 적어 지표가 불안정하거나, fold 간 분포 차이(시간·그룹)가 있다. 이벤트 수를 확인하고 층화/그룹/시간 구조를 점검한다.</p>
+</details>
+<p><strong>Q4.</strong> 테스트에서 AUROC 가 0.01 낮아 하이퍼파라미터를 바꿨다. 올바른 행동은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>테스트는 이미 <em>보았으므로</em> 조정에 쓰면 안 된다. 조정은 검증 데이터로 하고, 테스트는 새로운(더 최근) 데이터가 생기면 다시 평가한다. 불가능하면 한계로 기록한다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터에서 (a) 전체 데이터로 IV 상위 3개 변수를 선택한 뒤 CV, (b) 학습 구간에서만 선택하는 파이프라인 CV 를 비교하고 차이를 보고하라. 시간 기준 분할 3구간의 건수와 부도 건수를 표로 쓰라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Hastie, T., Tibshirani, R., Friedman, J. <em>The Elements of Statistical Learning</em> — 7장 모형 평가·선택, §7.10.2 (잘못된 교차검증 사례).</li>
+<li>Cawley, G. &amp; Talbot, N. (2010). On over-fitting in model selection and subsequent selection bias in performance evaluation. <em>JMLR</em>, 11.</li>
+<li>Kaufman, S. et al. (2012). Leakage in data mining. <em>ACM TKDD</em>, 6(4).</li>
+<li>scikit-learn 모델 평가·교차검증 가이드: <a href="https://scikit-learn.org/stable/modules/cross_validation.html">https://scikit-learn.org/stable/modules/cross_validation.html</a></li>
+<li>확인일 2026-10-18</li>
+</ul>
+<div class="pager"><span><a href="stage_07.html">← 7. 규제형 로지스틱 CSS와 스코어카드</a></span><span><a href="stage_09.html">9. 평가 지표와 검증 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

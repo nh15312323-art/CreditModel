@@ -1,0 +1,22 @@
+# 데이터 원본/가공물 (라이선스·용량 문제로 커밋하지 않음)
+data/raw/*
+data/interim/*
+data/processed/*
+!data/**/.gitkeep
+
+# 로컬 결과물
+artifacts/*
+!artifacts/.gitkeep
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# 비밀 정보
+.env
+*.key

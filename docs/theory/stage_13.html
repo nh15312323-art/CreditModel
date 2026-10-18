@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 13. GAN과 합성데이터 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item current" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-13-gan과-합성데이터">단계 13. GAN과 합성데이터</h1>
+<blockquote>
+<p>합성데이터는 "진짜 데이터의 대용품"이 아니라 "진짜 데이터의 <em>통계적 그림자</em>"다. 그림자가 얼마나 닮았는지(충실도), 그림자로 학습해도 현실에서 통하는지(유용성), 원본 개인을 드러내지 않는지(프라이버시)를 <em>각각</em> 확인해야 한다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: 이 프로그램의 <code>creditlab.data.synthetic</code> 은 <em>규칙으로 만든 교육용 가상 데이터</em>이다. 이 단계의 합성데이터는 <em>실제 데이터를 학습해서 만든</em> 데이터를 다룬다. 둘은 다르다.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>합성데이터를 쓰는 이유(프라이버시, 희소 부도, 데이터 공유)와 한계를 설명한다.</li>
+<li>가우시안 코퓰러 방식의 합성기를 직접 구현한다.</li>
+<li>GAN(CTGAN 계열)의 구조와 표 형태 데이터에서의 어려움을 이해한다.</li>
+<li>충실도·유용성(TSTR)·프라이버시 세 축으로 합성데이터를 평가한다.</li>
+<li><strong>소수 클래스 오버샘플링의 데이터 누수</strong>를 재현해 피한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>신용 데이터는 개인정보라서 공유·외부 위탁·교육 사용이 어렵다. 부도는 드물어 학습 표본이 부족하다. 그래서 <em>원본의 통계적 성질을 유지하는 인공 데이터</em>를 만들려는 시도가 생겼다. 초기에는 SMOTE(Chawla et al., 2002) 같은 보간 기반 오버샘플링, 통계적 모형(코퓰러), 이후 GAN(Goodfellow et al., 2014)과 표 형태 전용 CTGAN(Xu et al., 2019)이 나왔다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>외부 연구자·교육·테스트 환경에 <em>실데이터 없이</em> 줄 수 있는 후보다.</li>
+<li>희소 사건의 학습 보조(단, 효과는 데이터마다 다르고 <strong>보장되지 않음</strong>).</li>
+<li>시나리오·스트레스 데이터를 만든다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방식</th>
+<th>핵심</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>단순 오버샘플링</td>
+<td>소수 클래스 행 복제</td>
+<td>정보 증가 없음, 누수 위험</td>
+</tr>
+<tr>
+<td>SMOTE</td>
+<td>이웃 사이 보간</td>
+<td>표형 혼합 변수에 약함</td>
+</tr>
+<tr>
+<td>가우시안 코퓰러</td>
+<td>주변분포 + 상관구조</td>
+<td>단순·설명 쉬움, 비선형 의존 약함</td>
+</tr>
+<tr>
+<td>CTGAN/TVAE</td>
+<td>신경망으로 결합분포 학습</td>
+<td>튜닝·평가 어려움, 프라이버시 별도 검증</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-가우시안-코퓰러-합성기-직접-구현">4-1. 가우시안 코퓰러 합성기 (직접 구현)</h3>
+<ol>
+<li>각 수치 열을 순위 → 표준정규 점수로 바꾼다.</li>
+<li>변환된 열들의 상관행렬을 추정한다.</li>
+<li>다변량 정규분포에서 표본을 뽑는다.</li>
+<li>각 열을 원래 분포의 경험적 분위수로 되돌린다.</li>
+</ol>
+<p>주변분포(각 열의 모양)와 <em>선형적</em> 상관을 보존한다.</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+from scipy.stats import norm, rankdata
+from creditlab.data import make_synthetic_credit_data
+
+def fit_copula(df):
+    &quot;&quot;&quot;수치 열 DataFrame 에서 (상관행렬, 정렬된 원자료) 를 추정.&quot;&quot;&quot;
+    z = np.column_stack([norm.ppf(rankdata(df[c]) / (len(df) + 1)) for c in df.columns])
+    return np.corrcoef(z, rowvar=False), {c: np.sort(df[c].to_numpy()) for c in df.columns}
+
+def sample_copula(corr, sorted_cols, n, seed):
+    rng = np.random.default_rng(seed)
+    z = rng.multivariate_normal(np.zeros(corr.shape[0]), corr, size=n)
+    u = norm.cdf(z)
+    out = {}
+    for j, (c, srt) in enumerate(sorted_cols.items()):
+        out[c] = np.quantile(srt, u[:, j])
+    return pd.DataFrame(out)
+
+real = make_synthetic_credit_data(n=8000, seed=51).dropna()
+cols = [&quot;age&quot;, &quot;income_10k&quot;, &quot;loan_amount_10k&quot;, &quot;employment_years&quot;, &quot;card_utilization&quot;, &quot;num_delinq_12m&quot;, &quot;inquiries_6m&quot;, &quot;default&quot;]
+real = real[cols].reset_index(drop=True)
+r_train, r_hold = real.iloc[:5000], real.iloc[5000:]
+corr, srt = fit_copula(r_train)
+synth = sample_copula(corr, srt, 5000, seed=0)
+synth[&quot;default&quot;] = (synth[&quot;default&quot;] &gt; 0.5).astype(int)      # 이진 열은 반올림해 복원(단순화)
+
+print(round(r_train[&quot;default&quot;].mean(), 3), round(synth[&quot;default&quot;].mean(), 3))
+print(r_train[[&quot;age&quot;, &quot;income_10k&quot;, &quot;card_utilization&quot;]].mean().round(2).to_dict())
+print(synth[[&quot;age&quot;, &quot;income_10k&quot;, &quot;card_utilization&quot;]].mean().round(2).to_dict())
+assert abs(r_train[&quot;age&quot;].mean() - synth[&quot;age&quot;].mean()) &lt; 1.0               # 주변분포(평균) 보존
+diff = np.abs(np.corrcoef(r_train.drop(columns=&quot;default&quot;), rowvar=False) - np.corrcoef(synth.drop(columns=&quot;default&quot;), rowvar=False)).max()
+print(&quot;상관행렬 최대 차이&quot;, round(float(diff), 3))
+assert diff &lt; 0.1
+</code></pre>
+<h3 id="4-2-충실도-닮았는가">4-2. 충실도: 닮았는가</h3>
+<ul>
+<li>열별: 평균·분위수·KS 통계량, 범주 비율</li>
+<li>열 사이: 상관행렬 차이, 목표변수와의 관계(예: 변수 구간별 부도율)</li>
+<li><strong>목표변수와의 관계가 약해지기 쉽다</strong>: 코퓰러가 비선형·상호작용을 놓치면 \(P(Y\mid X)\) 가 흐려진다.</li>
+</ul>
+<h3 id="4-3-유용성-tstr">4-3. 유용성: TSTR</h3>
+<p><strong>TSTR(Train on Synthetic, Test on Real)</strong>: 합성데이터로 모형을 학습하고 <em>진짜 보류 데이터</em>로 평가해 TRTR(진짜로 학습·진짜로 평가)과 비교한다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+feat = [c for c in cols if c != &quot;default&quot;]
+def fit_eval(train_df):
+    m = make_pipeline(StandardScaler(), LogisticRegression(C=1.0, max_iter=2000)).fit(train_df[feat], train_df[&quot;default&quot;])
+    return roc_auc_score(r_hold[&quot;default&quot;], m.predict_proba(r_hold[feat])[:, 1])
+
+trtr, tstr = fit_eval(r_train), fit_eval(synth)
+print(&quot;TRTR&quot;, round(trtr, 3), &quot;TSTR&quot;, round(tstr, 3))
+assert tstr &gt; 0.55                     # 합성데이터로도 순위 정보는 일부 전달됨
+assert tstr &lt; trtr + 0.03              # 합성이 실데이터보다 눈에 띄게 좋을 수는 없다
+</code></pre>
+<p>TSTR 이 TRTR 에 크게 못 미치면 합성기가 \(P(Y\mid X)\) 를 못 잡은 것이다.</p>
+<h3 id="4-4-프라이버시-닮음과-복제는-다르다">4-4. 프라이버시: 닮음과 복제는 다르다</h3>
+<p>합성기가 학습 행을 <strong>외워서 내보내면</strong> 개인정보가 노출된다. 가장 가까운 원본과의 거리(DCR, Distance to Closest Record)로 확인한다. 합성 행이 원본과 <em>정확히 같으면</em> 복제다.</p>
+<pre><code class="language-python">import numpy as np
+from scipy.spatial import cKDTree
+
+feat_cols = feat
+scale = r_train[feat_cols].std().replace(0, 1)
+tree = cKDTree((r_train[feat_cols] / scale).to_numpy())
+
+def dcr(df):
+    d, _ = tree.query((df[feat_cols] / scale).to_numpy(), k=1)
+    return d
+
+copula_dcr = dcr(synth)
+naive = r_train.sample(1000, random_state=0)          # '합성'이랍시고 원본 행을 그대로 재표집
+naive_dcr = dcr(naive)
+holdout_dcr = dcr(r_hold)
+print(&quot;복제기 최소거리&quot;, float(naive_dcr.min()), &quot;| 코퓰러 최소거리&quot;, round(float(copula_dcr.min()), 4),
+      &quot;| 보류데이터 중앙값&quot;, round(float(np.median(holdout_dcr)), 3))
+assert naive_dcr.max() == 0                     # 복제는 거리 0 → 즉시 탐지
+assert copula_dcr.min() &gt; 0
+</code></pre>
+<p>DCR&gt;0 이라고 안전한 것은 아니다. 희귀한 극단 행(소득이 매우 높은 사람 등)은 가까운 합성 행으로 <em>재식별될 수 있고</em>, 합성 모형이 특정 개인의 존재 여부를 드러내는지(멤버십 추론) 평가해야 한다. 형식적 보장은 <strong>차등 프라이버시</strong>(DP) 학습 같은 별도 기법이 필요하다. <strong>합성데이터 ≠ 자동 익명화.</strong></p>
+<h3 id="4-5-gan-은-어떻게-학습하나">4-5. GAN 은 어떻게 학습하나</h3>
+<pre><code class="language-python"># [설명용] 개념 의사코드 — 실제 학습은 CTGAN 등 라이브러리 사용
+# G: 잡음 z -&gt; 합성 행,  D: 행 -&gt; '진짜일 확률'
+for step in range(n_steps):
+    real_batch = sample(real_data)
+    fake_batch = G(z=random_noise())
+    # 판별자: 진짜는 1, 가짜는 0 으로 분류하도록 학습
+    loss_D = bce(D(real_batch), 1) + bce(D(fake_batch), 0)
+    # 생성자: 판별자를 속이도록 학습
+    loss_G = bce(D(fake_batch), 1)
+</code></pre>
+<p>표 형태 데이터에서의 어려움: 연속·범주 혼합, 극단 비대칭 분포(소득), 불균형 범주(부도). CTGAN 은 <em>모드 특이 정규화</em>와 <em>조건부 샘플링</em>으로 이를 다룬다. 학습이 <strong>불안정</strong>하고 모드 붕괴(일부 패턴만 생성)가 일어날 수 있어 평가가 필수다.</p>
+<h3 id="4-6-오버샘플링의-누수-가장-흔한-사고">4-6. 오버샘플링의 누수 (가장 흔한 사고)</h3>
+<p>분할 <strong>전에</strong> 소수 클래스를 복제·보간하면 같은 행의 사본이 학습과 검증에 <em>동시에</em> 들어가 성능이 거짓으로 높아진다.</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import train_test_split
+
+X, y = real[feat], real[&quot;default&quot;]
+# 올바른 방법: 먼저 분할, 학습 구간에서만 증식 (여기선 증식 없이 기준선)
+Xa, Xb, ya, yb = train_test_split(X, y, test_size=0.3, random_state=0, stratify=y)
+honest = roc_auc_score(yb, RandomForestClassifier(200, min_samples_leaf=1, random_state=0).fit(Xa, ya).predict_proba(Xb)[:, 1])
+
+# 잘못된 방법: 부도 행을 5배로 복제한 뒤 무작위 분할
+pos = real[real[&quot;default&quot;] == 1]
+dup = pd.concat([real] + [pos] * 4, ignore_index=True)
+Xc, Xd, yc, yd = train_test_split(dup[feat], dup[&quot;default&quot;], test_size=0.3, random_state=0, stratify=dup[&quot;default&quot;])
+leaky = roc_auc_score(yd, RandomForestClassifier(200, min_samples_leaf=1, random_state=0).fit(Xc, yc).predict_proba(Xd)[:, 1])
+print(&quot;정직한 AUROC&quot;, round(honest, 3), &quot;누수된 AUROC&quot;, round(leaky, 3))
+assert leaky &gt; honest + 0.1
+</code></pre>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>합성기가 학습한 분포가 <em>미래</em>에도 유효하다. 합성데이터는 <em>원본에 있는 정보만</em> 담으며 <strong>새 정보를 만들지 못한다</strong>.</li>
+<li>평가용 진짜 보류 데이터가 있다.</li>
+<li>합성 과정에서 학습 데이터의 개인이 드러나지 않는다는 <em>별도 증거</em>가 있다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>합성데이터를 "익명 데이터"로 취급한다.</li>
+<li>분할 전에 오버샘플링하거나 합성 데이터를 검증/테스트에 섞는다.</li>
+<li>합성데이터로 <em>성능을 개선했다</em>고 보고하면서 평가는 합성 포함 데이터로 한다.</li>
+<li>합성데이터에서 발견한 변수 효과를 현실의 <em>인과</em>로 해석한다.</li>
+<li>부도 레이블이 합성기에 의해 약화되었는데도 TSTR 을 확인하지 않는다.</li>
+<li>교육용 규칙 기반 가상 데이터(이 프로그램)와 학습형 합성데이터를 혼동한다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>목적</th>
+<th>합성데이터</th>
+<th>대안</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프라이버시</td>
+<td>후보(별도 검증 필요)</td>
+<td>가명처리, 접근통제, 연합학습, DP</td>
+</tr>
+<tr>
+<td>희소 부도</td>
+<td>보조 가능</td>
+<td>가중치 학습, 비용 민감 학습, 더 긴 관찰기간</td>
+</tr>
+<tr>
+<td>교육/테스트</td>
+<td>매우 적합</td>
+<td>마스킹된 샘플</td>
+</tr>
+<tr>
+<td>시나리오</td>
+<td>적합</td>
+<td>규칙 기반 시뮬레이션</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li>합성데이터는 <em>개발 보조</em>나 <em>교육·공유</em>에 한정하고, <strong>최종 모형 검증은 항상 실데이터</strong>로 한다.</li>
+<li>데이터 레지스트리에 합성 여부·생성 방법·시드·평가(충실도/TSTR/프라이버시)를 기록한다.</li>
+<li>합성기 학습에 쓴 원본 데이터의 사용 권한과 목적 제한을 확인한다(개인정보 보호 관련 법규·내부 지침).</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 합성데이터는 원본의 개인을 보호하는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>자동으로 보호하지 않는다. 복제·재식별·멤버십 추론 위험을 DCR 등으로 평가하고, 필요하면 DP 같은 형식적 기법을 쓴다.</p>
+</details>
+<p><strong>Q2.</strong> 소수 클래스를 복제한 뒤 무작위 분할했더니 AUROC 가 0.99 다. 무엇이 문제인가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>같은 행의 사본이 학습·검증에 모두 들어간 누수다. <strong>분할 후, 학습 구간에서만</strong> 증식한다.</p>
+</details>
+<p><strong>Q3.</strong> TSTR 이 TRTR 보다 크게 낮다. 의미는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>합성기가 변수와 부도 사이의 관계 \(P(Y\mid X)\) 를 충분히 보존하지 못했다는 신호다.</p>
+</details>
+<p><strong>Q4.</strong> 합성데이터가 새로운 정보를 만들어 모형 성능을 올려 줄 수 있는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>원칙적으로 원본에 없는 정보는 만들지 못한다. 정규화·증강 효과로 일부 개선될 수는 있으나 보장되지 않으며 반드시 실데이터 보류 세트로 검증한다.</p>
+</details>
+<p><strong>실습 과제</strong>: 코퓰러 합성기로 합성데이터를 만들고 충실도(평균·상관), TSTR, DCR 을 표로 보고하라. 그 뒤 일부러 원본 행을 재표집한 '나쁜 합성기'의 DCR 을 비교하고, 데이터 레지스트리 항목(<code>synthetic: true</code>, 생성법, 시드, 평가 결과)을 작성하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Goodfellow, I. et al. (2014). Generative adversarial nets. <em>NeurIPS</em>.</li>
+<li>Chawla, N. et al. (2002). SMOTE: synthetic minority over-sampling technique. <em>JAIR</em>, 16.</li>
+<li>Xu, L. et al. (2019). Modeling tabular data using conditional GAN. <em>NeurIPS</em>.</li>
+<li>Nelsen, R. <em>An Introduction to Copulas</em> (Springer, 2006).</li>
+<li>Jordon, J. et al. (2022). Synthetic data — what, why and how? (Royal Society 보고서 관련 논문).</li>
+<li>Dwork, C. &amp; Roth, A. (2014). The algorithmic foundations of differential privacy.</li>
+<li>확인일 2026-10-18 (서지 정보는 학습 시점에 원문으로 재확인할 것)</li>
+</ul>
+<div class="pager"><span><a href="stage_12.html">← 12. 튜닝·앙상블·보정</a></span><span><a href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

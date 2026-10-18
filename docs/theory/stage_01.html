@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 1. 신용평가 문제 정의와 모집단 선정 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item current" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-1-신용평가-문제-정의와-모집단-선정">단계 1. 신용평가 문제 정의와 모집단 선정</h1>
+<blockquote>
+<p>모형 개발의 첫 단계는 알고리즘이 아니라 "무엇을, 누구에 대해, 언제부터 언제까지 예측하는가"를 문서로 고정하는 일이다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: 노트북 <code>01_what_is_credit_model</code>, <code>02_rows_columns_target</code> · 템플릿 <code>docs/target_definition_template.md</code></p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>관측단위·기준시점·관측창·성과관찰창·부도 정의를 구분해 말할 수 있다.</li>
+<li>개발모집단과 적용모집단이 다를 때 생기는 <strong>선택 편향</strong>을 설명한다.</li>
+<li>제외 기준을 정하고 <strong>제외 건수를 단계별로 추적</strong>한다.</li>
+<li>표본 수와 <strong>이벤트(부도) 수</strong>가 왜 따로 중요한지 설명한다.</li>
+<li>타깃 정의서를 작성하고, 데이터 분할 <em>전에</em> 모집단 정의를 고정해야 하는 이유를 말한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>초기 대출 심사는 심사자의 경험에 의존했다. 같은 신청자도 사람마다 판단이 달랐고, 판단의 근거는 기록되지 않았다. 20세기 중반 이후 과거 대출의 <em>결과</em>(상환/연체)와 신청 시점 정보의 관계를 통계로 정리해 <strong>일관된 점수</strong>를 만들려는 시도가 상용화되었다.</p>
+<p>그런데 통계모형은 "무엇을 맞힐지"가 정해져야만 만들 수 있다. 같은 연체 데이터라도 <em>30일 연체</em>를 부도로 보는지, <em>90일 연체</em>를 부도로 보는지, <em>6개월</em>을 보는지 <em>12개월</em>을 보는지에 따라 부도율도, 변수의 중요도도, 모형도 달라진다. 은행 규제(바젤)가 <strong>부도의 참조 정의</strong>와 PD 추정 관점(통상 1년 기간)을 정리한 이유가 여기에 있다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<p>타깃 정의는 이후 모든 단계의 기준이다.</p>
+<ul>
+<li>정의가 흔들리면 <strong>개발 때와 운영 때 숫자가 맞지 않는다</strong>(예: 개발은 90일, 모니터링은 30일 기준).</li>
+<li>정의가 모호하면 검증자가 결과를 <em>재현</em>할 수 없다.</li>
+<li>모집단이 잘못되면 아무리 좋은 모형도 <strong>쓰일 곳과 다른 사람들</strong>에 대해 학습한 것이 된다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<p><strong>타깃 정의서</strong>를 쓴다. 최소한 다음 7가지를 문장이 아니라 <em>측정 가능한 규칙</em>으로 적는다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>질문</th>
+<th>예 (가상 소액신용대출)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>관측단위</td>
+<td>행 1개는 무엇인가</td>
+<td>대출 신청 1건 (고객 단위 중복 제거 후)</td>
+</tr>
+<tr>
+<td>기준시점</td>
+<td>설명변수는 어느 시점 정보인가</td>
+<td>신청일 현재</td>
+</tr>
+<tr>
+<td>관측창</td>
+<td>변수를 만드는 과거 기간</td>
+<td>신청일 이전 12개월</td>
+</tr>
+<tr>
+<td>성과관찰창</td>
+<td>부도를 관찰하는 기간</td>
+<td>대출 실행 후 12개월</td>
+</tr>
+<tr>
+<td>부도 정의</td>
+<td>무엇이 1인가</td>
+<td>성과관찰창 내 원리금 90일 이상 연체</td>
+</tr>
+<tr>
+<td>모집단·제외</td>
+<td>누구를 포함/제외하는가</td>
+<td>실행된 신규 대출, 만 19세 이상, 중복·테스트 계좌 제외</td>
+</tr>
+<tr>
+<td>출처</td>
+<td>데이터 출처·라이선스</td>
+<td>내부 DW (교육에서는 공개 데이터)</td>
+</tr>
+</tbody>
+</table></div>
+<p>시간 관계는 그림으로 그려 보면 가장 분명하다.</p>
+<pre><code>과거  ───────────── 관측창(변수 산출) ───────────┤ 기준시점(신청일) ├─────── 성과관찰창(부도 관찰) ───────▶ 미래
+      [ 신청 이전 12개월 정보 ]                       ▲                   [ 이후 12개월 동안 90일 이상 연체? ]
+                                                 이 시점에 '알 수 있는' 정보만 변수로 사용
+</code></pre>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-부도-정의와-cure재부도">4-1. 부도 정의와 cure/재부도</h3>
+<p>부도 정의는 보통 <em>연체 일수 기준</em>과 <em>상환 가능성 기준</em>으로 구성된다. 바젤 규제의 참조 정의는 90일 초과 연체 또는 채무자가 채무를 이행하지 못할 가능성이 높다고 판단되는 경우(unlikely to pay)를 포함한다. 실제 국가·은행별 적용은 해당 시점의 감독규정과 내부 방법론을 확인해야 한다.</p>
+<p>연체했다가 <em>정상으로 돌아온(cure)</em> 경우도 정의가 필요하다. 일정 기간(관찰 유예기간, probation) 정상이면 부도에서 벗어난 것으로 보고, 그 이후 다시 연체하면 <strong>재부도(re-default)</strong> 로 볼지 같은 규칙을 문서화한다. 이 규칙이 다르면 같은 포트폴리오의 부도율이 달라진다.</p>
+<h3 id="4-2-개발모집단과-적용모집단-선택-편향">4-2. 개발모집단과 적용모집단: 선택 편향</h3>
+<p>대출 모형은 흔히 <strong>승인되어 대출이 실행된 사람</strong>의 성과만 관측된다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>설명</th>
+<th>문제</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>적용모집단(through-the-door)</td>
+<td>모형을 실제로 쓸 신청자 전체</td>
+<td>거절된 사람의 부도 여부는 모름</td>
+</tr>
+<tr>
+<td>개발모집단</td>
+<td>성과가 관측된 사람</td>
+<td>과거 심사 정책이 걸러낸 사람들만 있음</td>
+</tr>
+</tbody>
+</table></div>
+<p>과거 정책이 <em>위험한 사람을 이미 많이 걸렀다면</em>, 개발 데이터에는 그런 사람이 적다. 이 데이터로 만든 모형은 위험한 구간에서 정보가 부족하다. 이를 <strong>선택 편향(selection bias)</strong> 이라 한다. 거절 고객의 성과를 추정해 보완하려는 방법을 <strong>reject inference</strong>(augmentation, parceling, fuzzy augmentation 등)라 하지만, <em>관측되지 않은 결과를 가정으로 채우는</em> 방법이라 효과는 가정에 크게 의존하고 학술적으로도 논쟁이 있다(Crook &amp; Banasik, 2004). 따라서 <strong>한계를 문서화하고 민감도를 확인</strong>하는 것이 현실적인 접근이다.</p>
+<h3 id="4-3-그-밖의-편향과-시점-문제">4-3. 그 밖의 편향과 시점 문제</h3>
+<ul>
+<li><strong>생존 편향</strong>: 오래 유지된 계좌만 남은 데이터로 학습하면 이미 부도난 계좌가 사라진 표본이 된다.</li>
+<li><strong>시점 불일치</strong>: 설명변수 일부가 기준시점 <em>이후</em>에 갱신된 값이면 미래 정보가 섞인다(단계 2의 누수).</li>
+<li><strong>중복 고객/계좌</strong>: 한 고객이 여러 행이면 같은 사람이 학습·검증에 동시에 들어갈 수 있다(단계 8의 그룹 분할).</li>
+<li><strong>표본추출</strong>: 부도가 드물면 부도 표본을 많이 뽑는 <em>층화 추출</em>을 쓸 수 있으나, 이때는 <strong>표본가중치</strong>로 실제 부도율을 복원해야 확률이 맞는다.</li>
+</ul>
+<h3 id="4-4-표본-수와-이벤트-수">4-4. 표본 수와 이벤트 수</h3>
+<p>로지스틱 회귀의 추정 정밀도는 <em>전체 건수</em>가 아니라 <em>적은 쪽 클래스의 건수</em>에 크게 좌우된다. 10만 건 중 부도가 50건이면 정보량은 사실상 50건 수준이다. "변수 하나당 이벤트 10건" 같은 경험칙이 쓰이지만, 이는 통계적 법칙이 아니며 필요한 표본 크기는 목적·모형 복잡도에 따라 달라진다(van Smeden et al., 2019). 이 프로그램은 <code>sample_sufficiency()</code> 로 <strong>경고만</strong> 한다.</p>
+<h3 id="4-5-제외-건수-추적">4-5. 제외 건수 추적</h3>
+<p>모집단을 줄여 갈 때는 <em>어떤 규칙이 몇 건을 제외했는지</em>를 순서대로 기록한다. 아래 표는 가상의 예다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>규칙</th>
+<th>제외</th>
+<th>남은 건수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>기간 내 신청 전체</td>
+<td>-</td>
+<td>10,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>중복 신청 제거</td>
+<td>200</td>
+<td>9,800</td>
+</tr>
+<tr>
+<td>2</td>
+<td>대상 아님(법인·미성년 등)</td>
+<td>100</td>
+<td>9,700</td>
+</tr>
+<tr>
+<td>3</td>
+<td>거절/미실행(성과 미관측)</td>
+<td>2,200</td>
+<td>7,500</td>
+</tr>
+</tbody>
+</table></div>
+<p>최종 개발 대상 7,500건 중 부도가 300건이면 부도율은 300 ÷ 7,500 = 4.0% 다. <strong>미실행 2,200건은 성과를 모르는 사람</strong>이므로 선택 편향의 원인이 된다는 점도 같이 기록한다.</p>
+<pre><code class="language-python">import pandas as pd
+
+def apply_exclusions(df, rules):
+    &quot;&quot;&quot;rules: [(규칙 이름, 제외 조건을 돌려주는 함수)]. 순서대로 적용하며 제외 건수를 기록한다.&quot;&quot;&quot;
+    log, current = [{&quot;step&quot;: &quot;시작&quot;, &quot;excluded&quot;: 0, &quot;remaining&quot;: len(df)}], df
+    for name, cond in rules:
+        mask = cond(current)
+        log.append({&quot;step&quot;: name, &quot;excluded&quot;: int(mask.sum()), &quot;remaining&quot;: int((~mask).sum())})
+        current = current[~mask]
+    return current, pd.DataFrame(log)
+
+apps = pd.DataFrame({
+    &quot;id&quot;: [1, 2, 2, 3, 4, 5],
+    &quot;age&quot;: [30, 17, 17, 45, 52, 38],
+    &quot;approved&quot;: [1, 1, 1, 0, 1, 1],
+})
+kept, funnel = apply_exclusions(apps, [
+    (&quot;중복 ID&quot;, lambda d: d[&quot;id&quot;].duplicated()),
+    (&quot;만 19세 미만&quot;, lambda d: d[&quot;age&quot;] &lt; 19),
+    (&quot;미승인(성과 미관측)&quot;, lambda d: d[&quot;approved&quot;] == 0),
+])
+print(funnel)
+assert funnel[&quot;remaining&quot;].tolist() == [6, 5, 4, 3]
+assert kept[&quot;id&quot;].tolist() == [1, 4, 5]
+</code></pre>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>부도 정의와 성과관찰창은 <strong>개발·검증·운영에서 같다</strong>(또는 차이가 문서화되어 있다).</li>
+<li>개발모집단은 적용모집단을 <strong>충분히 대표</strong>한다. 대표하지 못하면 그 차이를 알고 있어야 한다.</li>
+<li>설명변수는 기준시점에 <strong>실제로 이용 가능</strong>하다(데이터 지연·소급 수정 포함).</li>
+<li>관측단위의 독립성: 같은 고객의 여러 행은 독립이 아니다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>데이터를 <em>먼저 분할</em>하고 나중에 제외 기준을 바꾸면, 검증 데이터의 정의가 학습 데이터와 달라진다. <strong>모집단 정의를 먼저 고정</strong>한 뒤 분할한다.</li>
+<li>성과관찰창이 끝나지 않은 최근 신청 건을 "정상"으로 처리하면 부도율이 과소추정된다(아직 부도 날 시간이 없었을 뿐이다).</li>
+<li>부도율이 낮다고 해서 표본이 충분하다는 뜻이 아니다. 이벤트 수로 판단한다.</li>
+<li>reject inference 결과를 "거절 고객의 진짜 성과"처럼 말하지 않는다. 그것은 <em>가정의 산물</em>이다.</li>
+<li>공개 데이터의 타깃 정의(예: UCI 의 1개월 후 결제 불이행)는 은행 IRB 의 12개월 부도 정의와 다르다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>질문</th>
+<th>선택지</th>
+<th>비교</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>성과관찰창</td>
+<td>6개월 / 12개월 / 24개월</td>
+<td>짧으면 빨리 개발 가능하나 부도 건수 적고 정의가 불안정, 길면 최신성 저하</td>
+</tr>
+<tr>
+<td>부도 기준</td>
+<td>30일 / 60일 / 90일</td>
+<td>낮을수록 건수 많으나 일시 연체가 섞임</td>
+</tr>
+<tr>
+<td>단위</td>
+<td>신청 단위 / 고객 단위</td>
+<td>신청 단위는 신규 심사에, 고객 단위는 행동평점에 적합</td>
+</tr>
+<tr>
+<td>선택 편향</td>
+<td>무시 / reject inference / 일부 무작위 승인 실험</td>
+<td>비용·윤리·규제 문제가 따름</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li><strong>타깃 정의서와 모집단 규칙을 코드와 같은 저장소에 버전 관리</strong>한다.</li>
+<li>규제 로지스틱 CSS와 AI 모델은 <strong>같은 타깃·같은 모집단·같은 분할</strong>을 써야 비교가 공정하다.</li>
+<li>제외 건수 표(깔때기)를 개발 보고서에 넣는다. 검증자가 가장 먼저 보는 표 중 하나다.</li>
+<li>모형의 PD 는 "정의된 성과관찰창에서 정의된 부도가 날 확률"이다. 다른 정의로 해석하지 않는다.</li>
+<li>이 프로그램의 데이터 레지스트리(<code>config/datasets.yaml</code>)는 각 데이터셋의 타깃 정의와 한계를 기록한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 설명변수에 "신청 후 3개월째 연체 여부"가 들어 있다. 무엇이 문제인가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>기준시점(신청일) 이후 정보라서 <strong>미래 정보(누수)</strong> 이다. 학습 성능은 올라가지만 신청 시점에는 존재하지 않는 값이라 운영에서 쓸 수 없다.</p>
+</details>
+<p><strong>Q2.</strong> 최근 3개월 신청 건의 성과관찰창이 아직 끝나지 않았다. 이 건들을 정상(0)으로 두고 부도율을 계산하면?</p>
+<details>
+<summary>정답 보기</summary>
+<p>부도율이 <strong>과소추정</strong>된다. 아직 부도가 날 시간이 충분히 지나지 않은 건을 정상으로 센 것이다. 성과관찰창이 완료된 건만 개발 대상에 포함하거나, 불완전 관찰을 별도 처리한다.</p>
+</details>
+<p><strong>Q3.</strong> 거절 고객은 성과를 모른다. 이 때문에 생기는 문제와 대응 방법 두 가지를 말하라.</p>
+<details>
+<summary>정답 보기</summary>
+<p>개발 데이터가 과거 정책이 통과시킨 사람들로 치우쳐 <strong>선택 편향</strong>이 생긴다. 대응: (1) 한계를 문서화하고 모집단 차이를 점검, (2) reject inference 를 <em>가정과 민감도 분석</em>과 함께 적용하거나, 정책상 가능하다면 소규모 실험적 승인으로 정보를 얻는다.</p>
+</details>
+<p><strong>Q4.</strong> 개발대상 10,000건 중 부도 40건이다. 변수 30개를 후보로 로지스틱 모형을 만들려 한다. 가장 먼저 걱정할 것은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>이벤트 수 40건으로는 추정이 불안정하고 과적합 위험이 크다. 변수 수를 줄이거나, 강한 규제(L1/L2)를 쓰거나, 더 긴 관찰기간·pooling 등 데이터 확보를 검토한다(단계 6, 15).</p>
+</details>
+<p><strong>실습 과제</strong>: <code>docs/target_definition_template.md</code> 를 복사해 UCI 데이터와 합성 데이터에 대해 각각 타깃 정의서를 작성하라. UCI 와 은행 IRB 정의의 차이를 3가지 이상 적어라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Basel Committee on Banking Supervision, <em>International Convergence of Capital Measurement and Capital Standards: A Revised Framework</em> (2006) — 부도의 참조 정의. <a href="https://www.bis.org/bcbs/">https://www.bis.org/bcbs/</a></li>
+<li>Basel Committee on Banking Supervision, <em>Basel III: Finalising post-crisis reforms</em> (2017).</li>
+<li>Crook, J. &amp; Banasik, J. (2004). Does reject inference really improve the performance of application scoring models? <em>Journal of Banking &amp; Finance</em>, 28(4).</li>
+<li>van Smeden, M. et al. (2019). Sample size for binary logistic prediction models: Beyond events per variable criteria. <em>Statistical Methods in Medical Research</em>, 28(8).</li>
+<li>Thomas, L., Edelman, D., Crook, J. <em>Credit Scoring and Its Applications</em> (SIAM, 2002).</li>
+<li>국내 적용 시: 금융감독원 감독규정·시행세칙 현행 원문을 확인한다. <a href="https://www.fss.or.kr/">https://www.fss.or.kr/</a></li>
+<li>확인일 2026-10-18 (서지 정보는 학습 시점에 원문으로 재확인할 것)</li>
+</ul>
+<div class="pager"><span><a href="stage_00.html">← 0. Python과 데이터 분석 기초</a></span><span><a href="stage_02.html">2. 데이터 품질과 탐색적 분석 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

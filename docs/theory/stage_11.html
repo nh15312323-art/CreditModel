@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 11. 트리·부스팅·SHAP · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item current" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-11-트리부스팅shap">단계 11. 트리·부스팅·SHAP</h1>
+<blockquote>
+<p>트리는 "조건 분기"로 데이터를 쪼개고, 부스팅은 그런 작은 트리를 <em>앞선 모형의 실수를 고치는 방향</em>으로 계속 더한다. 성능은 올라가지만 설명 가능성과 안정성의 비용을 치른다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 5 노트북(예정). 이 페이지는 sklearn 만으로 실행된다. XGBoost/CatBoost 는 같은 아이디어의 구현체다.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>불순도(지니)와 분할 이득을 손으로 계산한다.</li>
+<li>단일 트리의 과적합과 배깅(랜덤포레스트)·부스팅의 차이를 설명한다.</li>
+<li>그래디언트 부스팅의 "잔차(그래디언트)를 적합하는 반복"을 구현으로 확인한다.</li>
+<li>학습률·트리 수·깊이의 상호작용과 조기 종료를 이해한다.</li>
+<li>단조성 제약이 왜 신용 모형에서 중요한지 말한다.</li>
+<li>SHAP 의 의미와 <em>인과가 아님</em>을 구분한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>로지스틱 회귀는 변수의 효과가 <em>가산적·선형적</em>이라고 가정한다. 현실에는 상호작용(소득이 낮고 <em>동시에</em> 사용률이 높을 때만 위험)과 비선형이 있다. 트리는 이를 자동으로 잡는다. 단일 트리는 불안정해서 배깅(Breiman, 2001)과 부스팅(Friedman, 2001)이 발전했고, 이후 XGBoost(2016), CatBoost(2018) 등이 정형 데이터의 표준 도구가 되었다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>비선형·상호작용을 <em>수작업 변수 설계 없이</em> 포착한다.</li>
+<li>결측과 범주형 처리가 상대적으로 쉽다.</li>
+<li>로지스틱 모형 대비 변별력 개선 여지가 있다. 단, <strong>개선폭은 데이터마다 다르며</strong> 작을 수도 있다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>모형</th>
+<th>방식</th>
+<th>성격</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>의사결정나무</td>
+<td>조건 분기로 구역 분할</td>
+<td>해석 쉬움, 불안정</td>
+</tr>
+<tr>
+<td>랜덤포레스트</td>
+<td>부트스트랩+변수 무작위 트리를 <em>독립적으로</em> 평균</td>
+<td>분산 감소</td>
+</tr>
+<tr>
+<td>그래디언트 부스팅</td>
+<td>트리를 <em>순차적으로</em> 더해 손실을 줄임</td>
+<td>편향 감소, 튜닝 민감</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-지니-불순도와-분할-이득-손계산">4-1. 지니 불순도와 분할 이득 (손계산)</h3>
+<p>노드의 부도율 \(p\) 에 대해 지니 \(G=2p(1-p)\) (이진 분류). 10건(부도 4, 정상 6)을 변수 \(x\) 로 분할한다고 하자.</p>
+<ul>
+<li>부모: \(p=0.4\), \(G=2(0.4)(0.6)=0.48\)</li>
+<li>왼쪽 노드 5건(부도 1, 정상 4): \(p=0.2\), \(G=0.32\)</li>
+<li>오른쪽 노드 5건(부도 3, 정상 2): \(p=0.6\), \(G=0.48\)</li>
+<li>자식 가중평균: \(0.5(0.32)+0.5(0.48)=0.40\)</li>
+<li><strong>분할 이득 = 0.48 − 0.40 = 0.08</strong></li>
+</ul>
+<pre><code class="language-python">def gini(bad, good):
+    n = bad + good
+    p = bad / n
+    return 2 * p * (1 - p)
+
+parent = gini(4, 6)
+left, right = gini(1, 4), gini(3, 2)
+child = (5 / 10) * left + (5 / 10) * right
+gain = parent - child
+print(round(parent, 2), round(left, 2), round(right, 2), round(child, 2), round(gain, 2))
+assert abs(parent - 0.48) &lt; 1e-12 and abs(left - 0.32) &lt; 1e-12 and abs(right - 0.48) &lt; 1e-12
+assert abs(gain - 0.08) &lt; 1e-12
+</code></pre>
+<p>트리는 모든 변수·모든 분할점 후보 중 이득이 가장 큰 곳을 고르는 일을 반복한다(탐욕적). 정지 조건(최대 깊이, 잎 최소 표본)이 없으면 학습 데이터를 완벽 암기한다.</p>
+<h3 id="4-2-단일-트리의-과적합">4-2. 단일 트리의 과적합</h3>
+<pre><code class="language-python">import numpy as np
+from sklearn.metrics import roc_auc_score
+from sklearn.tree import DecisionTreeClassifier
+from creditlab.data import make_synthetic_credit_data
+
+df = make_synthetic_credit_data(n=8000, seed=31).sort_values(&quot;application_date&quot;)
+df[&quot;housing_type&quot;] = df[&quot;housing_type&quot;].astype(&quot;category&quot;).cat.codes
+df[&quot;region&quot;] = df[&quot;region&quot;].astype(&quot;category&quot;).cat.codes
+feats = [&quot;age&quot;, &quot;income_10k&quot;, &quot;loan_amount_10k&quot;, &quot;employment_years&quot;, &quot;card_utilization&quot;,
+         &quot;num_delinq_12m&quot;, &quot;inquiries_6m&quot;, &quot;housing_type&quot;, &quot;region&quot;]
+tr, te = df.iloc[:5500], df.iloc[5500:]
+Xtr, ytr = tr[feats].fillna(-1), tr[&quot;default&quot;]
+Xte, yte = te[feats].fillna(-1), te[&quot;default&quot;]
+
+res = {}
+for depth in [3, None]:
+    m = DecisionTreeClassifier(max_depth=depth, min_samples_leaf=1 if depth is None else 50, random_state=0).fit(Xtr, ytr)
+    res[depth] = (roc_auc_score(ytr, m.predict_proba(Xtr)[:, 1]), roc_auc_score(yte, m.predict_proba(Xte)[:, 1]))
+print({k: tuple(round(x, 3) for x in v) for k, v in res.items()})
+assert res[None][0] &gt; 0.99            # 깊이 제한이 없으면 학습 데이터를 거의 암기
+assert res[None][1] &lt; res[None][0] - 0.2
+assert res[3][1] &gt; res[None][1]       # 얕은 트리가 오히려 테스트에서 낫다
+</code></pre>
+<p>학습 AUROC 와 테스트 AUROC 의 격차가 과적합의 신호다. <strong>학습 성능은 성능이 아니다.</strong></p>
+<h3 id="4-3-배깅과-부스팅">4-3. 배깅과 부스팅</h3>
+<ul>
+<li><strong>랜덤포레스트</strong>: 서로 다른 부트스트랩 표본·변수 부분집합으로 <em>깊은</em> 트리 여러 개를 독립적으로 만들고 평균 → 분산 감소.</li>
+<li><strong>그래디언트 부스팅</strong>: 현재 예측의 손실 <em>그래디언트의 반대 방향</em>을 얕은 트리로 적합해 학습률 \(\eta\) 만큼 더한다.</li>
+</ul>
+<p>\[F_m(x)=F_{m-1}(x)+\eta\,h_m(x),\qquad h_m \approx -\frac{\partial L}{\partial F}\Big|_{F_{m-1}}\]</p>
+<p>로그 손실에서 \(-\partial L/\partial F = y-p\) (잔차)이다. 아래는 이를 <em>직접 구현</em>해 sklearn 과 비슷한 성능이 나오는지 확인한다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import roc_auc_score
+from sklearn.tree import DecisionTreeRegressor
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+X, y = Xtr.to_numpy(), ytr.to_numpy().astype(float)
+F = np.full(len(y), np.log(y.mean() / (1 - y.mean())))        # 초기값: 로그 오즈
+trees, eta = [], 0.1
+for _ in range(100):
+    resid = y - sigmoid(F)                                      # 음의 그래디언트 = 잔차
+    t = DecisionTreeRegressor(max_depth=3, min_samples_leaf=50, random_state=0).fit(X, resid)
+    F += eta * t.predict(X)        # (단순화: 잎 값 뉴턴 보정 생략)
+    trees.append(t)
+
+def predict(Xn):
+    f = np.full(len(Xn), np.log(y.mean() / (1 - y.mean())))
+    for t in trees:
+        f += eta * t.predict(Xn)
+    return sigmoid(f)
+
+mine = roc_auc_score(yte, predict(Xte.to_numpy()))
+ref = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=3, min_samples_leaf=50, random_state=0).fit(Xtr, ytr)
+ref_auc = roc_auc_score(yte, ref.predict_proba(Xte)[:, 1])
+print(round(mine, 3), round(ref_auc, 3))
+assert mine &gt; 0.6 and abs(mine - ref_auc) &lt; 0.03
+</code></pre>
+<h3 id="4-4-핵심-하이퍼파라미터">4-4. 핵심 하이퍼파라미터</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>파라미터</th>
+<th>올리면</th>
+<th>위험</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>트리 수</td>
+<td>적합 증가</td>
+<td>과적합</td>
+</tr>
+<tr>
+<td>학습률</td>
+<td>빨리 학습</td>
+<td>불안정, 과적합</td>
+</tr>
+<tr>
+<td>최대 깊이</td>
+<td>상호작용 포착</td>
+<td>과적합</td>
+</tr>
+<tr>
+<td>잎 최소 표본</td>
+<td>안정</td>
+<td>과소적합</td>
+</tr>
+<tr>
+<td>서브샘플/열 샘플</td>
+<td>분산 감소</td>
+<td>약간의 편향</td>
+</tr>
+<tr>
+<td>정규화(L1/L2)</td>
+<td>과적합 억제</td>
+<td>과소적합</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>학습률은 낮추고 트리 수는 늘리는 것</strong>이 보통 안정적이다. 트리 수는 <em>검증 세트의 손실이 개선되지 않는 시점</em>(조기 종료)에서 정하되, <strong>조기 종료에 쓴 검증 세트는 최종 평가에 쓰지 않는다</strong>(단계 12).</p>
+<h3 id="4-5-단조성-제약">4-5. 단조성 제약</h3>
+<p>연체 횟수가 늘수록 위험이 <em>줄어드는</em> 구간이 모형에 생기면 심사자와 규제 당국은 수용하기 어렵다. 부스팅 라이브러리는 변수별 <strong>단조 제약</strong>(예: 연체횟수↑ → 위험 비감소)을 지원한다. 제약은 약간의 성능을 포기하는 대신 <em>설명 가능성·정책 일관성</em>을 얻는다. sklearn 의 <code>HistGradientBoostingClassifier(monotonic_cst=...)</code> 로 확인한다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.ensemble import HistGradientBoostingClassifier
+
+cst = [0] * len(feats)
+cst[feats.index(&quot;num_delinq_12m&quot;)] = 1          # 연체횟수↑ → 부도확률 비감소
+hgb = HistGradientBoostingClassifier(max_depth=4, max_iter=150, learning_rate=0.1, monotonic_cst=cst, random_state=0).fit(Xtr, ytr)
+
+grid = Xte.copy().iloc[:300]
+probs = []
+for v in range(0, 6):
+    g = grid.copy()
+    g[&quot;num_delinq_12m&quot;] = v
+    probs.append(hgb.predict_proba(g)[:, 1].mean())
+print(np.round(probs, 4))
+assert all(b &gt;= a - 1e-12 for a, b in zip(probs, probs[1:]))
+</code></pre>
+<h3 id="4-6-shap">4-6. SHAP</h3>
+<p>SHAP 은 게임이론의 Shapley 값을 이용해 각 변수가 <em>개별 예측을 기준값에서 얼마나 밀어 올리거나 내렸는지</em> 가산적으로 분해한다.</p>
+<p>\[f(x)=\phi_0+\sum_{j}\phi_j(x)\]</p>
+<p>트리 모형에는 정확·빠른 알고리즘(TreeSHAP)이 있다. <strong>그러나 SHAP 은 모형이 <em>어떻게 예측하는지</em>의 설명이지 <em>현실에서 무엇이 원인인지</em>가 아니다.</strong> 상관된 변수가 있으면 기여도가 나뉘고, 배경 데이터 선택에 따라 값이 달라진다. 규제 설명(불이익 사유 통지) 용도로는 승인된 방법론 문서가 필요하다.</p>
+<pre><code class="language-python"># [requires: shap]
+import numpy as np
+import shap
+
+explainer = shap.TreeExplainer(ref)
+sv = explainer.shap_values(Xte.iloc[:200])
+base = explainer.expected_value
+raw = ref.decision_function(Xte.iloc[:200])
+assert np.allclose(base + sv.sum(axis=1), raw, atol=1e-6)    # 가산성: 기준값 + 기여도 합 = 모형 출력(로그오즈)
+</code></pre>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>학습 데이터의 구조가 미래에도 유지된다(단계 10).</li>
+<li>트리 분할은 <em>관측된 범위 안</em>에서만 의미가 있다. 범위 밖에서는 마지막 구간의 값을 그대로 쓴다(외삽 불가).</li>
+<li>부스팅은 레이블 노이즈에 민감하다. 부도 정의가 틀리면 노이즈를 학습한다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>학습 성능이 높다고 좋은 모형이라 판단한다.</li>
+<li>테스트 세트로 파라미터를 반복 조정한다(테스트 오염).</li>
+<li>변수 중요도(gain)를 <em>인과 효과</em>로 읽는다. 상관된 변수끼리 중요도가 쪼개진다.</li>
+<li>SHAP 을 "이 변수를 바꾸면 이만큼 좋아진다"로 해석한다.</li>
+<li>시간 순서 없이 무작위 분할로 평가한다(단계 8).</li>
+<li>단조성이 필요한 변수에 제약 없이 배포한다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>규제 로지스틱 CSS</th>
+<th>랜덤포레스트</th>
+<th>그래디언트 부스팅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>해석</td>
+<td>계수·점수표로 직접</td>
+<td>중요도·부분의존</td>
+<td>SHAP 등 사후 설명</td>
+</tr>
+<tr>
+<td>비선형·상호작용</td>
+<td>수작업</td>
+<td>자동</td>
+<td>자동</td>
+</tr>
+<tr>
+<td>안정성</td>
+<td>높음</td>
+<td>중간</td>
+<td>튜닝 민감</td>
+</tr>
+<tr>
+<td>규제 수용</td>
+<td>쉬움</td>
+<td>어려움</td>
+<td>문서화 필요</td>
+</tr>
+<tr>
+<td>변별력</td>
+<td>기준선</td>
+<td>대체로 높음</td>
+<td>대체로 가장 높음(데이터 의존)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li>AI 모형은 <strong>로지스틱 CSS 의 도전자(challenger)</strong> 로 두고 같은 분할·같은 지표로 비교한다. 개선폭이 신뢰구간 안이면 복잡도를 정당화하기 어렵다.</li>
+<li>단조 제약, 변수 수 제한, 변수 사용 승인 목록으로 설명 가능성을 확보한다.</li>
+<li>모형 카드에 하이퍼파라미터, 조기 종료 방식, 시드, 라이브러리 버전을 기록한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 부모 노드 부도 5·정상 5 를 (부도 4·정상 1) / (부도 1·정상 4) 로 나눴다. 지니 이득은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>부모 \(G=2(0.5)(0.5)=0.5\). 자식 각 \(G=2(0.8)(0.2)=0.32\), 가중평균 0.32. 이득 \(=0.5-0.32=0.18\).</p>
+</details>
+<p><strong>Q2.</strong> 랜덤포레스트와 부스팅의 가장 큰 구조 차이는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>랜덤포레스트는 깊은 트리를 <em>독립적으로</em> 만들어 평균(분산 감소), 부스팅은 얕은 트리를 <em>순차적으로</em> 앞선 실수를 고치며 더한다(편향 감소).</p>
+</details>
+<p><strong>Q3.</strong> 학습 AUROC 0.99, 테스트 0.62. 무엇을 의심하나?</p>
+<details>
+<summary>정답 보기</summary>
+<p>과적합. 깊이·잎 최소 표본·트리 수·정규화를 조정하고, 데이터 누수가 없는지도 확인한다.</p>
+</details>
+<p><strong>Q4.</strong> SHAP 에서 '소득' 기여도가 +0.3 이다. 소득을 올리면 부도확률이 내려가는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>아니다. SHAP 은 <em>모형 예측의 분해</em>이며 인과 효과가 아니다. 상관 변수와 배경 데이터에 따라 달라진다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터로 로지스틱과 부스팅의 테스트 AUROC 와 부트스트랩 신뢰구간을 비교하고, 부스팅에 <code>num_delinq_12m</code> 단조 제약을 걸었을 때 성능 변화를 보고하라. 개선이 구간 안인지 판단하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Breiman, L. (2001). Random forests. <em>Machine Learning</em>, 45.</li>
+<li>Friedman, J. (2001). Greedy function approximation: a gradient boosting machine. <em>Annals of Statistics</em>, 29(5).</li>
+<li>Chen, T. &amp; Guestrin, C. (2016). XGBoost: a scalable tree boosting system. <em>KDD</em>.</li>
+<li>Prokhorenkova, L. et al. (2018). CatBoost: unbiased boosting with categorical features. <em>NeurIPS</em>.</li>
+<li>Lundberg, S. &amp; Lee, S.-I. (2017). A unified approach to interpreting model predictions. <em>NeurIPS</em>.</li>
+<li>Lundberg, S. et al. (2020). From local explanations to global understanding with explainable AI for trees. <em>Nature Machine Intelligence</em>, 2.</li>
+<li>scikit-learn 앙상블: <a href="https://scikit-learn.org/stable/modules/ensemble.html">https://scikit-learn.org/stable/modules/ensemble.html</a></li>
+<li>확인일 2026-10-18</li>
+</ul>
+<div class="pager"><span><a href="stage_10.html">← 10. PSI·안정성·드리프트</a></span><span><a href="stage_12.html">12. 튜닝·앙상블·보정 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

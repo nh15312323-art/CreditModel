@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 12. 튜닝·앙상블·보정 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item current" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-12-튜닝앙상블보정">단계 12. 튜닝·앙상블·보정</h1>
+<blockquote>
+<p>튜닝은 "검증 데이터에 맞춰 설정을 고르는 일"이므로, 그 데이터는 이미 <em>오염</em>되었다. 최종 성능은 <strong>한 번도 쓰지 않은</strong> 데이터로만 말한다. 그리고 순위가 좋은 모형도 확률이 틀리면 PD 가 아니다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 5 노트북(예정).</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>학습·검증·테스트 세트의 역할을 구분하고 <strong>테스트 오염</strong>을 설명한다.</li>
+<li>시간 순서를 지키는 교차검증(Time-series split)과 그리드/랜덤 탐색을 구현한다.</li>
+<li>앙상블(평균·스태킹)의 이점과 위험을 말한다.</li>
+<li>Platt scaling·Isotonic 보정을 적용하고 보정 전후를 비교한다.</li>
+<li>임계값(컷오프)이 <em>모형이 아니라 정책</em>임을 설명한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>모형 설정(하이퍼파라미터)을 바꿀 때마다 성능을 확인하면, 우리는 <em>확인에 쓴 데이터에 유리한 설정</em>을 고르게 된다. 이것이 선택 편향이다. 이를 막기 위해 데이터를 역할별로 나누고(학습/검증/테스트), 교차검증으로 안정적 추정을 얻는다. 부스팅·신경망은 확률을 <em>과신</em>하거나 <em>과소신</em>하는 경향이 있어 사후 보정 기법(Platt 2000, Zadrozny &amp; Elkan 2002)이 쓰인다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>튜닝 없이는 부스팅이 과적합하고, 튜닝만 하면 검증 데이터에 과적합한다.</li>
+<li>PD 는 <em>확률 값 자체</em>가 자본·충당금·가격에 쓰인다 → 보정이 필수다.</li>
+<li>컷오프는 승인율·손실률의 <em>경영 의사결정</em>이다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>사용 데이터</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>학습</td>
+<td>train</td>
+<td>모수 추정</td>
+</tr>
+<tr>
+<td>튜닝/조기종료/보정</td>
+<td>validation(또는 train 내 CV)</td>
+<td>설정 선택</td>
+</tr>
+<tr>
+<td>최종 평가</td>
+<td><strong>test (1회만)</strong></td>
+<td>성능 보고</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-시간-순서-교차검증">4-1. 시간 순서 교차검증</h3>
+<p>시계열 신용 데이터에서 미래로 과거를 예측해서는 안 된다. <code>TimeSeriesSplit</code> 은 <em>항상 과거로 학습, 직후 구간으로 검증</em>한다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.model_selection import TimeSeriesSplit
+from creditlab.data import make_synthetic_credit_data
+
+df = make_synthetic_credit_data(n=9000, seed=41).sort_values(&quot;application_date&quot;).reset_index(drop=True)
+df[&quot;housing_type&quot;] = df[&quot;housing_type&quot;].astype(&quot;category&quot;).cat.codes
+df[&quot;region&quot;] = df[&quot;region&quot;].astype(&quot;category&quot;).cat.codes
+feats = [&quot;age&quot;, &quot;income_10k&quot;, &quot;loan_amount_10k&quot;, &quot;employment_years&quot;, &quot;card_utilization&quot;,
+         &quot;num_delinq_12m&quot;, &quot;inquiries_6m&quot;, &quot;housing_type&quot;, &quot;region&quot;]
+dev, test = df.iloc[:7000], df.iloc[7000:]          # 마지막 구간은 최종 테스트로 봉인
+Xdev, ydev = dev[feats].fillna(-1), dev[&quot;default&quot;]
+Xte, yte = test[feats].fillna(-1), test[&quot;default&quot;]
+
+tscv = TimeSeriesSplit(n_splits=4)
+for tr_idx, va_idx in tscv.split(Xdev):
+    assert tr_idx.max() &lt; va_idx.min()          # 검증은 항상 학습보다 미래
+print([(len(a), len(b)) for a, b in tscv.split(Xdev)])
+</code></pre>
+<h3 id="4-2-탐색과-선택-편향">4-2. 탐색과 선택 편향</h3>
+<pre><code class="language-python">import itertools
+import numpy as np
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import roc_auc_score
+
+grid = list(itertools.product([2, 3, 5], [0.03, 0.1], [100, 300]))
+rows = []
+for depth, lr, n_iter in grid:
+    scores = []
+    for tr_idx, va_idx in tscv.split(Xdev):
+        m = HistGradientBoostingClassifier(max_depth=depth, learning_rate=lr, max_iter=n_iter,
+                                           min_samples_leaf=50, random_state=0).fit(Xdev.iloc[tr_idx], ydev.iloc[tr_idx])
+        scores.append(roc_auc_score(ydev.iloc[va_idx], m.predict_proba(Xdev.iloc[va_idx])[:, 1]))
+    rows.append(((depth, lr, n_iter), float(np.mean(scores))))
+rows.sort(key=lambda r: -r[1])
+best_params, best_cv = rows[0]
+print(best_params, round(best_cv, 4))
+
+final = HistGradientBoostingClassifier(max_depth=best_params[0], learning_rate=best_params[1], max_iter=best_params[2],
+                                       min_samples_leaf=50, random_state=0).fit(Xdev, ydev)
+test_auc = roc_auc_score(yte, final.predict_proba(Xte)[:, 1])
+print(&quot;CV 최고:&quot;, round(best_cv, 4), &quot;테스트(1회):&quot;, round(test_auc, 4))
+assert 0.5 &lt; test_auc &lt; 1
+</code></pre>
+<p>CV 최고 점수는 "여러 설정 중 최대값"이므로 <strong>낙관적</strong>이다. 테스트 점수가 보통 더 낮거나 비슷하다. 테스트를 본 뒤 설정을 다시 바꾸면 그 테스트는 더 이상 테스트가 아니다.</p>
+<h3 id="4-3-앙상블">4-3. 앙상블</h3>
+<ul>
+<li><strong>평균</strong>: 서로 다른 모형의 예측을 평균. 오류가 <em>서로 덜 상관</em>될수록 이득이 크다.</li>
+<li><strong>스태킹</strong>: 기본 모형 예측을 입력으로 메타 모형(대개 로지스틱)을 학습. <em>메타 모형은 기본 모형이 보지 않은 데이터</em>(OOF 예측)로 학습해야 누수를 막는다.</li>
+</ul>
+<p>앙상블은 변별력을 소폭 올릴 수 있으나 설명·문서화·유지 비용이 커진다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+lr_model = make_pipeline(StandardScaler(), LogisticRegression(C=1.0, max_iter=2000)).fit(Xdev, ydev)
+p_lr = lr_model.predict_proba(Xte)[:, 1]
+p_gb = final.predict_proba(Xte)[:, 1]
+from scipy.stats import rankdata
+rank_avg = (rankdata(p_lr) + rankdata(p_gb)) / 2
+print({&quot;lr&quot;: round(roc_auc_score(yte, p_lr), 4), &quot;gb&quot;: round(roc_auc_score(yte, p_gb), 4),
+       &quot;avg&quot;: round(roc_auc_score(yte, rank_avg), 4)})
+assert roc_auc_score(yte, rank_avg) &gt; min(roc_auc_score(yte, p_lr), roc_auc_score(yte, p_gb)) - 0.02
+</code></pre>
+<h3 id="4-4-보정-platt-과-isotonic">4-4. 보정: Platt 과 Isotonic</h3>
+<ul>
+<li><strong>Platt scaling</strong>: 모형 점수 \(s\) 에 대해 \(p=\sigma(a s+b)\) 를 적합. 단순·안정, 왜곡이 <em>시그모이드형</em>일 때 적합.</li>
+<li><strong>Isotonic</strong>: 단조 증가 계단함수. 유연하지만 <em>표본이 적으면 과적합</em>.</li>
+<li>보정은 <strong>보정 전용 데이터</strong>(학습에 쓰지 않은 구간)에서 적합한다.</li>
+</ul>
+<p>부도율이 전체적으로 이동했을 때(prior shift)의 <em>단순 절편 보정</em>도 있다: 로그 오즈에 상수를 더해 평균 예측을 목표 부도율에 맞춘다.</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.calibration import calibration_curve
+from sklearn.isotonic import IsotonicRegression
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import brier_score_loss
+
+# 보정 전용 구간: 개발 데이터의 마지막 1500건을 따로 떼고, 모형은 그 앞에서만 학습
+fit_part, cal_part = dev.iloc[:5500], dev.iloc[5500:]
+base = HistGradientBoostingClassifier(max_depth=5, learning_rate=0.1, max_iter=400, min_samples_leaf=20, random_state=0)
+base.fit(fit_part[feats].fillna(-1), fit_part[&quot;default&quot;])           # 과적합하기 쉬운 설정(과신 유도)
+s_cal = base.predict_proba(cal_part[feats].fillna(-1))[:, 1]
+s_te = base.predict_proba(Xte)[:, 1]
+
+logit = lambda p: np.log(np.clip(p, 1e-6, 1 - 1e-6) / (1 - np.clip(p, 1e-6, 1 - 1e-6)))
+platt = LogisticRegression(C=np.inf, max_iter=1000).fit(logit(s_cal).reshape(-1, 1), cal_part[&quot;default&quot;])
+p_platt = platt.predict_proba(logit(s_te).reshape(-1, 1))[:, 1]
+iso = IsotonicRegression(out_of_bounds=&quot;clip&quot;, y_min=0, y_max=1).fit(s_cal, cal_part[&quot;default&quot;])
+p_iso = iso.predict(s_te)
+
+for name, p in [(&quot;보정 전&quot;, s_te), (&quot;Platt&quot;, p_platt), (&quot;Isotonic&quot;, p_iso)]:
+    print(name, &quot;Brier&quot;, round(brier_score_loss(yte, p), 5), &quot;AUROC&quot;, round(roc_auc_score(yte, p), 4))
+assert brier_score_loss(yte, p_platt) &lt;= brier_score_loss(yte, s_te) + 1e-9    # 과신 모형은 보정 후 Brier 가 낮아진다
+assert abs(roc_auc_score(yte, p_platt) - roc_auc_score(yte, s_te)) &lt; 1e-9      # 단조 변환: 순위 불변
+</code></pre>
+<p>Platt 은 단조 변환이므로 <strong>AUROC 가 변하지 않는다</strong>. 보정은 확률의 <em>값</em>만 고친다. Isotonic 은 동점(계단)을 만들어 AUROC 가 약간 변할 수 있다.</p>
+<h3 id="4-5-임계값은-정책이다">4-5. 임계값은 정책이다</h3>
+<p>승인 컷오프 \(t\) 에서 기대 손익은 대략</p>
+<p>\[\text{기대이익}(t)=\sum_{i:\,p_i&lt;t}\big[(1-p_i)\,m-p_i\,L\big]\]</p>
+<p>(\(m\) = 정상 고객의 건당 마진, \(L\) = 부도 시 손실). <em>마진과 손실은 사업이 정한다.</em> 같은 모형도 마진·손실 가정이 바뀌면 최적 컷오프가 바뀐다.</p>
+<pre><code class="language-python">import numpy as np
+
+m_gain, loss = 1.0, 8.0            # 가정: 정상 1단위 이익, 부도 8단위 손실
+p = p_platt
+order = np.sort(p)
+profits = []
+cands = np.quantile(p, np.linspace(0.3, 1.0, 36))
+for t in cands:
+    approve = p &lt; t
+    profits.append(((1 - p[approve]) * m_gain - p[approve] * loss).sum())
+best_t = cands[int(np.argmax(profits))]
+print(&quot;최적 컷오프(확률)&quot;, round(float(best_t), 4), &quot;승인율&quot;, round(float((p &lt; best_t).mean()), 3))
+# 기대이익이 양수인 고객(1-p)m - pL &gt; 0  ⇔  p &lt; m/(m+L) 만 승인하는 것이 이론적 최적
+theory = m_gain / (m_gain + loss)
+print(&quot;이론 컷오프 m/(m+L) =&quot;, round(theory, 4))
+assert abs(theory - 1 / 9) &lt; 1e-12
+</code></pre>
+<p>보정된 확률에서 이론 최적 컷오프는 \(p&lt;m/(m+L)\) 이다. 이 공식은 <strong>확률이 잘 보정되어 있을 때만</strong> 성립하므로 보정이 정책의 전제다.</p>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>검증·테스트 구간이 운영 데이터를 대표한다.</li>
+<li>보정 데이터와 운영 데이터의 부도율 관계가 같다.</li>
+<li>마진·손실 가정이 고정이다(실제로는 경기·상품에 따라 바뀐다).</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>테스트 세트를 보고 설정을 바꾼 뒤 같은 테스트로 다시 보고한다.</li>
+<li>보정 데이터를 학습에도 쓴다.</li>
+<li>시간 순서 없는 CV 로 튜닝한다.</li>
+<li>앙상블 스태킹에서 기본 모형의 <em>학습 예측</em>으로 메타 모형을 학습한다(누수).</li>
+<li>보정 후 AUROC 가 <em>오른다</em>고 기대한다(Platt 은 불변).</li>
+<li>부도가 적은 구간에 Isotonic 을 적용한다(과적합).</li>
+<li>컷오프를 모형 성능의 일부로 최적화한다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방법</th>
+<th>장점</th>
+<th>약점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>그리드 탐색</td>
+<td>단순·재현</td>
+<td>차원 폭발</td>
+</tr>
+<tr>
+<td>랜덤 탐색</td>
+<td>효율적(Bergstra &amp; Bengio, 2012)</td>
+<td>재현엔 시드 필요</td>
+</tr>
+<tr>
+<td>베이지안 최적화</td>
+<td>호출 수 절감</td>
+<td>복잡</td>
+</tr>
+<tr>
+<td>Platt</td>
+<td>안정</td>
+<td>모양 가정</td>
+</tr>
+<tr>
+<td>Isotonic</td>
+<td>유연</td>
+<td>표본 많이 필요</td>
+</tr>
+<tr>
+<td>등급별 재보정</td>
+<td>규제 관행(등급 PD)</td>
+<td>계단형</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li>개발 시 <em>train / validation(튜닝·보정) / OOT(최종 시점 외 테스트)</em> 로 구분하고, 최종 테스트는 모형 확정 <em>후</em> 한 번만 사용한다.</li>
+<li>로지스틱 CSS 는 등급별 PD 를 <em>보정 구간 부도율</em>로 재산출하고, AI 모형은 확률 보정 후 같은 등급 구조로 비교한다.</li>
+<li>컷오프·승인율은 리스크·영업 정책 승인 절차와 함께 문서화한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 튜닝에 쓴 검증 세트의 AUROC 를 최종 성능으로 보고해도 되는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>안 된다. 여러 설정 중 <em>최대</em>를 골랐으므로 낙관적이다. 봉인된 테스트로 한 번만 평가한다.</p>
+</details>
+<p><strong>Q2.</strong> Platt scaling 후 AUROC 는 오르는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>아니다. 점수의 <em>단조 변환</em>이라 순위가 같아 AUROC 는 불변이다. Brier/log loss/보정곡선이 개선된다.</p>
+</details>
+<p><strong>Q3.</strong> \(m=1\), \(L=9\) 일 때 이론 컷오프는?</p>
+<details>
+<summary>정답 보기</summary>
+<p>\(m/(m+L)=1/10=0.1\). PD 0.1 미만만 승인. 단, 확률이 잘 보정되어 있어야 한다.</p>
+</details>
+<p><strong>Q4.</strong> 스태킹 메타 모형을 기본 모형의 <em>학습 데이터 예측</em>으로 학습하면?</p>
+<details>
+<summary>정답 보기</summary>
+<p>기본 모형이 이미 본 데이터이므로 예측이 과도하게 좋아 메타 모형이 과신한다(누수). OOF(폴드 밖) 예측을 쓴다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터에서 시간 순서 CV 로 부스팅을 튜닝하고, 보정 전용 구간으로 Platt 과 Isotonic 을 비교하라. 보정곡선과 Brier 를 표로 제시하고, 마진·손실 가정 2가지에서 최적 컷오프가 어떻게 달라지는지 보고하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Platt, J. (2000). Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods.</li>
+<li>Zadrozny, B. &amp; Elkan, C. (2002). Transforming classifier scores into accurate multiclass probability estimates. <em>KDD</em>.</li>
+<li>Niculescu-Mizil, A. &amp; Caruana, R. (2005). Predicting good probabilities with supervised learning. <em>ICML</em>.</li>
+<li>Guo, C. et al. (2017). On calibration of modern neural networks. <em>ICML</em>.</li>
+<li>Bergstra, J. &amp; Bengio, Y. (2012). Random search for hyper-parameter optimization. <em>JMLR</em>, 13.</li>
+<li>Elkan, C. (2001). The foundations of cost-sensitive learning. <em>IJCAI</em>.</li>
+<li>scikit-learn 보정: <a href="https://scikit-learn.org/stable/modules/calibration.html">https://scikit-learn.org/stable/modules/calibration.html</a></li>
+<li>확인일 2026-10-18</li>
+</ul>
+<div class="pager"><span><a href="stage_11.html">← 11. 트리·부스팅·SHAP</a></span><span><a href="stage_13.html">13. GAN과 합성데이터 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

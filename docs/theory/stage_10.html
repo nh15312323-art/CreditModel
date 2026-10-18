@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 10. PSI·안정성·드리프트 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item current" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-10-psi안정성드리프트">단계 10. PSI·안정성·드리프트</h1>
+<blockquote>
+<p>모형은 "개발 때 본 세상"에서 만들어졌다. 세상이 변하면 입력 분포도, 변수와 부도의 관계도 변한다. PSI 는 <em>분포가 얼마나 달라졌는가</em>를 재는 첫 번째 경보기일 뿐, 모형이 틀렸다는 증명이 아니다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 4 노트북(예정) · 이 페이지의 PSI 코드와 시뮬레이션을 먼저 실행해 보자.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>PSI 를 정의하고 구간별로 손계산한다.</li>
+<li>기준기간·비교기간·<strong>고정된 bin 경계</strong>의 중요성을 설명한다.</li>
+<li>0 빈도 처리와 표본 수가 PSI 에 미치는 영향을 안다.</li>
+<li><strong>데이터 분포 변화(covariate shift)</strong> 와 <strong>관계 변화(concept drift)</strong> 를 구분한다.</li>
+<li>변수별 PSI, 점수 PSI, 등급 구성비, 부도율 모니터링을 설계한다.</li>
+<li>PSI 임계값이 관행적 경보 기준임을 이해한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>대출 모형은 몇 년씩 쓰인다. 그 사이 고객 구성이 바뀌고(신규 채널, 상품 변화), 경기가 변하고, 데이터 입력 방식이 바뀐다. 성능을 직접 보려면 부도 결과가 나올 때까지 <em>수개월~1년</em> 기다려야 한다. 그래서 <strong>결과를 기다리지 않고</strong> 입력·점수 분포의 변화를 먼저 감지하는 지표로 PSI(Population Stability Index)가 쓰이게 되었다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>입력 분포가 크게 변하면 모형이 <em>본 적 없는 영역</em>에서 쓰이는 것이므로 성능이 떨어질 수 있다.</li>
+<li>성능 지표(AUROC, 부도율)는 <strong>지연</strong>된다. PSI 는 <em>즉시</em> 계산된다.</li>
+<li>시스템 오류(항목 누락, 단위 변경, 결측 급증)를 조기에 발견한다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<p>기준(expected, 보통 개발 표본) 분포와 비교(actual, 현재 표본) 분포를 <strong>같은 구간(bin)</strong> 으로 나누어 비교한다.</p>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-정의">4-1. 정의</h3>
+<p>구간 \(i\) 의 기준 비율 \(e_i\), 비교 비율 \(a_i\) 일 때</p>
+<p>\[\mathrm{PSI}=\sum_{i=1}^{k}(a_i-e_i)\,\ln\frac{a_i}{e_i}\]</p>
+<p>각 항은 항상 0 이상이고, 분포가 같으면 0 이다. PSI 는 두 방향 KL 발산의 합이다: \(\mathrm{PSI}=D_{KL}(a\|e)+D_{KL}(e\|a)\) (대칭).</p>
+<p><strong>손계산 예제.</strong> 5개 구간.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>구간</th>
+<th>기준 \(e_i\)</th>
+<th>현재 \(a_i\)</th>
+<th>\((a_i-e_i)\ln(a_i/e_i)\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.10</td>
+<td>0.08</td>
+<td>0.0045</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.20</td>
+<td>0.17</td>
+<td>0.0049</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.40</td>
+<td>0.38</td>
+<td>0.0010</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.20</td>
+<td>0.24</td>
+<td>0.0073</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.10</td>
+<td>0.13</td>
+<td>0.0079</td>
+</tr>
+<tr>
+<td>합</td>
+<td></td>
+<td></td>
+<td><strong>0.0255</strong> (반올림 합 0.0256)</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code class="language-python">import numpy as np
+
+e = np.array([0.10, 0.20, 0.40, 0.20, 0.10])
+a = np.array([0.08, 0.17, 0.38, 0.24, 0.13])
+terms = (a - e) * np.log(a / e)
+psi = terms.sum()
+kl = lambda p, q: (p * np.log(p / q)).sum()
+print(np.round(terms, 4), round(psi, 4))
+assert np.allclose(np.round(terms, 4), [0.0045, 0.0049, 0.0010, 0.0073, 0.0079])
+assert abs(psi - 0.0255) &lt; 5e-5
+assert abs(psi - (kl(a, e) + kl(e, a))) &lt; 1e-12        # 대칭 KL 의 합
+</code></pre>
+<h3 id="4-2-해석-기준은-관행이다">4-2. 해석 기준은 관행이다</h3>
+<p>실무에서는 PSI &lt; 0.10 이면 안정, 0.10~0.25 면 주의(조사), 0.25 초과면 큰 변화로 보는 <em>경보 기준</em>이 널리 쓰인다. 이는 통계 법칙이 아니라 <strong>업계 관행</strong>이고, 구간 수·표본 크기·변수 성격에 따라 적절한 값이 달라진다. 기준은 조직이 정하고 <em>문서화</em>한다.</p>
+<h3 id="4-3-bin-경계는-기준기간에서-한-번-정해-고정">4-3. bin 경계는 기준기간에서 한 번 정해 고정</h3>
+<ul>
+<li>구간은 <strong>기준기간(개발 표본)</strong> 에서 분위수(예: 10분위)나 비닝 구간으로 만들고, <strong>현재 표본에도 같은 경계</strong>를 적용한다. 현재 표본으로 경계를 다시 만들면 <em>항상 비슷한 분포</em>로 보여 변화가 사라진다.</li>
+<li>경계 양끝은 열어 둔다(−∞, +∞) 그래야 새로운 극단값도 들어간다.</li>
+<li>범주형 변수는 범주별 비율을 쓰고, 새 범주는 별도 구간으로 둔다. 결측도 별도 구간.</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+from creditlab.data import make_synthetic_credit_data
+
+def psi_from_samples(expected, actual, bins=10, eps=1e-4):
+    &quot;&quot;&quot;기준(expected) 분위수 경계를 고정해 actual 에 적용한 PSI. 0 비율은 eps 로 바닥을 둔다.&quot;&quot;&quot;
+    edges = np.unique(np.quantile(expected, np.linspace(0, 1, bins + 1)))
+    edges[0], edges[-1] = -np.inf, np.inf
+    e = pd.cut(pd.Series(expected), edges).value_counts(sort=False).to_numpy() / len(expected)
+    a = pd.cut(pd.Series(actual), edges).value_counts(sort=False).to_numpy() / len(actual)
+    e, a = np.clip(e, eps, None), np.clip(a, eps, None)
+    return float(((a - e) * np.log(a / e)).sum())
+
+df = make_synthetic_credit_data(n=8000, seed=21).sort_values(&quot;application_date&quot;)
+dev, now = df.iloc[:4000], df.iloc[4000:]
+print(&quot;같은 분포의 두 시점:&quot;, round(psi_from_samples(dev[&quot;card_utilization&quot;], now[&quot;card_utilization&quot;]), 4))
+
+shifted = now[&quot;card_utilization&quot;] + 0.15                      # 사용률이 전반적으로 0.15 올랐다고 가정(분포 이동 주입)
+psi_shift = psi_from_samples(dev[&quot;card_utilization&quot;], shifted)
+print(&quot;분포 이동 주입 후:&quot;, round(psi_shift, 4))
+assert psi_from_samples(dev[&quot;card_utilization&quot;], now[&quot;card_utilization&quot;]) &lt; 0.05
+assert psi_shift &gt; 0.25
+</code></pre>
+<h3 id="4-4-0-빈도와-표본-수">4-4. 0 빈도와 표본 수</h3>
+<ul>
+<li>비교기간에 어떤 구간이 비면 \(\ln(0)\) 때문에 PSI 가 무한대가 된다 → <strong>작은 값(eps)으로 바닥</strong>을 두거나 인접 구간과 합친다. eps 선택에 따라 값이 크게 달라질 수 있으므로 <em>방법을 문서화</em>한다.</li>
+<li><strong>표본이 작으면 PSI 는 우연만으로도 커진다.</strong> 분포 변화가 전혀 없어도 기대 PSI 는 대략 \((k-1)\,(1/n_e+1/n_a)\) 이다. \(k=10\), \(n_e=n_a=1{,}000\) 이면 약 0.018. 표본이 작은 월별 모니터링에서는 <em>임계값을 표본 수에 맞게 해석</em>한다.</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(5)
+k, n = 10, 1000
+vals = []
+for _ in range(400):
+    exp = rng.normal(size=n)
+    act = rng.normal(size=n)                     # 같은 분포에서 뽑은 두 표본: 진짜 변화는 0
+    vals.append(psi_from_samples(exp, act, bins=k))
+print(round(float(np.mean(vals)), 4), &quot;이론 근사:&quot;, (k - 1) * (2 / n))
+assert 0.010 &lt; np.mean(vals) &lt; 0.030
+</code></pre>
+<h3 id="4-5-분포-변화-vs-관계-변화">4-5. 분포 변화 vs 관계 변화</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>변화</th>
+<th>의미</th>
+<th>PSI 로 보이나</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>공변량 이동</strong>(covariate shift)</td>
+<td>입력 \(X\) 의 분포가 변함, \(P(Y\mid X)\) 는 그대로</td>
+<td>보임</td>
+<td>신규 채널로 젊은 고객 증가</td>
+</tr>
+<tr>
+<td><strong>개념 변화</strong>(concept drift)</td>
+<td>\(X\) 와 \(Y\) 의 <em>관계</em>가 변함</td>
+<td><strong>안 보일 수 있음</strong></td>
+<td>경기 침체로 같은 소득도 위험해짐</td>
+</tr>
+<tr>
+<td><strong>사전확률 변화</strong>(prior shift)</td>
+<td>부도율 자체가 변함</td>
+<td>입력엔 안 보임</td>
+<td>전반적 부도율 상승</td>
+</tr>
+</tbody>
+</table></div>
+<p>PSI 가 작아도 관계가 변했을 수 있고, PSI 가 커도 모형이 여전히 잘 작동할 수 있다. 그래서 <em>성능 지표(AUROC/KS)·보정·등급별 부도율</em>을 같이 본다. <strong>PSI 하나만으로 모형 안정성을 판정할 수 없다.</strong></p>
+<h3 id="4-6-모니터링-설계">4-6. 모니터링 설계</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>대상</th>
+<th>지표</th>
+<th>주기</th>
+<th>경보 후 조치</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>변수 분포</td>
+<td>변수별 PSI(CSI 라고도 함)</td>
+<td>월/분기</td>
+<td>원인 조사(데이터 오류? 모집단 변화?)</td>
+</tr>
+<tr>
+<td>점수 분포</td>
+<td>점수 PSI, 등급 구성비</td>
+<td>월</td>
+<td>정책·한도 영향 검토</td>
+</tr>
+<tr>
+<td>변별력</td>
+<td>AUROC/KS(성과 관찰 후)</td>
+<td>분기/반기</td>
+<td>재개발 검토</td>
+</tr>
+<tr>
+<td>보정</td>
+<td>등급별 예측 PD vs 실제 부도율</td>
+<td>분기/반기</td>
+<td>재보정 검토(단계 12, 15)</td>
+</tr>
+<tr>
+<td>데이터 품질</td>
+<td>결측률, 범위 오류</td>
+<td>매 배치</td>
+<td>시스템 점검</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>경보 → 조사 → 조치 → 재검토</em>의 책임과 기한을 사전에 정해 둔다.</p>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>기준기간이 <strong>정상 상태</strong>를 대표한다(기준 자체가 이상하면 비교가 무의미).</li>
+<li>구간 경계와 정의가 시간에 걸쳐 <strong>동일</strong>하다.</li>
+<li>변화의 방향·크기는 <em>표본 변동</em>보다 충분히 크다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>현재 표본으로 구간을 다시 만들어 PSI 를 계산한다.</li>
+<li>0.1/0.25 를 <em>법칙</em>으로 여기고 표본 수·구간 수를 무시한다.</li>
+<li>PSI 가 작으니 "모형 안정"이라고 결론낸다(관계 변화 미탐지).</li>
+<li>PSI 가 크니 즉시 재개발한다(원인이 데이터 오류일 수 있음).</li>
+<li>월별 소표본 PSI 의 변동을 추세로 해석한다.</li>
+<li>구간 수가 다른 PSI 를 직접 비교한다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>지표</th>
+<th>특징</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PSI</td>
+<td>구간 기반, 해석 관행 확립</td>
+<td>구간 선택에 민감</td>
+</tr>
+<tr>
+<td>KS 두 표본 검정</td>
+<td>연속형 분포 차이 검정</td>
+<td>큰 표본에서 사소한 차이도 유의</td>
+</tr>
+<tr>
+<td>Wasserstein 거리</td>
+<td>이동량 해석</td>
+<td>신용 실무에선 덜 쓰임</td>
+</tr>
+<tr>
+<td>평균·분산 이동</td>
+<td>단순</td>
+<td>분포 모양 변화 놓침</td>
+</tr>
+<tr>
+<td>모형 기반 탐지(분류기로 두 기간 구분)</td>
+<td>다변량 변화 탐지</td>
+<td>해석 복잡</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li><strong>규제 로지스틱 CSS</strong>: 개발 시 <em>점수 분포·등급 구성·변수 구간 분포</em>를 기준으로 저장하고, 운영에서 같은 구간으로 PSI 를 계산한다. 보고서에 기준기간·구간·임계값·경보 절차를 넣는다.</li>
+<li><strong>AI 모형</strong>: 입력 변수가 많아 변수별 PSI 와 <em>점수 PSI</em> 를 중심으로 보고, 중요 변수(예: SHAP 상위)를 우선 모니터링한다. 변수 사이의 관계 변화는 성능·보정 지표로 확인한다.</li>
+<li>모니터링 결과는 <em>경보 이력</em>으로 남기고, 임계값 초과 시 조치(조사→재보정/재개발)와 승인 절차를 정의한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> 기준 분포와 현재 분포가 완전히 같으면 PSI 는?</p>
+<details>
+<summary>정답 보기</summary>
+<ol start="0">
+<li>모든 \(a_i=e_i\) 이면 각 항이 0.</li>
+</ol>
+</details>
+<p><strong>Q2.</strong> 현재 표본으로 분위수 구간을 새로 만들어 PSI 를 계산했더니 항상 거의 0 이다. 왜?</p>
+<details>
+<summary>정답 보기</summary>
+<p>구간을 현재 분포에 맞춰 다시 만들면 각 구간의 비율이 항상 비슷해져 변화가 지워진다. <strong>기준기간 경계를 고정</strong>해야 한다.</p>
+</details>
+<p><strong>Q3.</strong> 변수별 PSI 는 모두 0.03 인데 부도율이 급등했다. 가능한 설명은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>입력 분포는 그대로지만 <strong>관계가 변했거나(concept drift)</strong> 부도율 자체가 변했을 수 있다(경기 변화 등). PSI 만으론 알 수 없으므로 성능·보정·등급별 부도율을 본다.</p>
+</details>
+<p><strong>Q4.</strong> 월 표본이 300건이다. PSI 0.08 은 변화인가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>소표본에서는 우연만으로 PSI 가 커질 수 있다(\(k=10\), \(n=300\) 이면 기대값 약 0.06). 0.08 만으로 결론내리지 않고 추세·다른 지표와 함께 본다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터에서 신청일 기준 앞 절반을 기준기간, 뒤 절반을 현재로 하여 5개 변수의 PSI 를 구하고, 한 변수에 <em>인위적 분포 이동</em>을 주입해 PSI 와 AUROC 의 변화를 비교하라. PSI 가 큰데 AUROC 가 거의 같을 수 있는 이유와 그 반대의 경우를 각각 설명하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Siddiqi, N. <em>Credit Risk Scorecards</em> (Wiley, 2006) — PSI/CSI 모니터링 관행.</li>
+<li>Yurdakul, B. (2018). <em>Statistical Properties of Population Stability Index</em> (Western Michigan Univ. 박사논문) — PSI 의 통계적 성질.</li>
+<li>Quiñonero-Candela, J. et al. <em>Dataset Shift in Machine Learning</em> (MIT Press, 2009) — 공변량 이동·사전확률 이동.</li>
+<li>Basel Committee on Banking Supervision, <em>Studies on the Validation of Internal Rating Systems</em>, Working Paper No. 14 (2005).</li>
+<li>확인일 2026-10-18 (서지 정보는 학습 시점에 원문으로 재확인할 것)</li>
+</ul>
+<div class="pager"><span><a href="stage_09.html">← 9. 평가 지표와 검증</a></span><span><a href="stage_11.html">11. 트리·부스팅·SHAP →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

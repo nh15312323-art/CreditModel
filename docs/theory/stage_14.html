@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 14. 가설검정·p-value·DeLong·다중검정 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item current" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-14-가설검정p-valuedelong다중검정">단계 14. 가설검정·p-value·DeLong·다중검정</h1>
+<blockquote>
+<p>"AUROC 가 0.003 올랐다"는 것만으로는 개선이 아니다. 그 차이가 <em>표본이 달라져도 반복될 변동</em>보다 큰지를 따져야 한다. 검정은 그 질문에 답하는 도구이고, p-value 는 흔히 오해된다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 6 노트북(예정). 이 페이지의 코드만으로 DeLong 검정을 직접 구현한다.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>귀무가설·유의수준·p-value 의 정의와 <em>p-value 가 아닌 것</em>을 말한다.</li>
+<li>순열검정으로 p-value 를 직접 계산하고 t-검정과 비교한다.</li>
+<li>같은 데이터로 평가한 두 모형의 AUROC 를 DeLong 검정으로 비교한다.</li>
+<li>다중검정 문제와 Bonferroni·BH(FDR) 보정을 계산한다.</li>
+<li>통계적 유의성과 <em>실무적 유의성</em>을 구분한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>표본은 우연히 흔들린다. 그 흔들림 안의 차이를 "개선"이라 부르면 우연을 성과로 착각한다. Fisher 와 Neyman–Pearson 이 가설검정 틀을 만들었고, 신용 분야에서는 <em>같은 고객으로 평가한 두 모형의 AUROC 비교</em>가 상관되어 있다는 점을 반영한 DeLong 검정(DeLong et al., 1988)이 표준 도구가 되었다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li>모형 교체는 비용이 크다. 우연한 개선에 근거해 교체하면 안 된다.</li>
+<li>변수·모형·하이퍼파라미터를 많이 시도할수록 <em>우연히 좋아 보이는 것</em>이 반드시 나온다.</li>
+<li>결과를 신뢰구간·효과 크기와 함께 보고해야 의사결정이 가능하다.</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>질문</th>
+<th>도구</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>두 집단 평균이 다른가?</td>
+<td>t-검정, 순열검정</td>
+</tr>
+<tr>
+<td>두 모형 AUROC 가 다른가(같은 표본)?</td>
+<td>DeLong</td>
+</tr>
+<tr>
+<td>여러 개를 동시에 검정했을 때</td>
+<td>Bonferroni, Holm, BH</td>
+</tr>
+<tr>
+<td>차이가 얼마나 큰가?</td>
+<td>신뢰구간, 효과 크기</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-가설검정의-구조">4-1. 가설검정의 구조</h3>
+<ol>
+<li>귀무가설 \(H_0\): "차이가 없다"를 가정.</li>
+<li>검정통계량 계산.</li>
+<li><strong>p-value</strong> = \(H_0\) 가 참이라고 <em>가정할 때</em> 관측값만큼 또는 더 극단적인 결과가 나올 확률.</li>
+<li>\(p&lt;\alpha\)(관행 0.05)이면 \(H_0\) 를 기각.</li>
+</ol>
+<p><strong>p-value 는 "귀무가설이 참일 확률"이 아니다.</strong> 효과의 크기도, 효과가 <em>중요한지</em>도 알려 주지 않는다. 표본이 매우 크면 사소한 차이도 유의해진다. p&gt;0.05 는 "차이가 없다"의 증명이 아니라 "차이를 <em>못 찾았다</em>"이다.</p>
+<h3 id="4-2-순열검정으로-p-value-직접-만들기">4-2. 순열검정으로 p-value 직접 만들기</h3>
+<p>\(H_0\) 가 참이면 집단 라벨은 교환 가능하다. 라벨을 무작위로 섞어 통계량의 분포를 만들고, 관측값이 그 분포에서 얼마나 극단인지 본다.</p>
+<pre><code class="language-python">import numpy as np
+from scipy import stats
+
+rng = np.random.default_rng(0)
+a = rng.normal(0.0, 1.0, 60)
+b = rng.normal(0.5, 1.0, 60)            # 진짜 평균 차이 0.5
+
+obs = b.mean() - a.mean()
+pooled = np.concatenate([a, b])
+perm = np.empty(5000)
+for i in range(5000):
+    rng.shuffle(pooled)
+    perm[i] = pooled[60:].mean() - pooled[:60].mean()
+p_perm = (np.abs(perm) &gt;= abs(obs)).mean()
+p_t = stats.ttest_ind(b, a, equal_var=False).pvalue
+print(round(obs, 3), &quot;순열 p =&quot;, round(p_perm, 4), &quot;Welch t p =&quot;, round(p_t, 4))
+assert abs(p_perm - p_t) &lt; 0.05
+</code></pre>
+<h3 id="4-3-delong-검정-직접-구현">4-3. DeLong 검정 (직접 구현)</h3>
+<p>AUROC 는 U-통계량이다. 부도 \(i\) 에 대한 <em>구조 성분</em> \(V_{10,i}=\frac1n\sum_j\psi(s_i,s_j)\) (\(j\) 는 정상), 정상 \(j\) 에 대한 \(V_{01,j}=\frac1m\sum_i\psi(s_i,s_j)\) 로 분산과 공분산을 추정한다. 여기서 \(\psi(x,y)=1\) (x&gt;y), \(0.5\) (x=y), \(0\) (x&lt;y). 두 모형이 <strong>같은 고객</strong>을 평가하므로 공분산을 반영한다.</p>
+<p>\[Z=\frac{\widehat{AUC}_1-\widehat{AUC}_2}{\sqrt{\operatorname{Var}_1+\operatorname{Var}_2-2\operatorname{Cov}}}\]</p>
+<pre><code class="language-python">import numpy as np
+from scipy import stats
+
+def psi_matrix(pos, neg):
+    d = pos[:, None] - neg[None, :]
+    return (d &gt; 0) + 0.5 * (d == 0)
+
+def delong_components(y, scores):
+    pos, neg = scores[y == 1], scores[y == 0]
+    k = psi_matrix(pos, neg)
+    return k.mean(axis=1), k.mean(axis=0), k.mean()     # V10 (부도별), V01 (정상별), AUC
+
+def delong_test(y, s1, s2):
+    m, n = int((y == 1).sum()), int((y == 0).sum())
+    v10_1, v01_1, a1 = delong_components(y, s1)
+    v10_2, v01_2, a2 = delong_components(y, s2)
+    S10 = np.cov(np.vstack([v10_1, v10_2]))
+    S01 = np.cov(np.vstack([v01_1, v01_2]))
+    S = S10 / m + S01 / n
+    var = S[0, 0] + S[1, 1] - 2 * S[0, 1]
+    z = (a1 - a2) / np.sqrt(var)
+    return a1, a2, z, 2 * stats.norm.sf(abs(z))
+
+# 단계 9 의 8건 예제: AUROC 0.8 확인 (구조 성분 평균이 AUC)
+s = np.array([0.9, 0.7, 0.4, 0.8, 0.5, 0.3, 0.2, 0.1]); y8 = np.array([1, 1, 1, 0, 0, 0, 0, 0])
+v10, v01, auc = delong_components(y8, s)
+print(np.round(v10, 3), np.round(v01, 3), auc)
+assert abs(auc - 0.8) &lt; 1e-12 and abs(v10.mean() - 0.8) &lt; 1e-12 and abs(v01.mean() - 0.8) &lt; 1e-12
+assert np.allclose(v10, [1.0, 0.8, 0.6])
+</code></pre>
+<pre><code class="language-python">import numpy as np
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from creditlab.data import make_synthetic_credit_data
+
+df = make_synthetic_credit_data(n=12000, seed=61).sort_values(&quot;application_date&quot;).reset_index(drop=True)
+df[&quot;housing_type&quot;] = df[&quot;housing_type&quot;].astype(&quot;category&quot;).cat.codes
+df[&quot;region&quot;] = df[&quot;region&quot;].astype(&quot;category&quot;).cat.codes
+feats = [&quot;age&quot;, &quot;income_10k&quot;, &quot;loan_amount_10k&quot;, &quot;employment_years&quot;, &quot;card_utilization&quot;,
+         &quot;num_delinq_12m&quot;, &quot;inquiries_6m&quot;, &quot;housing_type&quot;, &quot;region&quot;]
+tr, te = df.iloc[:8000], df.iloc[8000:]
+Xtr, ytr, Xte, yte = tr[feats].fillna(-1), tr[&quot;default&quot;], te[feats].fillna(-1), te[&quot;default&quot;].to_numpy()
+
+s_lr = make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000)).fit(Xtr, ytr).predict_proba(Xte)[:, 1]
+s_gb = HistGradientBoostingClassifier(max_depth=3, learning_rate=0.05, max_iter=150, min_samples_leaf=50,
+                                      random_state=0).fit(Xtr, ytr).predict_proba(Xte)[:, 1]
+a1, a2, z, p = delong_test(yte, s_gb, s_lr)
+print(&quot;AUROC gb&quot;, round(a1, 4), &quot;lr&quot;, round(a2, 4), &quot;z&quot;, round(z, 2), &quot;p&quot;, round(p, 4))
+assert abs(a1 - roc_auc_score(yte, s_gb)) &lt; 1e-12 and abs(a2 - roc_auc_score(yte, s_lr)) &lt; 1e-12
+
+# 모형 순서를 바꾸면 z 의 부호만 뒤집히고 p-value 는 같다 (대칭성)
+b1, b2, z_rev, p_rev = delong_test(yte, s_lr, s_gb)
+assert abs(z + z_rev) &lt; 1e-9 and abs(p - p_rev) &lt; 1e-12
+
+# 같은 점수를 단조 변환(순위 불변)하면 AUROC 도, 검정 결과도 그대로다
+_, _, z_mono, p_mono = delong_test(yte, s_gb, np.log(s_lr / (1 - s_lr)))
+assert abs(z - z_mono) &lt; 1e-9
+</code></pre>
+<p>주의: DeLong 은 <em>같은 표본</em>으로 두 모형을 평가한 경우에 쓰며, 이벤트 수가 적으면 근사가 불안정하다. 고객이 여러 번 나오면(군집) 독립 가정이 깨져 군집 부트스트랩이 필요하다. 결과는 <strong>p-value 와 함께 AUROC 차이의 신뢰구간</strong>으로 보고한다.</p>
+<h3 id="4-4-다중검정">4-4. 다중검정</h3>
+<p>20개 변수를 각각 5% 수준으로 검정하면, 모두 귀무가설이 참이어도 최소 하나가 유의할 확률이</p>
+<p>\[1-(1-0.05)^{20}\approx 0.6415\]</p>
+<p>이다. 해결책:</p>
+<ul>
+<li><strong>Bonferroni</strong>: \(\alpha/m\) 로 기각(보수적, FWER 통제).</li>
+<li><strong>Holm</strong>: Bonferroni 의 단계적 개선.</li>
+<li><strong>Benjamini–Hochberg(BH)</strong>: 거짓 발견 비율(FDR)을 통제. p 를 오름차순 정렬해 \(p_{(k)}\le \frac{k}{m}q\) 를 만족하는 <em>가장 큰 k</em> 까지 기각.</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+
+assert abs((1 - 0.95**20) - 0.6415) &lt; 1e-4
+
+def bh_reject(pvals, q=0.05):
+    p = np.asarray(pvals); m = len(p)
+    order = np.argsort(p)
+    passed = p[order] &lt;= (np.arange(1, m + 1) / m) * q
+    k = np.where(passed)[0].max() + 1 if passed.any() else 0
+    out = np.zeros(m, bool); out[order[:k]] = True
+    return out
+
+pv = [0.001, 0.008, 0.039, 0.041, 0.042, 0.06, 0.074, 0.205, 0.212, 0.216]
+bonf = np.array(pv) &lt; 0.05 / len(pv)
+bh = bh_reject(pv, 0.05)
+print(&quot;개별 5%:&quot;, int((np.array(pv) &lt; 0.05).sum()), &quot;Bonferroni:&quot;, int(bonf.sum()), &quot;BH:&quot;, int(bh.sum()))
+assert (np.array(pv) &lt; 0.05).sum() == 5 and bonf.sum() == 1 and bh.sum() == 2
+</code></pre>
+<pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(7)
+false_pos = []
+for _ in range(2000):
+    p = rng.uniform(size=20)                      # 20개 모두 귀무가설이 참
+    false_pos.append((p &lt; 0.05).any())
+print(&quot;한 번이라도 '유의'가 나올 비율&quot;, round(float(np.mean(false_pos)), 3))
+assert abs(np.mean(false_pos) - 0.6415) &lt; 0.04
+</code></pre>
+<p>변수 선택, 구간 분할, 모형 비교, 하이퍼파라미터 탐색 모두 <em>암묵적 다중검정</em>이다. 시도한 횟수를 기록하고, 최종 판단은 <strong>봉인된 테스트</strong>에서 한다(단계 12).</p>
+<h3 id="4-5-통계적-유의성-vs-실무적-유의성">4-5. 통계적 유의성 vs 실무적 유의성</h3>
+<p>AUROC 차이 0.002 가 표본 100만 건에서는 '유의'할 수 있지만 승인율·손실에 미치는 영향은 무시할 수준일 수 있다. 반대로 소표본에서 0.03 차이가 '유의하지 않음'일 수 있다. 어느 쪽이든 <strong>효과 크기와 신뢰구간, 사업 영향(예: 같은 승인율에서 부도율 변화)</strong> 으로 판단한다.</p>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>검정에 쓰는 표본이 독립(또는 군집 구조를 반영)이다.</li>
+<li>검정할 가설을 <strong>데이터를 보기 전에</strong> 정했다(사후에 고르면 p-value 가 무의미).</li>
+<li>DeLong: 표본이 충분하고 두 모형이 같은 표본으로 평가되었다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>p-value 를 "가설이 맞을 확률"로 읽는다.</li>
+<li>p=0.049 와 0.051 에 질적 차이를 둔다. 유의수준은 관행이다.</li>
+<li>여러 모형을 시도해 가장 좋은 것만 검정하고 보정하지 않는다(p-hacking).</li>
+<li>독립 표본용 t-검정을 <em>같은 고객으로 평가한 두 AUROC</em>에 적용한다.</li>
+<li>고객당 여러 행인데 행을 독립으로 취급한다.</li>
+<li>유의하지 않다고 "동등하다"고 결론짓는다(동등성 검정은 별도).</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>도구</th>
+<th>용도</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>순열검정</td>
+<td>분포 가정 최소</td>
+<td>계산량</td>
+</tr>
+<tr>
+<td>부트스트랩 구간</td>
+<td>지표 변동 추정</td>
+<td>군집이면 군집 부트스트랩</td>
+</tr>
+<tr>
+<td>DeLong</td>
+<td>AUROC 비교(상관 반영)</td>
+<td>소표본 주의</td>
+</tr>
+<tr>
+<td>McNemar</td>
+<td>같은 임계값의 오분류 비교</td>
+<td>임계값 정책 의존</td>
+</tr>
+<tr>
+<td>베이지안 비교</td>
+<td>확률적 진술</td>
+<td>사전분포 필요</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li>챌린저 모형 승인 시: 테스트 AUROC 차이와 <strong>DeLong p-value, 95% 신뢰구간, 같은 승인율에서의 부도율/손실 차이</strong>를 함께 제출한다.</li>
+<li>변수 후보를 많이 시험했다면 시도 횟수와 보정(BH 등) 방법을 모형 문서에 쓴다.</li>
+<li>임계값(0.05)·FDR 수준은 <em>사전에</em> 정하고 문서화한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> p=0.03 의 올바른 해석은?</p>
+<p><details markdown="1"><summary>정답 보기</summary></p>
+<p>"차이가 없다는 가정 하에서 이만큼 극단적인 결과가 나올 확률이 3%". 귀무가설이 참일 확률이 3% 라는 뜻이 아니다.</p>
+</details>
+<p><strong>Q2.</strong> 50개 변수를 개별 5% 수준으로 검정해 3개가 유의했다. 안전한가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>모두 귀무가설이 참이어도 기대 2.5개가 유의하다. 3개는 우연과 구별되지 않는다. BH/Bonferroni 같은 보정이 필요하다.</p>
+</details>
+<p><strong>Q3.</strong> 같은 테스트 고객으로 평가한 두 모형의 AUROC 를 독립 t-검정으로 비교하면?</p>
+<details>
+<summary>정답 보기</summary>
+<p>두 AUROC 가 같은 고객에 기반해 <em>양의 상관</em>이므로 공분산을 무시하면 분산이 과대평가되어 검정력이 떨어진다. DeLong 같은 상관 반영 방법을 쓴다.</p>
+</details>
+<p><strong>Q4.</strong> 표본 100만 건에서 AUROC 차이 0.001, p&lt;0.001. 모형을 교체해야 하나?</p>
+<details>
+<summary>정답 보기</summary>
+<p>통계적으로 유의해도 실무적으로 미미할 수 있다. 같은 승인율에서의 손실 변화, 설명가능성·운영 비용을 종합해 판단한다.</p>
+</details>
+<p><strong>Q5 (계산).</strong> p 값 {0.001, 0.02, 0.03, 0.2} 에 BH(q=0.05) 를 적용하면 몇 개 기각?</p>
+<details>
+<summary>정답 보기</summary>
+<p>기준 \(k/4\times0.05\): 0.0125, 0.025, 0.0375, 0.05. 정렬 p: 0.001≤0.0125 ✓, 0.02≤0.025 ✓, 0.03≤0.0375 ✓, 0.2≤0.05 ✗ → 가장 큰 k=3, <strong>3개 기각</strong>.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터에서 로지스틱과 부스팅을 시간 분할 테스트로 평가하고, DeLong 검정과 부트스트랩 신뢰구간으로 AUROC 차이를 보고하라. 변수 20개 각각의 부도 연관성을 검정하고 개별 5%, Bonferroni, BH 결과를 비교하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>DeLong, E., DeLong, D., Clarke-Pearson, D. (1988). Comparing the areas under two or more correlated ROC curves. <em>Biometrics</em>, 44(3).</li>
+<li>Sun, X. &amp; Xu, W. (2014). Fast implementation of DeLong's algorithm. <em>IEEE Signal Processing Letters</em>, 21(11).</li>
+<li>Benjamini, Y. &amp; Hochberg, Y. (1995). Controlling the false discovery rate. <em>JRSS B</em>, 57(1).</li>
+<li>Wasserstein, R. &amp; Lazar, N. (2016). The ASA statement on p-values. <em>The American Statistician</em>, 70(2).</li>
+<li>Efron, B. &amp; Tibshirani, R. <em>An Introduction to the Bootstrap</em> (1993).</li>
+<li>확인일 2026-10-18 (서지 정보는 학습 시점에 원문으로 재확인할 것)</li>
+</ul>
+<div class="pager"><span><a href="stage_13.html">← 13. GAN과 합성데이터</a></span><span><a href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>

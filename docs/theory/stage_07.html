@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단계 7. 규제형 로지스틱 CSS와 스코어카드 · Credit Model Mastery Lab</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--muted:#5d6670;--accent:#2b5c8a;--accent-soft:#e7eef6;--card:#ffffff;--border:#dcd8cf;
+--code-bg:#f1efe9;--warn:#9a5b00;--warn-bg:#fff4df;--danger:#9b2c2c;--danger-bg:#fdeaea;--tip:#1d6b4f;--tip-bg:#e6f4ee;--note-bg:#e7eef6}
+@media (prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e3dc;--muted:#a0a7b0;--accent:#8ab4e0;--accent-soft:#222c38;--card:#1d2026;--border:#33373f;
+--code-bg:#242831;--warn:#f0b35a;--warn-bg:#3a2e17;--danger:#f19a9a;--danger-bg:#3a2020;--tip:#7fd1ae;--tip-bg:#1b3329;--note-bg:#222c38}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:20px 16px;border-right:1px solid var(--border);background:var(--card);font-size:14px}
+nav.side .brand{font-weight:700;font-size:15px;display:block;margin-bottom:14px;text-decoration:none;color:var(--fg)}
+nav.side h4{margin:16px 0 6px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+nav.side a.item{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--fg);line-height:1.4}
+nav.side a.item:hover{background:var(--accent-soft)}
+nav.side a.item.current{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:32px 28px 80px;max-width:880px;width:100%;margin:0 auto}
+main h1{font-size:30px;line-height:1.3;margin:.2em 0 .4em}
+main h2{font-size:23px;margin:2.1em 0 .6em;padding-top:.6em;border-top:1px solid var(--border)}
+main h3{font-size:18px;margin:1.6em 0 .4em}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:4px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto}
+pre code{background:none;padding:0}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;font-size:14.5px;min-width:60%}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+.admonition{margin:1.2em 0;padding:.7em 1em;border-radius:8px;border:1px solid var(--border);background:var(--note-bg)}
+.admonition-title{font-weight:700;margin:0 0 .3em}
+.admonition p{margin:.3em 0}
+.admonition.warning{background:var(--warn-bg);border-color:var(--warn)}
+.admonition.warning .admonition-title{color:var(--warn)}
+.admonition.danger{background:var(--danger-bg);border-color:var(--danger)}
+.admonition.danger .admonition-title{color:var(--danger)}
+.admonition.tip{background:var(--tip-bg);border-color:var(--tip)}
+.admonition.tip .admonition-title{color:var(--tip)}
+details{margin:.8em 0;padding:.5em .9em;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+details summary{cursor:pointer;font-weight:600}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:15px}
+.footer{margin-top:28px;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 28px}
+.card{display:block;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-decoration:none;color:var(--fg)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;margin-bottom:3px}
+.card span{color:var(--muted);font-size:14px;line-height:1.5}
+.search{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);font-size:16px}
+.mjx-chtml{outline:0}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}main{padding:22px 16px 60px}}
+@media print{nav.side,.pager{display:none}.layout{display:block}body{background:#fff;color:#000}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout">
+<nav class="side"><a class="brand" href="../index.html">📘 Credit Model Mastery Lab</a>
+<h4>기초</h4>
+<a class="item" href="stage_00.html">0. Python과 데이터 분석 기초</a>
+<a class="item" href="stage_01.html">1. 신용평가 문제 정의와 모집단 선정</a>
+<a class="item" href="stage_02.html">2. 데이터 품질과 탐색적 분석</a>
+<a class="item" href="stage_03.html">3. 통계와 확률 기초</a>
+<a class="item" href="stage_04.html">4. 단변량·다변량 분석과 변수 진단</a>
+<h4>로지스틱 CSS</h4>
+<a class="item" href="stage_05.html">5. 비닝·WOE·IV</a>
+<a class="item" href="stage_06.html">6. 로지스틱 회귀의 수학과 해석</a>
+<a class="item current" href="stage_07.html">7. 규제형 로지스틱 CSS와 스코어카드</a>
+<h4>검증과 모니터링</h4>
+<a class="item" href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지</a>
+<a class="item" href="stage_09.html">9. 평가 지표와 검증</a>
+<a class="item" href="stage_10.html">10. PSI·안정성·드리프트</a>
+<h4>머신러닝</h4>
+<a class="item" href="stage_11.html">11. 트리·부스팅·SHAP</a>
+<a class="item" href="stage_12.html">12. 튜닝·앙상블·보정</a>
+<a class="item" href="stage_13.html">13. GAN과 합성데이터</a>
+<h4>통계 심화·운영·캡스톤</h4>
+<a class="item" href="stage_14.html">14. 가설검정·p-value·DeLong·다중검정</a>
+<a class="item" href="stage_15.html">15. 고급 주제와 운영: 거절 추론·충당금·설명·공정성·모형위험관리</a>
+<a class="item" href="stage_16.html">16. 종합 프로젝트: 처음부터 끝까지</a>
+<h4>도구</h4>
+<a class="item" href="glossary.html">용어 사전 (검색)</a>
+<a class="item" href="all.html">전체를 한 페이지로</a></nav>
+<main>
+<h1 id="단계-7-규제형-로지스틱-css와-스코어카드">단계 7. 규제형 로지스틱 CSS와 스코어카드</h1>
+<blockquote>
+<p>로지스틱 모형이 만든 로그오즈를 "점수"로 바꾸고, 점수를 "등급"으로 묶고, 등급별 부도율을 검토한다. 모형(예측)과 정책(컷오프)은 분리한다.</p>
+</blockquote>
+<p><strong>연결 실습</strong>: Phase 3 노트북(예정) · 코드 <code>creditlab.models.logistic_scorecard</code>(예정) · 이 페이지의 점수 변환 코드를 먼저 실행해 보자.</p>
+<h2 id="학습-목표">학습 목표</h2>
+<ul>
+<li>WOE → 로지스틱 → 점수카드로 이어지는 구조를 설명한다.</li>
+<li>기준점·기준 오즈·<strong>PDO</strong> 로 점수를 변환하고 <em>점수 ↔ 오즈 ↔ 확률</em>을 검산한다.</li>
+<li>점수 방향(높을수록 안전)과 오즈의 정의를 일관되게 유지한다.</li>
+<li>점수 구간 등급화 방법(동일 건수·동일 부도율·업무 기준)의 차이를 안다.</li>
+<li>등급별 표본 수·부도율·신뢰구간·단조성을 검토한다.</li>
+<li><strong>컷오프(정책)</strong> 와 예측모형을 구분하고 override·수동심사의 의미를 이해한다.</li>
+</ul>
+<h2 id="1-왜-생겼는가">1. 왜 생겼는가</h2>
+<p>로지스틱 회귀의 출력(확률, 로그오즈)은 심사 현장에서 쓰기 불편하다. 심사자·영업점·고객에게는 "720점", "3등급" 같은 <strong>정수 점수·등급</strong>이 익숙하다. 또 "점수가 20점 오를 때마다 위험이 절반이 된다" 같은 <em>일정한 척도</em>가 있으면 점수 의미가 시간이 지나도 일관된다. 이렇게 모형 출력을 <em>운영 가능한 척도</em>로 바꾸려고 스코어카드가 발전했다.</p>
+<h2 id="2-왜-필요한가">2. 왜 필요한가</h2>
+<ul>
+<li><strong>설명 가능성</strong>: 변수·구간마다 몇 점인지 표로 보여 줄 수 있다(규제 환경의 요구와 맞음).</li>
+<li><strong>운영 일관성</strong>: 점수의 의미가 고정되면 정책(컷오프·한도·금리)을 점수로 설계할 수 있다.</li>
+<li><strong>모니터링</strong>: 점수 분포(PSI)와 등급별 부도율을 시간에 따라 추적한다(단계 10).</li>
+</ul>
+<h2 id="3-무엇을-하는가">3. 무엇을 하는가</h2>
+<p><code>변수 구간 → WOE → 로지스틱 계수 → 점수(구간별 점수의 합) → 등급 → 등급별 PD</code></p>
+<h2 id="4-어떻게-작동하는가">4. 어떻게 작동하는가</h2>
+<h3 id="4-1-구조">4-1. 구조</h3>
+<p>단계 5 의 WOE 변수 \(W_j\) 를 입력으로 부도 로그오즈 모형을 적합한다.</p>
+<p>\[z=\ln\frac{p}{1-p}=\beta_0+\sum_{j=1}^{m}\beta_j W_j\]</p>
+<p>WOE 를 쓰는 이유는 각 변수 구간이 <em>독립적으로 점수에 더해지는 표</em>가 되기 때문이다. 장점은 투명성이고, 단점은 <strong>비닝으로 인한 정보 손실</strong>과 <em>변수 간 상호작용을 직접 표현하지 못한다</em>는 점이다.</p>
+<h3 id="4-2-점수-변환-기준점기준-오즈pdo">4-2. 점수 변환: 기준점·기준 오즈·PDO</h3>
+<p>점수를 <em>높을수록 안전</em>하게 만들기 위해 <strong>좋은:나쁜 오즈</strong>(good odds \(=(1-p)/p\))를 쓴다.</p>
+<p>\[\mathrm{Score}=\mathrm{Offset}+\mathrm{Factor}\times\ln(\text{odds}_{good}),\qquad \mathrm{Factor}=\frac{\mathrm{PDO}}{\ln 2},\quad \mathrm{Offset}=\mathrm{Score}_0-\mathrm{Factor}\times\ln(\text{odds}_0)\]</p>
+<ul>
+<li>\(\mathrm{PDO}\)(points to double the odds): 오즈를 <strong>2배</strong>로 만드는 점수 증가량.</li>
+<li>\(\text{odds}_0\), \(\mathrm{Score}_0\): 기준 오즈와 그에 대응하는 기준점.</li>
+</ul>
+<p><strong>숫자 예제.</strong> 기준점 600 에서 good:bad 오즈 50:1, PDO=20 이라 하자.</p>
+<ul>
+<li>Factor \(=20/\ln2=28.8539\)</li>
+<li>Offset \(=600-28.8539\times\ln50=600-112.877=487.123\)</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>good:bad 오즈</th>
+<th>점수</th>
+<th>부도확률 \(1/(1+\text{odds})\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>25 : 1</td>
+<td>580</td>
+<td>3.85%</td>
+</tr>
+<tr>
+<td>50 : 1</td>
+<td>600</td>
+<td>1.96%</td>
+</tr>
+<tr>
+<td>100 : 1</td>
+<td>620</td>
+<td>0.99%</td>
+</tr>
+<tr>
+<td>200 : 1</td>
+<td>640</td>
+<td>0.50%</td>
+</tr>
+</tbody>
+</table></div>
+<p>점수가 20점 오를 때마다 오즈가 2배, 부도확률은 <em>대략</em> 절반(정확히는 \(1/(1+2\,\text{odds})\))이 된다.</p>
+<pre><code class="language-python">import math
+
+pdo, base_score, base_odds = 20, 600, 50
+factor = pdo / math.log(2)
+offset = base_score - factor * math.log(base_odds)
+score = lambda odds_good: offset + factor * math.log(odds_good)
+pd_from_odds = lambda odds_good: 1 / (1 + odds_good)
+
+print(round(factor, 4), round(offset, 3))
+assert abs(factor - 28.8539) &lt; 1e-4 and abs(offset - 487.123) &lt; 1e-3
+for odds, s in [(25, 580), (50, 600), (100, 620), (200, 640)]:
+    assert abs(score(odds) - s) &lt; 1e-9                 # 20점마다 오즈 2배
+assert abs(pd_from_odds(50) - 0.0196) &lt; 1e-4 and abs(pd_from_odds(100) - 0.0099) &lt; 1e-4
+</code></pre>
+<h3 id="4-3-구간별-점수-배분">4-3. 구간별 점수 배분</h3>
+<p>모형이 부도 로그오즈 \(z\) 를 주므로 \(\ln(\text{odds}_{good})=-z\) 이고</p>
+<p>\[\mathrm{Score}=\mathrm{Offset}-\mathrm{Factor}\times\Big(\beta_0+\sum_j\beta_jW_j\Big)=\sum_{j}\Big[-\mathrm{Factor}\,\beta_jW_{j}-\tfrac{\mathrm{Factor}\,\beta_0-\mathrm{Offset}}{m}\Big]\]</p>
+<p>변수 \(j\) 의 구간 \(i\) 점수는 \(-\mathrm{Factor}\,\beta_jW_{ij}\) 에 절편·기준점 몫을 <em>변수 수 \(m\) 으로 나눠</em> 더한 값이다. 점수표는 보통 반올림한 <strong>정수 점수</strong>를 쓰므로, 반올림 오차가 합산되어 원래 점수와 몇 점 달라질 수 있다 → 검산 필수.</p>
+<p><strong>단일 변수 예제.</strong> 단계 5 의 연체 건수 3구간(정상 6,100/1,900/1,000, 부도 520/260/220)에서 \(\beta=1\) 이면 모형 오즈가 <em>구간의 실제 오즈</em>와 같아진다(단일 변수·포화 구간). 그 구간의 good 오즈를 위 점수식에 넣으면</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>구간</th>
+<th>good:bad 오즈</th>
+<th>점수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0건</td>
+<td>11.73</td>
+<td>558.2</td>
+</tr>
+<tr>
+<td>1건</td>
+<td>7.31</td>
+<td>544.5</td>
+</tr>
+<tr>
+<td>2건 이상</td>
+<td>4.55</td>
+<td>530.8</td>
+</tr>
+</tbody>
+</table></div>
+<p>변수 하나라 점수 폭이 좁다. 실제 점수카드는 여러 변수의 점수가 합산되어 넓게 퍼진다.</p>
+<pre><code class="language-python">import numpy as np
+
+G, B = np.array([6100, 1900, 1000]), np.array([520, 260, 220])
+odds_good = G / B
+scores = offset + factor * np.log(odds_good)       # 앞 코드의 factor/offset
+print(np.round(odds_good, 2), np.round(scores, 1))
+assert np.allclose(np.round(scores, 1), [558.2, 544.5, 530.8])
+assert np.all(np.diff(scores) &lt; 0)                 # 위험한 구간일수록 점수가 낮다
+</code></pre>
+<h3 id="4-4-점수-구간과-등급화">4-4. 점수 구간과 등급화</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방식</th>
+<th>설명</th>
+<th>장점</th>
+<th>주의</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>동일 건수</td>
+<td>같은 인원씩</td>
+<td>등급별 표본 안정</td>
+<td>부도율 간격이 불규칙</td>
+</tr>
+<tr>
+<td>동일 부도율 간격</td>
+<td>인접 등급 부도율이 비슷하게 벌어짐</td>
+<td>해석 직관적</td>
+<td>희소 등급 발생 가능</td>
+</tr>
+<tr>
+<td>업무 기준</td>
+<td>정책·상품 요건 반영</td>
+<td>운영 편리</td>
+<td>통계적 근거 약할 수 있음</td>
+</tr>
+<tr>
+<td>최적화(규칙 기반)</td>
+<td>변별력·단조·최소 건수 제약</td>
+<td>객관적</td>
+<td>개발 표본 과적합 가능</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>등급 검토 항목</strong>: ① 등급별 건수·부도 건수, ② 등급별 부도율과 <strong>신뢰구간</strong>(Wilson), ③ <strong>단조성</strong>(등급이 나빠질수록 부도율 증가), ④ 인접 등급 구분 가능성(구간이 겹치면 합치는 것을 검토), ⑤ 등급별 PD 추정치(장기 평균·보수성 반영은 단계 15).</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+from creditlab.data import default_rate_ci, make_synthetic_credit_data
+
+df = make_synthetic_credit_data(n=8000, seed=7)
+# 설명용 단순 점수: 위험할수록 낮은 점수. (실제 점수는 로지스틱 계수로 만든다)
+risk = 2.0 * df[&quot;card_utilization&quot;] + 0.6 * df[&quot;num_delinq_12m&quot;] - 0.03 * df[&quot;age&quot;]
+df[&quot;score&quot;] = 600 - 40 * (risk - risk.mean()) / risk.std()
+df[&quot;grade&quot;] = pd.qcut(df[&quot;score&quot;], q=5, labels=[&quot;E&quot;, &quot;D&quot;, &quot;C&quot;, &quot;B&quot;, &quot;A&quot;])   # 동일 건수 5등급 (A=가장 안전)
+rows = []
+for g, sub in df.groupby(&quot;grade&quot;, observed=True):
+    lo, hi = default_rate_ci(sub[&quot;default&quot;])
+    rows.append({&quot;grade&quot;: g, &quot;n&quot;: len(sub), &quot;bad&quot;: int(sub[&quot;default&quot;].sum()), &quot;rate&quot;: sub[&quot;default&quot;].mean(), &quot;ci_low&quot;: lo, &quot;ci_high&quot;: hi})
+table = pd.DataFrame(rows).sort_values(&quot;grade&quot;)   # A → E (가장 안전 → 가장 위험)
+print(table.round(4).to_string(index=False))
+assert table[&quot;n&quot;].sum() == len(df) and (table[&quot;ci_low&quot;] &lt;= table[&quot;rate&quot;]).all()
+assert table[&quot;rate&quot;].is_monotonic_increasing                         # A→E 로 갈수록 부도율 증가
+</code></pre>
+<h3 id="4-5-모형-vs-정책-컷오프-override">4-5. 모형 vs 정책: 컷오프, override</h3>
+<ul>
+<li><strong>모형</strong>은 점수를 낸다. <strong>컷오프</strong>는 "몇 점 미만은 거절/심사 강화" 같은 <em>정책</em>이다. 컷오프는 승인율, 기대손실, 수익, 위험선호, 규제·고객 보호 정책 등을 반영해 <em>사업이 정한다</em>(단계 12 임계값 선택).</li>
+<li><strong>Override</strong>: 심사자가 점수와 다르게 결정하는 것. 사유를 기록하고 비율을 모니터링한다. 모형이 못 보는 정보가 있으면 정당할 수 있으나 남용되면 모형의 효과가 사라진다.</li>
+<li><strong>Reject/수동심사</strong>: 점수가 경계 구간이면 사람 심사로 보내는 설계가 흔하다.</li>
+<li>모형의 성능과 <strong>정책 성과</strong>(손익, 승인율)는 따로 평가한다(단계 15).</li>
+</ul>
+<h2 id="5-가정">5. 가정</h2>
+<ul>
+<li>로지스틱 모형이 로그오즈를 합리적으로 설명한다(WOE 변환 후 선형 근사).</li>
+<li><strong>점수–오즈 관계</strong>가 시간이 지나도 유지된다(점수의 의미가 안정적).</li>
+<li>개발 모집단과 적용 모집단이 충분히 비슷하다(단계 1).</li>
+<li>등급별 부도율 순서가 미래에도 유지된다.</li>
+</ul>
+<h2 id="6-한계와-오용">6. 한계와 오용</h2>
+<div class="admonition warning">
+<p class="admonition-title">자주 하는 오용</p>
+<ul>
+<li>점수 방향(높을수록 안전/위험)과 오즈 정의(good:bad vs bad:good)를 섞어 쓴다.</li>
+<li>정수 반올림 후 <em>검산을 안 해서</em> 점수와 확률이 어긋난다.</li>
+<li>등급을 "부도율이 좋아 보이게" 개발 표본에 맞춰 과도하게 최적화한다.</li>
+<li>컷오프를 모형 성능의 일부로 취급한다(승인율이 바뀌면 모형이 나빠진 것처럼 오해).</li>
+<li>등급 PD 를 개발 기간의 <em>관측 부도율</em>로만 두고 장기·하방 경기 반영 필요를 검토하지 않는다(단계 15).</li>
+<li>한 변수 구간의 점수만 보고 "이 변수가 부도를 <em>일으킨다</em>"고 해석한다.</li>
+</ul>
+</div>
+<h2 id="7-대안-및-비교">7. 대안 및 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>접근</th>
+<th>장점</th>
+<th>한계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WOE 로지스틱 스코어카드</td>
+<td>투명, 점수표 직접 제공</td>
+<td>정보 손실, 상호작용 약함</td>
+</tr>
+<tr>
+<td>더미 변수 로지스틱</td>
+<td>정보 손실 적고 구현 간단</td>
+<td>계수 수 증가, 점수표 변환이 덜 직관</td>
+</tr>
+<tr>
+<td>GAM(일반화가법모형)</td>
+<td>비선형을 부드럽게</td>
+<td>설명이 표보다 복잡</td>
+</tr>
+<tr>
+<td>트리 부스팅 점수화</td>
+<td>높은 변별력</td>
+<td>점수의 <em>구간별 설명</em> 어려움, 설명 도구 필요</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-실무-적용">8. 실무 적용</h2>
+<ul>
+<li><strong>규제 로지스틱 CSS</strong>: 계수 → 점수표 → 점수 분포 → 등급표 → 등급별 PD. 점수표와 시스템 구현 일치 테스트(같은 입력에 같은 점수)를 한다.</li>
+<li><strong>AI 모형</strong>: 확률을 같은 PDO 규칙으로 <strong>점수로 변환</strong>할 수 있다. 이렇게 하면 동일한 등급 체계에서 로지스틱과 비교할 수 있다. 다만 <em>구간별 점수표</em>처럼 변수 기여를 보여 줄 수는 없어 설명 도구(SHAP 등)가 별도로 필요하다.</li>
+<li>모델 카드에 점수 방향·PDO·기준점·기준 오즈, 등급 경계, 컷오프 <em>정책 문서의 위치</em>를 명시한다.</li>
+</ul>
+<h2 id="9-지식-확인">9. 지식 확인</h2>
+<p><strong>Q1.</strong> PDO=20 에서 점수가 40점 올라가면 good:bad 오즈는 몇 배가 되는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>20점마다 2배이므로 40점이면 $2^2=4$배.</p>
+</details>
+<p><strong>Q2.</strong> 기준 600점 = 오즈 50:1, PDO 20. 오즈 100:1 의 점수와 부도확률은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>620점. 부도확률 \(1/(1+100)\approx0.99\%\).</p>
+</details>
+<p><strong>Q3.</strong> 등급 B 의 부도율이 등급 C 보다 높게 나왔다(단조성 위반). 가능한 원인과 대응은?</p>
+<details>
+<summary>정답 보기</summary>
+<p>표본 부족(신뢰구간이 겹침), 등급 경계 설정, 개발·검증 기간의 변화 때문일 수 있다. 신뢰구간 확인 → 건수 부족이면 등급 병합 → 지속되면 모형·변수 재검토.</p>
+</details>
+<p><strong>Q4.</strong> 컷오프를 600→620 으로 올렸더니 승인율이 하락했다. 모형이 나빠졌는가?</p>
+<details>
+<summary>정답 보기</summary>
+<p>아니다. 정책이 바뀐 것이다. 모형 성능(변별력·보정)은 점수 자체를 평가하고, 정책 성과(승인율·손익)는 분리해 평가한다.</p>
+</details>
+<p><strong>실습 과제</strong>: 합성 데이터로 3~4개 변수의 WOE 로지스틱 모형을 만들고(단계 5·6), PDO=20, 기준점 600, 기준 오즈 50:1 로 점수표를 만든 뒤, 점수→오즈→확률을 5개 사례에서 검산하라. 5등급 표에 건수·부도율·신뢰구간을 쓰고 단조성을 평가하라.</p>
+<h2 id="10-참고자료">10. 참고자료</h2>
+<ul>
+<li>Siddiqi, N. <em>Credit Risk Scorecards</em> (Wiley, 2006) — 점수 스케일링, 등급화.</li>
+<li>Thomas, L., Edelman, D., Crook, J. <em>Credit Scoring and Its Applications</em> (SIAM, 2002).</li>
+<li>Basel Committee on Banking Supervision, <em>Studies on the Validation of Internal Rating Systems</em>, Working Paper No. 14 (2005) — 등급 체계 검증. <a href="https://www.bis.org/bcbs/">https://www.bis.org/bcbs/</a></li>
+<li>실제 적용: 해당 시점의 감독규정·내부 방법론 원문 확인.</li>
+<li>확인일 2026-10-18</li>
+</ul>
+<div class="pager"><span><a href="stage_06.html">← 6. 로지스틱 회귀의 수학과 해석</a></span><span><a href="stage_08.html">8. Train/Validation/Test, 교차검증과 누수 방지 →</a></span></div>
+<p class="footer">교육용 자료입니다. 실제 은행의 내부등급법(IRB)·감독규정 적합성이나 규제 승인을 보증하지 않습니다.
+실제 적용 전에는 해당 시점의 공식 규정·감독지침·내부 방법론 원문을 확인하세요. 참고자료 확인일: 2026-10-18.</p>
+</main>
+</div>
+
+</body>
+</html>
