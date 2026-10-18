@@ -10,6 +10,8 @@ import lesson_02  # noqa: E402
 import lesson_03  # noqa: E402
 import lesson_04  # noqa: E402
 import lesson_05  # noqa: E402
+import lesson_06  # noqa: E402
+import lesson_07  # noqa: E402
 from nbkit import write_notebook  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +21,8 @@ LESSONS = {
     "03_missing_and_quality.ipynb": lesson_03,
     "04_variable_diagnostics.ipynb": lesson_04,
     "05_binning_woe_iv.ipynb": lesson_05,
+    "06_logistic_regression.ipynb": lesson_06,
+    "07_scorecard.ipynb": lesson_07,
 }
 
 if __name__ == "__main__":

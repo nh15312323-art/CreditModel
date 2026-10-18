@@ -2,7 +2,7 @@
 
 > 확률을 직접 직선으로 맞추지 않고 *로그오즈*를 직선으로 맞춘다. 계수 하나가 "오즈를 몇 배로 바꾸는가"로 읽힌다는 점이 신용모형의 해석력의 근간이다.
 
-**연결 실습**: Phase 3 노트북(예정) · 이 페이지의 코드(NumPy IRLS ↔ scikit-learn 비교)를 직접 실행해 보자.
+**연결 실습**: 노트북 `06_logistic_regression.ipynb` · 코드 `creditlab.models`(`fit_logistic`, `fit_regularized`, `select_C_by_cv`) · 이 페이지의 코드(NumPy IRLS ↔ scikit-learn 비교)를 직접 실행해 보자.
 
 ## 학습 목표
 

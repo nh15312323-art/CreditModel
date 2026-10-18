@@ -2,7 +2,7 @@
 
 > 로지스틱 모형이 만든 로그오즈를 "점수"로 바꾸고, 점수를 "등급"으로 묶고, 등급별 부도율을 검토한다. 모형(예측)과 정책(컷오프)은 분리한다.
 
-**연결 실습**: Phase 3 노트북(예정) · 코드 `creditlab.models.logistic_scorecard`(예정) · 이 페이지의 점수 변환 코드를 먼저 실행해 보자.
+**연결 실습**: 노트북 `07_scorecard.ipynb` · 코드 `creditlab.scorecard`(`ScoreScaling`, `Scorecard`, `make_grade_edges`, `grade_table`, `cutoff_analysis`) · 이 페이지의 점수 변환 코드를 먼저 실행해 보자.
 
 ## 학습 목표
 
