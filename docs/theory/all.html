@@ -3803,7 +3803,7 @@ assert abs(theory - 1 / 9) &lt; 1e-12
 <blockquote>
 <p>합성데이터는 "진짜 데이터의 대용품"이 아니라 "진짜 데이터의 <em>통계적 그림자</em>"다. 그림자가 얼마나 닮았는지(충실도), 그림자로 학습해도 현실에서 통하는지(유용성), 원본 개인을 드러내지 않는지(프라이버시)를 <em>각각</em> 확인해야 한다.</p>
 </blockquote>
-<p><strong>연결 실습</strong>: 이 프로그램의 <code>creditlab.data.synthetic</code> 은 <em>규칙으로 만든 교육용 가상 데이터</em>이다. 이 단계의 합성데이터는 <em>실제 데이터를 학습해서 만든</em> 데이터를 다룬다. 둘은 다르다.</p>
+<p><strong>연결 실습</strong>: 노트북 <code>12_synthetic_data</code> (<code>creditlab.synthesis</code>: 가우시안 코퓰라 합성기, 충실도·TSTR·DCR). 이 프로그램의 <code>creditlab.data.synthetic</code> 은 <em>규칙으로 만든 교육용 가상 데이터</em>이고, 이 단계의 합성데이터는 <em>주어진 데이터를 학습해서 만든</em> 데이터를 다룬다. 둘은 다르다. GAN 계열(CTGAN 등)은 설치되지 않아 실행하지 못했고, 코퓰라로 같은 품질 점검 절차를 연습한다.</p>
 <h2 id="stage_13-학습-목표">학습 목표</h2>
 <ul>
 <li>합성데이터를 쓰는 이유(프라이버시, 희소 부도, 데이터 공유)와 한계를 설명한다.</li>
@@ -4069,7 +4069,7 @@ assert leaky &gt; honest + 0.1
 <blockquote>
 <p>"AUROC 가 0.003 올랐다"는 것만으로는 개선이 아니다. 그 차이가 <em>표본이 달라져도 반복될 변동</em>보다 큰지를 따져야 한다. 검정은 그 질문에 답하는 도구이고, p-value 는 흔히 오해된다.</p>
 </blockquote>
-<p><strong>연결 실습</strong>: Phase 6 노트북(예정). 이 페이지의 코드만으로 DeLong 검정을 직접 구현한다.</p>
+<p><strong>연결 실습</strong>: 노트북 <code>13_hypothesis_tests</code> (<code>creditlab.stats</code>: 순열·DeLong·다중검정 보정). 이 페이지의 코드만으로 DeLong 검정을 직접 구현한다.</p>
 <h2 id="stage_14-학습-목표">학습 목표</h2>
 <ul>
 <li>귀무가설·유의수준·p-value 의 정의와 <em>p-value 가 아닌 것</em>을 말한다.</li>
@@ -4347,7 +4347,7 @@ assert abs(np.mean(false_pos) - 0.6415) &lt; 0.04
 <blockquote>
 <p>모형은 개발이 끝나면 시작이다. 운영 환경에서는 "누구의 데이터로 배웠는가(선택 편향)", "확률이 돈이 되는 방식(충당금)", "고객에게 어떻게 설명하는가", "누가 불리해지는가", "누가 책임지는가"가 문제가 된다.</p>
 </blockquote>
-<p><strong>연결 실습</strong>: Phase 6 노트북(예정). 이 페이지는 각 주제의 <em>핵심 계산</em>을 작게 재현한다.</p>
+<p><strong>연결 실습</strong>: 노트북 <code>14_operations_governance</code> (<code>creditlab.governance</code>: 선택 편향 실험·ECL·사유 후보·집단 점검·모형 카드). 이 페이지는 각 주제의 <em>핵심 계산</em>을 작게 재현한다.</p>
 <h2 id="stage_15-학습-목표">학습 목표</h2>
 <ul>
 <li>거절 추론이 필요한 이유(선택 편향)를 재현해 설명한다.</li>
@@ -4659,7 +4659,7 @@ assert 0 &lt; ratio_r &lt;= 1
 <blockquote>
 <p>앞 단계의 모든 선택(목표 정의, 정제, 분할, 비닝, 모형, 평가, 보정, 모니터링, 문서화)을 <em>하나의 재현 가능한 흐름</em>으로 묶는다. 합격 기준은 높은 AUROC 가 아니라 <strong>각 결정을 근거와 함께 설명할 수 있는가</strong>이다.</p>
 </blockquote>
-<p><strong>연결 실습</strong>: Phase 6 캡스톤 노트북(예정). 이 페이지는 <em>전체 흐름의 축소판</em>과 <em>제출 기준</em>을 제공한다.</p>
+<p><strong>연결 실습</strong>: 노트북 <code>15_capstone</code> (<code>creditlab.capstone.run_capstone</code>). 이 페이지는 <em>전체 흐름의 축소판</em>과 <em>제출 기준</em>을 제공한다.</p>
 <h2 id="stage_16-학습-목표">학습 목표</h2>
 <ul>
 <li>신용평가모형 개발의 전 과정을 순서대로 수행하고 각 단계의 산출물을 남긴다.</li>

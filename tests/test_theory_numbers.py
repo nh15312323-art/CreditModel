@@ -72,3 +72,27 @@ def test_stage11_12_hand_examples_match_library():
 
     assert close(gini_impurity(4, 6), 0.48) and close(split_gain((1, 4), (3, 2)), 0.08)
     assert close(theoretical_cutoff(1.0, 8.0), 1 / 9)
+
+
+def test_stage13_16_hand_examples_match_library():
+    import pandas as pd
+
+    from creditlab.governance import approval_ratio, expected_credit_loss, portfolio_ecl
+    from creditlab.stats import adjust_pvalues, delong_test, familywise_error_rate
+    from creditlab.stats.tests import _components
+
+    s = np.array([0.9, 0.7, 0.4, 0.8, 0.5, 0.3, 0.2, 0.1])
+    y = np.array([1, 1, 1, 0, 0, 0, 0, 0])
+    v10, v01, auc = _components(y, s)
+    assert close(auc, 0.8) and np.allclose(v10, [1.0, 0.8, 0.6])
+    assert close(delong_test(y, s, s)["auc1"], 0.8)
+    assert close(familywise_error_rate(20), 1 - 0.95**20) and abs(familywise_error_rate(20) - 0.6415) < 1e-4
+    pv = [0.001, 0.008, 0.039, 0.041, 0.042, 0.06, 0.074, 0.205, 0.212, 0.216]
+    counts = [int((np.asarray(pv) < 0.05).sum())] + [int((adjust_pvalues(pv, m) < 0.05).sum()) for m in ("bonferroni", "holm", "bh")]
+    assert counts[0] == 5 and counts[1] == 1 and counts[3] == 2
+    assert int((adjust_pvalues([0.001, 0.02, 0.03, 0.2], "bh") < 0.05).sum()) == 3
+    assert close(expected_credit_loss(0.05, 0.45, 1000.0), 22.5)
+    t = pd.DataFrame({"n": [1000, 500, 100], "pd": [0.01, 0.05, 0.20], "lgd": 0.45, "ead": 1000.0})
+    assert close(portfolio_ecl(t).attrs["total_ecl"], 24750.0)
+    _, ratio = approval_ratio([1] * 6 + [0] * 4 + [1] * 8 + [0] * 2, ["A"] * 10 + ["B"] * 10)
+    assert close(ratio, 0.75)

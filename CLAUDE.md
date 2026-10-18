@@ -24,6 +24,6 @@ python3 -B tools/run_notebooks.py --solve
 python3 -B tools/build_theory.py && python3 -B tools/check_theory_code.py
 ```
 
-## 다음 작업 (Phase 6)
-단계 13~16: 합성데이터 품질(TSTR·DCR), 통계 검정(DeLong·순열·FDR), 거버넌스·모형 카드·보고서, 캡스톤 + 노트북 12~15 + 테스트.
-(Phase 5 완료: `creditlab.challengers`, `creditlab.calibration`, 노트북 10~11)
+## 다음 작업
+계획한 Phase 1~6 은 모두 완료(노트북 01~15, 이론 0~16). 새 작업은 사용자 지시를 받아 유지보수 단위로 진행한다.
+(Phase 6 완료: `creditlab.synthesis`, `creditlab.stats`, `creditlab.governance`, `creditlab.capstone`, 노트북 12~15)

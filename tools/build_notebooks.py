@@ -16,6 +16,10 @@ import lesson_08  # noqa: E402
 import lesson_09  # noqa: E402
 import lesson_10  # noqa: E402
 import lesson_11  # noqa: E402
+import lesson_12  # noqa: E402
+import lesson_13  # noqa: E402
+import lesson_14  # noqa: E402
+import lesson_15  # noqa: E402
 from nbkit import write_notebook  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +35,10 @@ LESSONS = {
     "09_psi_stability.ipynb": lesson_09,
     "10_ml_challengers.ipynb": lesson_10,
     "11_tuning_calibration.ipynb": lesson_11,
+    "12_synthetic_data.ipynb": lesson_12,
+    "13_hypothesis_tests.ipynb": lesson_13,
+    "14_operations_governance.ipynb": lesson_14,
+    "15_capstone.ipynb": lesson_15,
 }
 
 if __name__ == "__main__":

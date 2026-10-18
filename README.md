@@ -11,7 +11,7 @@
 | `docs/theory/stage_XX.html` | **단계 0~16 이론 설명 페이지** (각 10개 항목 + 퀴즈) |
 | `docs/theory/glossary.html` | 검색되는 용어 사전 |
 | `docs/theory/all.html` | 이론 전체를 한 페이지로 |
-| `notebooks/` | Colab 실습 노트북 (현재 단계 1~5: 노트북 01~05) |
+| `notebooks/` | Colab 실습 노트북 (노트북 01~15, 단계 1~16) |
 | `src/creditlab/` | 실습에서 쓰는 파이썬 패키지 |
 | `lessons/theory/*.md` | 이론 페이지의 원본(Markdown) |
 | `docs/*_template.md` | 목표 정의서·데이터 사전·모형 카드 템플릿 |
@@ -47,7 +47,7 @@ python tools/check_theory_code.py    # 이론 페이지의 코드 블록 실행 
 - Phase 3 완료: 노트북 06(로지스틱 회귀 해석·규제), 07(스코어카드 변환·등급·컷오프) — `creditlab.models`, `creditlab.scorecard`.
 - Phase 4 완료: 노트북 08(AUROC·Gini·KS·혼동행렬·보정), 09(PSI·CSI·드리프트 시뮬레이션) — `creditlab.evaluation`.
 - Phase 5 완료: 노트북 10(트리·부스팅·단조 제약·설명), 11(튜닝·앙상블·보정·컷오프) — `creditlab.challengers`, `creditlab.calibration`. XGBoost/CatBoost/SHAP 은 설치되지 않아 sklearn 으로 구현했고 해당 코드는 실행하지 못했다.
-- 예정: Phase 6 노트북(합성데이터·통계 검정·거버넌스·캡스톤).
+- Phase 6 완료: 노트북 12(합성데이터 품질: 코퓰라·TSTR·DCR), 13(순열·DeLong·다중검정), 14(선택 편향·ECL·사유 후보·집단 점검·모형 카드), 15(캡스톤) — `creditlab.synthesis`, `creditlab.stats`, `creditlab.governance`, `creditlab.capstone`. GAN/CTGAN·statsmodels 는 설치되지 않아 실행하지 못했다. 계획한 노트북은 모두 완료.
 - 참고: 원 명세서는 비닝·WOE·IV 를 Phase 3 에 두었지만, 단계 순서에 맞춰 Phase 2 로 앞당겼다.
 - 노트북은 일반 파이썬 실행기로 검증했다. 실제 Jupyter/Colab 커널에서의 실행은 처음 열어 확인해야 한다.
 - UCI 신용카드 데이터 내려받기는 개발 환경의 네트워크 제한 때문에 실제로 확인하지 못했다. 실패하면 합성데이터로 대체되며 경고가 표시된다. 수동 업로드도 지원한다.

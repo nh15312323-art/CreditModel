@@ -92,7 +92,7 @@ details summary{cursor:pointer;font-weight:600}
 <blockquote>
 <p>합성데이터는 "진짜 데이터의 대용품"이 아니라 "진짜 데이터의 <em>통계적 그림자</em>"다. 그림자가 얼마나 닮았는지(충실도), 그림자로 학습해도 현실에서 통하는지(유용성), 원본 개인을 드러내지 않는지(프라이버시)를 <em>각각</em> 확인해야 한다.</p>
 </blockquote>
-<p><strong>연결 실습</strong>: 이 프로그램의 <code>creditlab.data.synthetic</code> 은 <em>규칙으로 만든 교육용 가상 데이터</em>이다. 이 단계의 합성데이터는 <em>실제 데이터를 학습해서 만든</em> 데이터를 다룬다. 둘은 다르다.</p>
+<p><strong>연결 실습</strong>: 노트북 <code>12_synthetic_data</code> (<code>creditlab.synthesis</code>: 가우시안 코퓰라 합성기, 충실도·TSTR·DCR). 이 프로그램의 <code>creditlab.data.synthetic</code> 은 <em>규칙으로 만든 교육용 가상 데이터</em>이고, 이 단계의 합성데이터는 <em>주어진 데이터를 학습해서 만든</em> 데이터를 다룬다. 둘은 다르다. GAN 계열(CTGAN 등)은 설치되지 않아 실행하지 못했고, 코퓰라로 같은 품질 점검 절차를 연습한다.</p>
 <h2 id="학습-목표">학습 목표</h2>
 <ul>
 <li>합성데이터를 쓰는 이유(프라이버시, 희소 부도, 데이터 공유)와 한계를 설명한다.</li>
