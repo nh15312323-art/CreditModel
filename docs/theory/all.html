@@ -2574,7 +2574,7 @@ assert set(train[&quot;application_id&quot;]).isdisjoint(test[&quot;application_
 <blockquote>
 <p>모형이 "좋다"는 말은 지표마다 다른 뜻이다. 순위를 잘 맞히는가(변별력), 확률 값이 맞는가(보정), 특정 컷오프에서 어떤 오류가 나는가(분류 성능)를 <em>따로</em> 본다.</p>
 </blockquote>
-<p><strong>연결 실습</strong>: Phase 4 노트북(예정) · 코드 <code>creditlab.evaluation</code>(예정) · 이 페이지의 8건 예제를 손으로 먼저 풀어 보자.</p>
+<p><strong>연결 실습</strong>: 노트북 <code>08_evaluation_metrics.ipynb</code> · 코드 <code>creditlab.evaluation</code>(<code>auroc</code>, <code>gini</code>, <code>ks_statistic</code>, <code>confusion_at</code>, <code>calibration_table</code>, <code>bootstrap_ci</code>) · 이 페이지의 8건 예제를 손으로 먼저 풀어 보자.</p>
 <h2 id="stage_09-학습-목표">학습 목표</h2>
 <ul>
 <li>혼동행렬과 정확도·정밀도·재현율·특이도·F1 을 계산하고 <strong>임계값에 의존</strong>함을 설명한다.</li>
@@ -2918,7 +2918,7 @@ assert lo &lt; auc_hat &lt; hi
 <blockquote>
 <p>모형은 "개발 때 본 세상"에서 만들어졌다. 세상이 변하면 입력 분포도, 변수와 부도의 관계도 변한다. PSI 는 <em>분포가 얼마나 달라졌는가</em>를 재는 첫 번째 경보기일 뿐, 모형이 틀렸다는 증명이 아니다.</p>
 </blockquote>
-<p><strong>연결 실습</strong>: Phase 4 노트북(예정) · 이 페이지의 PSI 코드와 시뮬레이션을 먼저 실행해 보자.</p>
+<p><strong>연결 실습</strong>: 노트북 <code>09_psi_stability.ipynb</code> · 코드 <code>creditlab.evaluation</code>(<code>psi_numeric</code>, <code>psi_categorical</code>, <code>csi_table</code>, <code>expected_psi_noise</code>) · 이 페이지의 PSI 코드와 시뮬레이션을 먼저 실행해 보자.</p>
 <h2 id="stage_10-학습-목표">학습 목표</h2>
 <ul>
 <li>PSI 를 정의하고 구간별로 손계산한다.</li>

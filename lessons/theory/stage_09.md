@@ -2,7 +2,7 @@
 
 > 모형이 "좋다"는 말은 지표마다 다른 뜻이다. 순위를 잘 맞히는가(변별력), 확률 값이 맞는가(보정), 특정 컷오프에서 어떤 오류가 나는가(분류 성능)를 *따로* 본다.
 
-**연결 실습**: Phase 4 노트북(예정) · 코드 `creditlab.evaluation`(예정) · 이 페이지의 8건 예제를 손으로 먼저 풀어 보자.
+**연결 실습**: 노트북 `08_evaluation_metrics.ipynb` · 코드 `creditlab.evaluation`(`auroc`, `gini`, `ks_statistic`, `confusion_at`, `calibration_table`, `bootstrap_ci`) · 이 페이지의 8건 예제를 손으로 먼저 풀어 보자.
 
 ## 학습 목표
 

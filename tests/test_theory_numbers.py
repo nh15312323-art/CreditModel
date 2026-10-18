@@ -52,3 +52,15 @@ def test_stage5_hand_example_matches_library():
 
     t = woe_iv_from_counts([8, 2], [2, 8], smoothing=0)
     assert close(t["woe"][0], math.log(4)) and close(t["iv"].sum(), 1.2 * math.log(4))
+
+
+def test_stage9_10_hand_examples_match_library():
+    from creditlab.evaluation import auroc, brier_score, gini, ks_statistic, psi_terms
+
+    s = np.array([0.9, 0.7, 0.4, 0.8, 0.5, 0.3, 0.2, 0.1])
+    y = np.array([1, 1, 1, 0, 0, 0, 0, 0])
+    assert close(auroc(y, s), 0.8) and close(gini(y, s), 0.6) and close(ks_statistic(y, s)["ks"], 0.6)
+    assert close(brier_score(y, s), 0.18625)
+    e = np.array([0.10, 0.20, 0.40, 0.20, 0.10])
+    a = np.array([0.08, 0.17, 0.38, 0.24, 0.13])
+    assert abs(psi_terms(e, a).sum() - 0.0255) < 5e-5

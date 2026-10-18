@@ -2,7 +2,7 @@
 
 > 모형은 "개발 때 본 세상"에서 만들어졌다. 세상이 변하면 입력 분포도, 변수와 부도의 관계도 변한다. PSI 는 *분포가 얼마나 달라졌는가*를 재는 첫 번째 경보기일 뿐, 모형이 틀렸다는 증명이 아니다.
 
-**연결 실습**: Phase 4 노트북(예정) · 이 페이지의 PSI 코드와 시뮬레이션을 먼저 실행해 보자.
+**연결 실습**: 노트북 `09_psi_stability.ipynb` · 코드 `creditlab.evaluation`(`psi_numeric`, `psi_categorical`, `csi_table`, `expected_psi_noise`) · 이 페이지의 PSI 코드와 시뮬레이션을 먼저 실행해 보자.
 
 ## 학습 목표
 

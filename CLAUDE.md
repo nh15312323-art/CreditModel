@@ -24,6 +24,6 @@ python3 -B tools/run_notebooks.py --solve
 python3 -B tools/build_theory.py && python3 -B tools/check_theory_code.py
 ```
 
-## 다음 작업 (Phase 4)
-단계 9~10: `creditlab.evaluation`(AUROC·Gini·KS·보정·PSI/CSI) + 노트북 08~09(또는 명세 번호) + 테스트.
-(Phase 3 완료: `creditlab.models`, `creditlab.scorecard`, 노트북 06~07)
+## 다음 작업 (Phase 5)
+단계 11~12: 머신러닝 챌린저(트리·부스팅, 단조 제약, 설명)와 확률 보정(Platt/Isotonic, 스태킹) + 노트북 10~11 + 테스트.
+(Phase 4 완료: `creditlab.evaluation`, 노트북 08~09)
